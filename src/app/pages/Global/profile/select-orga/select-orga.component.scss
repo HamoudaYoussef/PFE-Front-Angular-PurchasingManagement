@@ -1,0 +1,43 @@
+//::ng-deep .dx-dropdownlist-popup-wrapper .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item-content {
+//  padding: 0px 9px !important;
+//}
+//
+//::ng-deep .dx-list-item-content, .dx-list .dx-empty-message {
+//  padding: 0px 9px !important;
+//}
+
+.dx-texteditor.dx-editor-outlined {
+  background: #fff;
+  border: none !important;
+  border-radius: 4px;
+}
+
+legend {
+  font-size: 1rem;
+  font-size: 1.3rem;
+  background-color: rgba(253, 250, 226, 0)
+}
+
+.customLegend {
+  border: 1px solid #e5e5e5;
+  position: relative;
+}
+
+.customLegend legend {
+  border: 0;
+  background: #fff;
+  width: auto;
+  transform: translateY(-50%);
+  position: absolute;
+  top: -8px;
+  left: 1em;
+  padding: 0 0.5em;
+}
+
+fieldset {
+  border: 1px solid #bfc5c5 !important;
+  min-width: 0 !important;
+  padding-bottom: 1% !important;
+  position: relative !important;
+  border-radius: 4px !important;
+}

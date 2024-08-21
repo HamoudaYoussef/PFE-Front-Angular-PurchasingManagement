@@ -1,0 +1,95 @@
+<div>
+  <div class="card-header text-center bg-secondary text-white" style="background-color: #0096a6 !important;">
+    <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
+      <h5> Process demande achat ({{objectData.id}})</h5>
+    </div>
+    <div>
+      <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
+        <div class="icon-container" title="{{'show-event.Voir la liste des événements' | translate}}">
+          <i class="fas fa-project-diagram"></i>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<div id="form-container" class="container mt-5">
+  <form [formGroup]="demandeForm">
+    <div formArrayName="produits">
+      <div *ngFor="let produit of produitsForms.controls; let i = index" [formGroupName]="i" class="row mb-4">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="nom-{{i}}">Nom d'article:</label>
+            <input type="text" id="nom-{{i}}" formControlName="nom" class="form-control">
+            <div *ngIf="produit.get('nom').invalid && (produit.get('nom').dirty || produit.get('nom').touched)" class="text-danger">
+              <div *ngIf="produit.get('nom').errors.required">Nom is required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="description-{{i}}">Description :</label>
+            <input type="text" id="description-{{i}}" formControlName="description" class="form-control">
+            <div *ngIf="produit.get('description').invalid && (produit.get('description').dirty || produit.get('description').touched)" class="text-danger">
+              <div *ngIf="produit.get('description').errors.required">Description is required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="quantite-{{i}}">Quantité :</label>
+            <input type="number" id="quantite-{{i}}" formControlName="quantite" class="form-control">
+            <div *ngIf="produit.get('quantite').invalid && (produit.get('quantite').dirty || produit.get('quantite').touched)" class="text-danger">
+              <div *ngIf="produit.get('quantite').errors.required">Quantité is required.</div>
+              <div *ngIf="produit.get('quantite').errors.min">Quantité must be at least 1.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="fournisseur-{{i}}">Fournisseur :</label>
+            <select id="fournisseur-{{i}}" formControlName="fournisseur" class="form-control">
+              <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.id">{{ fournisseur.nom }}</option>
+            </select>
+            <div *ngIf="produit.get('fournisseur').invalid && (produit.get('fournisseur').dirty || produit.get('fournisseur').touched)" class="text-danger">
+              <div *ngIf="produit.get('fournisseur').errors.required">Fournisseur is required.</div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-workflow-decision
+  *ngIf="demandeForm && (demandeForm['workflow'] != undefined || !(this.demandeForm.userPermission == 'WRITE'))"
+  (decisionEvent)="Confirmation($event)"
+  (RetournEvent)="Return()"
+  [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+  [decisions]="decissionWF"
+  [object]="demandeForm"
+  [SaveObject]="demandeForm">
+</app-workflow-decision>
+
+<dx-popup
+  [showCloseButton]="true"
+  [maxWidth]="'auto'"
+  [width]="popupWidth"
+  [height]="popupHeight"
+  [showTitle]="false"
+  title="Workflow Viewer"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="true"
+  [(visible)]="popupViewerVisible">
+  <div *dxTemplate="let data of 'content'">
+    <app-journal
+      [viewerUrl]="objectData.workflow.wfProcessID"
+      [historicsWF]="objectData.workflow.historicWF"
+      [historicsEvt]="objectData.events"
+      [historicsAcces]="objectData.userActivity">
+    </app-journal>
+  </div>
+</dx-popup>

@@ -1,0 +1,27 @@
+::ng-deep .dx-datagrid-rowsview{
+  .dx-row{
+    cursor:pointer;
+    transition: all 0.7s ease;
+    &:hover{
+      background-color: #fec200;
+      color:blue;
+    }
+  }
+}
+//.dx-datagrid .dx-row-alt > td, .dx-datagrid .dx-row-alt > tr  {
+//  &:hover{
+//    background-color: #fec200;
+//    color:yellow;
+//  }
+//}
+
+.card {
+  box-shadow: 0 2px 5px #5a5a5abf, 0 2px 10px #0000001f;
+  border: 0;
+  font-weight: 400;
+}
+:host ::ng-deep .dx-toolbar .dx-toolbar-items-container {
+  margin-bottom: 1% !important;
+  height: 26px;
+  overflow: visible;
+}

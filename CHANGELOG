@@ -1,0 +1,63 @@
+Correction  Erreur de déclanchement des notifications "toastr" :
+
+
+Correction Erreur de l'affichage du workflow historique modeler :
+
+Correction Attchachement
+
+
+ Integration ngx-tel
+ corriger la pagination des "options de la grid"
+
+Ajouter read-excel-file  utilisé dans l'import des fichiers Excel
+
+Ajouter les msg par defaut de data grid dans le fichier fr.json  ou lieu (brp) =Global
+______________________________________________________________________________________________
+## [version 0.0.5] - 2023-01-12
+
+update composant attachements vers version 1.1.2
+
+ajouter compsant insatance viwer task dans composant workflow
+
+ajouter compsant adresse
+
+Adapatation le temps de compulation
+
+ajouter composant config-pstk
+
+corriger les consomation des ws dans httpcompoment
+
+faire des adaptation dans le composant attachement( ajouter des input dans thumbnail, add :host dans le fichier css du composant attachment )
+
+faire des correction erreur while run build-prod
+
+ajouter des compentaire dans composant template attachement ,MAJ url cloud pstk, MAj attachment fr
+
+faire consommation du config pstk dans header
+
+  translate ne fonctionne pas  Component ConfigPstk
+______________________________________________________________________________________________
+## [version 0.0.6] - 2023-01-27
+
+
+correction du translate dans header
+
+upgrade composant adresse vers version 1.1.2 et faire qq correction
+
+parse usermenu object from localstorage
+
+ajouter qq adaptatoin selon l'integration dans Kernel
+
+______________________________________________________________________________________________
+## [version 0.0.7] - 2023-01-26
+Ajout grouping in composant  data-grid
+
+______________________________________________________________________________________________
+## [version 0.0.8] - 2023-01-26
+Ajout web service get applications
+
+______________________________________________________________________________________________
+## [version 0.0.8] - 2023-06-19
+ajout composant tel global
+modification composant adresse : de mdb à devextreme , de formControl à ngModel , ajout input global ,
+modification de tel : de ngx-intl-tel-input à ngx-mat-intl-tel-input

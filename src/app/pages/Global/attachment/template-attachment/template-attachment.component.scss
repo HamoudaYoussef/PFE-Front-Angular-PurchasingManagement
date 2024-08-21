@@ -1,0 +1,336 @@
+@import "../Commun/Variable";
+
+::ng-deep .first-group {
+  background-color: rgb(255, 255, 255);
+  padding: 2%;
+  margin: 1%;
+  box-shadow: 0 1px 4px 0 rgb(0, 0, 0);
+}
+
+::ng-deep.dx-layout-manager .dx-label-h-align.dx-flex-layout .dx-field-item-content,
+.dx-layout-manager .dx-label-h-align.dx-flex-layout .dx-field-item-content-wrapper {
+  background-color: #bfd9efb5;
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -webkit-flex-basis: auto;
+  -ms-flex-preferred-size: auto;
+  flex-basis: auto;
+  display: block;
+}
+
+::ng-deep .ligne {
+  margin-left: 0%;
+  margin-top: 0%;
+  margin-right: 0%;
+}
+
+::ng-deep .principal {
+  margin-left: -2%;
+  margin-top: -2%;
+  margin-inline-start: -2%;
+  margin-bottom: -2%;
+}
+
+
+::ng-deep .espace {
+  margin-top: 3% !important;
+
+}
+
+::ng-deep .espace1 {
+  margin-top: 0%;
+}
+
+::ng-deep .dx-layout-manager .dx-field-item:not(.dx-first-row) {
+  padding-top: 2px;
+}
+
+::ng-deep .dx-editor-outlined.dx-texteditor-with-floating-label, .dx-editor-outlined.dx-texteditor-with-label {
+  border: 0;
+  outline: 0;
+  position: relative;
+  margin-top: 3.5%;
+}
+
+::ng-deep .dx-texteditor-input {
+  margin: 0;
+  padding: 7px 9px 8px;
+  background: rgba(0, 0, 0, 0);
+  color: #333;
+  font-size: 0.5em;
+  border-radius: 4px;
+  min-height: 4px;
+}
+
+::ng-deep .dx-button-has-text .dx-button-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 1px 17px 8px;
+}
+
+::ng-deep .card-header {
+  padding: 0rem 3.25rem !important;
+  margin-bottom: 0;
+  background-color: rgba(0, 0, 0, .03);
+  border-bottom: 1px solid rgba(0, 0, 0, .125);
+}
+
+::ng-deep .buttonAdd {
+  text-align: left;
+  margin-left: 93%;
+  margin-top: -4%;
+}
+
+::ng-deep .titre {
+  font-weight: bold;
+}
+
+::ng-deep .dx-texteditor-input {
+  margin: 0;
+  padding: 7px 9px 8px;
+  background: rgba(0, 0, 0, 0);
+  color: #333;
+  font-size: 0.8em !important;
+  border-radius: 4px;
+  min-height: 4px;
+}
+
+::ng-deep .dx-widget {
+  display: block;
+  -ms-content-zooming: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: none;
+  -webkit-touch-callout: none;
+  padding: 0;
+  outline: 0;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+  color: #333;
+  width: 100% !important;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: "Helvetica Neue", "Segoe UI", helvetica, verdana, sans-serif;
+  line-height: 1.35715;
+}
+
+::ng-deep .dx-item.dx-box-item.test {
+  margin-right: -9% !important;
+}
+
+::ng-deep #form {
+  padding: 0px 0px 0px;
+}
+
+/*NSAGHAR F TAILLE MT3 ITEM */
+::ng-deep.dx-field-item.dx-flex-layout {
+  padding: 0px 2px 5px !important;
+}
+
+::ng-deep.dx-first-row.dx-field-item.dx-field-item-optional.dx-flex-layout {
+  padding: 0px 2px 5px !important;
+}
+
+
+::ng-deep.dx-last-row.dx-field-item-optional.dx-flex-layout {
+  padding: 0px 2px 5px !important;
+}
+
+
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label .dx-texteditor-label .dx-label span, .dx-editor-outlined.dx-texteditor-with-label .dx-texteditor-label .dx-label span {
+  font-size: 9px;
+
+}
+
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-dropdowneditor-active.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-dropdowneditor-active.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-textarea.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-textarea.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-dropdowneditor-active.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-dropdowneditor-active.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-textarea.dx-state-focused .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-label.dx-textarea.dx-state-focused.dx-state-hover .dx-texteditor-label .dx-label span {
+  font-size: 9px;
+  transform: translate(0, -7.5px);
+  line-height: 1.35715;
+  height: 14px;
+  margin-top: 0;
+  top: 0;
+}
+
+.myCss {
+  padding-bottom: 25px;
+}
+
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-lookup-empty .dx-texteditor-label .dx-label span,
+::ng-deep.dx-editor-outlined.dx-texteditor-with-floating-label.dx-texteditor-empty .dx-texteditor-label .dx-label span {
+  transition: font-size .2s cubic-bezier(0, 0, .2, 1), transform .2s cubic-bezier(0, 0, .2, 1), top .2s cubic-bezier(0, 0, .2, 1);
+  transform: translate(0, 0);
+  font-size: 9px;
+  top: 50%;
+  height: 19px;
+  margin-top: -9.5px;
+  line-height: 1.35715;
+}
+
+::ng-deep.dx-datebox.dx-auto-width .dx-texteditor-input,
+::ng-deep.dx-datebox:not(.dx-texteditor-empty).dx-auto-width .dx-texteditor-input {
+  padding-right: 0px;
+}
+
+::ng-deep.dx-datebox.dx-auto-width .dx-texteditor-input,
+::ng-deep.dx-datebox:not(.dx-texteditor-empty).dx-auto-width .dx-texteditor-input {
+  padding-right: 0px;
+}
+
+@media (max-width: 414px) {
+  .width1 {
+    width: 20%
+  }
+}
+
+@media (max-width: 414px) {
+  .width2 {
+    width: 50%
+  }
+}
+
+@media (max-width: 414px) {
+  .width3 {
+    width: 30%
+  }
+}
+
+::ng-deep.dx-first-row.dx-last-col.dx-last-row.dx-field-item.dx-col-2.dx-field-item-optional.dx-flex-layout {
+  padding: 0 !important;
+}
+
+::ng-deep a {
+  color: #2a73ae !important;
+}
+
+/*___________________________________________________________________________________________________________________*/
+.p-10 {
+  padding: 10px !important;
+}
+
+.pad-0 {
+  padding: 0px !important;
+}
+
+.h-0em {
+  height: 0em;
+}
+
+.mt-1em {
+  margin-top: -1em;
+}
+
+.mt-2em {
+  margin-top: -2em;
+  margin-right: -1.5em;
+}
+
+.mar-0 {
+  margin: 0;
+}
+
+.txt-center {
+  text-align: center
+}
+
+.icon-size {
+  font-size: 130%;
+}
+
+.icon-size-mater {
+  font-size: 125%;
+}
+
+.warning-icon {
+  cursor: pointer;
+  text-align: right
+}
+
+.PJ-style {
+  text-align: start !important;
+  padding: 1.5%;
+}
+
+.PJ-filename-style {
+  background: #b5aeae3d !important;
+  cursor: grab !important;
+}
+
+.trash-style {
+  color: red;
+  font-size: 20px;
+  cursor: pointer !important;
+}
+
+.end-txt-align {
+  text-align: end !important;
+}
+
+.mar-pad {
+  padding: 1%;
+  margin: 1%
+}
+
+.icon-size {
+  font-size: 130%;
+}
+
+.icon-size-mater {
+  font-size: 125%;
+}
+
+.mar-1 {
+  margin: 1% !important
+}
+
+.styleTitreGridAtt {
+  color: $datagridTitleColor;
+  //margin-right: 150px;
+  font-weight: bold;
+  font-size: large;
+}
+
+.margin-1 {
+  margin: -1px;
+}
+
+//.hei-10 {
+//  height: 10%;
+//}
+
+.modif-popup-style {
+  padding: 0.75rem 0.5rem;
+}
+
+/*How do I only display part of a string using css*/
+.showNotAllChar {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  width: 130%; /* this could be defined on any parent */
+}
+
+/*_____________________________________________________________________________________________________________________________*/
+.card-height-fixed {
+  height: 100%; /* ou la hauteur que vous souhaitez */
+}
+
+.card-height-fixed .card {
+  height: 100%;
+}

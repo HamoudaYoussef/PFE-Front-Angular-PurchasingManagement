@@ -1,0 +1,87 @@
+<div>
+    <div>
+        <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
+            <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
+                <h5> Process demande achat ({{objectData.id}})</h5>
+
+
+            </div>
+            <div  >
+                <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
+                    <div class="icon-container"  title="{{'show-event.Voir la liste des événements' | translate}}">
+                       <i class="fas fa-project-diagram"></i>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="data-grid-demo">
+  <dx-data-grid
+    id="gridContainer"
+    [dataSource]="dataSourceElement"
+    keyExpr="ID"
+    [showBorders]="true"
+    (onRowInserted)="onRowInserted($event)"
+  >
+  
+    <dxo-paging [enabled]="false"></dxo-paging>
+    <dxo-editing
+      mode="popup"
+      [allowUpdating]="true"
+      [allowAdding]="true"
+      [allowDeleting]="true"
+    >
+      <dxo-popup
+        title="Produit demandee"
+        [showTitle]="true"
+        [width]="700"
+        [height]="400"
+      >
+      </dxo-popup>
+      <dxo-form>
+        <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+          <dxi-item dataField="nom" editorType="dxSelectBox" [editorOptions]="{ items: composantsKeys, value: '' , searchEnabled: true }" ></dxi-item>
+          <dxi-item dataField="quantite"></dxi-item>
+          <dxi-item dataField="description" editorType="dxTextArea" [editorOptions]="{ height: 100, maxLength: 200, autoResizeEnabled: true }"></dxi-item>
+        </dxi-item>
+      </dxo-form>
+    </dxo-editing>
+
+    <dxi-column dataField="nom"></dxi-column>
+    <dxi-column dataField="description"></dxi-column>
+    <dxi-column dataField="quantite" dataType="number"> </dxi-column>
+  </dx-data-grid>
+</div>
+
+
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-between">
+
+  <app-workflow-decision
+          *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+          (decisionEvent)="Confirmation($event)"
+          (RetournEvent)="Return()"
+          [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+          [decisions]="decissionWF"
+          [object]="demandeForm"
+          [SaveObject]="demandeForm">
+  </app-workflow-decision>
+</div>
+
+<dx-popup
+        [showCloseButton]="true"
+        [maxWidth]="'auto'"
+        [width]="popupWidth"
+        [height]="popupHeight"
+        [showTitle]="false"
+        title="Workflow Viewer"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupViewerVisible">
+    <div *dxTemplate="let data of 'content'">
+        <app-journal [viewerUrl]="objectData.workflow.wfProcessID" [historicsWF]="objectData.workflow.historicWF" [historicsEvt]="objectData.events"
+                     [historicsAcces]="objectData.userActivity"></app-journal>
+    </div>
+</dx-popup>

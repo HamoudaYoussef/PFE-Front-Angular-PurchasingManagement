@@ -1,0 +1,31 @@
+<div class="demande-details" *ngIf="fournisseur">
+    <h2 class="details-title">Détails du fournisseur</h2>
+    <div class="details-info">
+        <div class="detail-item">
+            <div class="detail-label bordeaux">Nom du fournisseur:</div>
+            <div class="detail-value">{{ fournisseur.nom }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label bordeaux">L'adresse du fournisseur:</div>
+            <div class="detail-value">{{ fournisseur.adresse }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label bordeaux">Numéro de télephone du fournisseur:</div>
+            <div class="detail-value">{{ fournisseur.tel }}</div>
+        </div>
+
+        <!-- Autres détails à afficher -->
+    </div>
+</div>
+<h2 class="details-title">Ses Produits:</h2>
+
+<div class="card-container">
+    <div class="card" *ngFor="let produit of produits">
+      <img src="image.jpg" alt="Image" class="card-image">
+      <div class="card-content">
+        <h3 class="card-title bordeaux">{{ produit.nom }}</h3>
+        <p class="card-text">{{ produit.description }}</p>
+        <div class="color-square" [style.background-color]="produit.couleur"></div>
+      </div>
+    </div>
+  </div>

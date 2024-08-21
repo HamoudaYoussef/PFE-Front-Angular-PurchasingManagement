@@ -1,0 +1,236 @@
+<dx-popup
+        *ngIf="PopupDisplay"
+        [(visible)]="popupSetingPSTK"
+        [hideOnOutsideClick]="true"
+        [dragEnabled]="false"
+        [height]="'auto'"
+        [showTitle]="true"
+        [width]="'20%'"
+        (onHiding)="close()"
+        titleTemplate="titleTemplate"
+>
+    <div *dxTemplate="let data of 'titleTemplate'" class="p-1 m-0 ">
+        <div class="d-flex justify-content-between">
+            <div>
+                {{this.popupTitle}}
+            </div>
+            <div>
+                <a  style="color: #808080;" role="button">
+                    <i  class="fa fa-info-circle " [title]="this.pstkInfo"></i>
+                </a>
+                <button type="btn btn-success float-md-right" class="btn-close" title="{{ 'close' | translate }}"
+                        aria-label="Close"
+                        (click)="popupSetingPSTK=false"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row pl-1 pr-1 pb-1 ">
+        <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
+            <div class="form">
+                <div class="dx-field ml-3">
+                    <div class="dx-field-label">
+                        {{'status' | translate }} :
+                    </div>
+                    <div class="dx-field-value">
+                        <dx-switch [value]="this.pstkEnabled()" (onValueChanged)="switchchange($event)"></dx-switch>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
+            <a class="btn-floating btn-large blue" style="cursor: pointer !important;"
+               (click)="TelechargerTollkit()">
+                {{'ATTACHEMENT.downloadPstoolkit' | translate }} {{pstkVersion}}
+                <i  class="fa fa-download"></i>
+            </a>
+        </div>
+    </div>
+
+
+    <div class=" col-md-12 col-xs-12 col-lg-12 col-sm-12" *ngIf="this.envEnabled===true ">
+        <mdb-form-control [formGroup]="configPSTKForm">
+            <div class="row d-flex ">
+                <div class="col-md-12 mt-3">
+                    <mdb-form-control>
+                        <input mdbValidate mdbInput name="port" class="form-control" id="port" type="number"
+                               [value]="getPort()" formControlName="Port">
+                        <label class="form-label" mdbLabel>{{ 'ATTACHEMENT.port' | translate }}
+                            <span class="spanRequired">*</span></label>
+                        <mdb-error style=" top: 30px !important;"
+                                   *ngIf="configPSTKForm.get('Port')?.invalid && (configPSTKForm.get('Port')?.dirty || configPSTKForm.get('Port')?.touched)">
+                            Obligatoire
+                        </mdb-error>
+                        <mdb-success style=" top: 30px !important;"
+                                     *ngIf="configPSTKForm.get('Port')?.valid && (configPSTKForm.get('Port')?.dirty || configPSTKForm.get('Port')?.touched)">
+                        </mdb-success>
+                    </mdb-form-control>
+                </div>
+                <br>
+<!--                <div class="col-md-12 mt-3">-->
+<!--                    <mdb-form-control>-->
+<!--                        <input mdbValidate mdbInput name="Timer" class="form-control" id="Timer" type="number"-->
+<!--                               [value]="getTimer()"  formControlName="Timer">-->
+<!--                        <label class="form-label" mdbLabel>{{ 'ATTACHEMENT.Timer' | translate }}-->
+<!--                            <span class="spanRequired">*</span></label>-->
+<!--                        <mdb-error style=" top: 30px !important;"-->
+<!--                                   *ngIf="configPSTKForm.get('Timer')?.invalid && (configPSTKForm.get('Timer')?.dirty || configPSTKForm.get('Timer')?.touched)">-->
+<!--                            Obligatoire-->
+<!--                        </mdb-error>-->
+<!--                        <mdb-success style=" top: 30px !important;"-->
+<!--                                     *ngIf="configPSTKForm.get('Timer')?.valid && (configPSTKForm.get('Timer')?.dirty || configPSTKForm.get('Timer')?.touched)">-->
+<!--                        </mdb-success>-->
+<!--                    </mdb-form-control>-->
+<!--                </div>-->
+                <div class="col-md-12 mt-3 p-0">
+                    <div class="form">
+                        <div class="dx-field ml-3">
+                            <div class="dx-field-label">
+                                {{'License' | translate }} :
+                            </div>
+                            <div class="dx-field-value">
+                                <dx-radio-group
+                                        [items]="license"
+                                        [value]="selectedLicensepstk"
+                                        (onValueChanged)="onValueChanged($event)"
+                                        layout="horizontal"
+                                >
+                                </dx-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mdb-form-control>
+    </div>
+    <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 " *ngIf="showAvertismentRuningPSTK">
+        <div class="card border-0 shadow-0 h-100 position-relative" mdbScrollbar>
+            <div class="card-body text-danger" style="padding: 0;">
+                <div class="card-text">
+                    <p class="note   note-danger fw-light fs-6">
+<!--                        <strong>{{'ATTACHEMENT.Reinsignement' | translate }} : </strong>-->
+                        {{'ATTACHEMENT.verifRequiered' | translate }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row d-flex ">
+        <div class="d-grid gap-2 d-md-flex justify-content-between">
+            <button (click)="close()"
+                    class="btn btn-light" mdbRipple
+                    type="button">{{ 'annuler' | translate }}
+            </button>
+            <button (click)="submit()"
+                    class="btn btn-success me-md-2" mdbRipple type="submit">
+                {{ 'confirmer' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+
+<div *ngIf="!PopupDisplay">
+    <div class="row pl-1 pr-1 pb-1 ">
+        <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
+            <div class="form">
+                <div class="dx-field ml-3">
+                    <div class="dx-field-label">
+                        {{'status' | translate }} :
+                    </div>
+                    <div class="dx-field-value">
+                        <dx-switch [value]="this.pstkEnabled()" (onValueChanged)="switchchangewithoutpopup($event)"></dx-switch>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
+            <a class="btn-floating btn-large blue" style="cursor: pointer !important;"
+               (click)="TelechargerTollkit()">
+                {{'ATTACHEMENT.downloadPstoolkit' | translate }} {{pstkVersion}}
+                <i  class="fa fa-download"></i>
+            </a>
+        </div>
+    </div>
+
+
+    <div class=" col-md-12 col-xs-12 col-lg-12 col-sm-12" *ngIf="this.envEnabled===true">
+        <mdb-form-control [formGroup]="configPSTKForm">
+            <div class="row d-flex ">
+                <div class="col-md-12 mt-3">
+                    <mdb-form-control>
+                        <input mdbValidate mdbInput name="port" class="form-control" id="portWithoutPopup" type="number"   (change)="portChange()"
+                               [value]="getPort()" formControlName="Port">
+                        <label class="form-label" mdbLabel>{{ 'ATTACHEMENT.port' | translate }}
+                            <span class="spanRequired">*</span></label>
+                        <mdb-error style=" top: 30px !important;"
+                                   *ngIf="configPSTKForm.get('Port')?.invalid && (configPSTKForm.get('Port')?.dirty || configPSTKForm.get('Port')?.touched)">
+                            Obligatoire
+                        </mdb-error>
+                        <mdb-success style=" top: 30px !important;"
+                                     *ngIf="configPSTKForm.get('Port')?.valid && (configPSTKForm.get('Port')?.dirty || configPSTKForm.get('Port')?.touched)">
+                        </mdb-success>
+                    </mdb-form-control>
+                </div>
+                <br>
+<!--                <div class="col-md-12 mt-3">-->
+<!--                    <mdb-form-control>-->
+<!--                        <input mdbValidate mdbInput name="Timer" class="form-control" id="TimerWithoutPopup" type="number"  (change)="timerChange()"-->
+<!--                               [value]="getTimer()"  formControlName="Timer">-->
+<!--                        <label class="form-label" mdbLabel>{{ 'ATTACHEMENT.Timer' | translate }}-->
+<!--                            <span class="spanRequired">*</span></label>-->
+<!--                        <mdb-error style=" top: 30px !important;"-->
+<!--                                   *ngIf="configPSTKForm.get('Timer')?.invalid && (configPSTKForm.get('Timer')?.dirty || configPSTKForm.get('Timer')?.touched)">-->
+<!--                            Obligatoire-->
+<!--                        </mdb-error>-->
+<!--                        <mdb-success style=" top: 30px !important;"-->
+<!--                                     *ngIf="configPSTKForm.get('Timer')?.valid && (configPSTKForm.get('Timer')?.dirty || configPSTKForm.get('Timer')?.touched)">-->
+<!--                        </mdb-success>-->
+<!--                    </mdb-form-control>-->
+<!--                </div>-->
+                <div class="col-md-12 mt-3 p-0">
+                    <div class="form">
+                        <div class="dx-field ml-3">
+                            <div class="dx-field-label">
+                                {{'License' | translate }} :
+                            </div>
+                            <div class="dx-field-value">
+                                <dx-radio-group
+                                        [items]="license"
+                                        [value]="selectedLicensepstk"
+                                        (onValueChanged)="onValueChanged($event)"
+                                        layout="horizontal"
+                                >
+                                </dx-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mdb-form-control>
+    </div>
+    <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 " *ngIf="showAvertismentRuningPSTK">
+        <div class="card border-0 shadow-0 h-100 position-relative" mdbScrollbar>
+            <div class="card-body text-danger" style="padding: 0;">
+                <div class="card-text">
+                    <p class="note   note-danger fw-light fs-6">
+                        <!--                        <strong>{{'ATTACHEMENT.Reinsignement' | translate }} : </strong>-->
+                        {{'ATTACHEMENT.verifRequiered' | translate }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+<!--    <div class="row d-flex ">-->
+<!--        <div class="d-grid gap-2 d-md-flex justify-content-between">-->
+<!--            <button (click)="close()"-->
+<!--                    class="btn btn-light" mdbRipple-->
+<!--                    type="button">{{ 'annuler' | translate }}-->
+<!--            </button>-->
+<!--            <button (click)="submit()"-->
+<!--                    class="btn btn-success me-md-2" mdbRipple type="submit">-->
+<!--                {{ 'confirmer' | translate }}-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>

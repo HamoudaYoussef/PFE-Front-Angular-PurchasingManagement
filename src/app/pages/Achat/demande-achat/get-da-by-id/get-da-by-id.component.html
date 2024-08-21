@@ -1,0 +1,136 @@
+<div>
+    <!--        <div  class="card-header text-center bg-secondary  text-white" style="background-color: #242f50 !important;">-->
+    <!--            <h5> {{'caseRequest.TitleRqEdit'|translate}} ({{demandeForm.requestCaseNumber}})</h5>-->
+    <!--        </div>-->
+    <div>
+        <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
+            <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
+                <h5>Demande achat({{objectData.id}})</h5>
+
+
+            </div>
+            <div  >
+                <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
+                    <div class="icon-container"  title="{{'show-event.Voir la liste des événements' | translate}}">
+                       <i class="fas fa-project-diagram"></i>
+                    </div>
+                </a>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+<br>
+<div class="demande-details" *ngIf="demandeAchat">
+    <h2 class="demande-titre ">Détails de la demande d'achat:</h2>
+    <div class="details-info">
+        <div class="detail-item">
+            <div class="detail-label bordeaux">Date de la demande:</div>
+            <div class="detail-value">{{ demandeAchat.datedemande }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label bordeaux">Date besoin:</div>
+            <div class="detail-value">{{ demandeAchat.datebesoin }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label bordeaux">Description:</div>
+            <div class="detail-value">{{ demandeAchat.description }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label bordeaux">Statut:</div>
+            <div class="detail-value">{{ demandeAchat.statut }}</div>
+        </div>
+        <!-- Autres détails à afficher -->
+    </div>
+    
+</div>
+<div class="demande-details">
+<h2 class="demande-titre">Les produits de cette demande:</h2>
+
+
+<div *ngIf="produits.length > 0" class="hovered-product-details">
+    <dx-data-grid
+    #dataGridDemande
+    [showBorders]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [dataSource]="produits"
+    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+    keyExpr="id"
+    (onRowPrepared)="onRowPrepared($event)"
+  >
+      <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+      <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+      <dxi-column dataField="nom" dataType="string"></dxi-column>
+      <dxi-column dataField="description" dataType="string"></dxi-column>
+      <dxi-column dataField="quantite" dataType="number"></dxi-column>
+      <dxo-pager
+        [allowedPageSizes]="allowedPageSizes"
+        [showInfo]="true"
+        [showPageSizeSelector]="true"
+        [visible]="true"
+        displayMode="full"
+        [showNavigationButtons]="true"
+      ></dxo-pager>
+    </dx-data-grid>
+  </div>
+
+  <div *ngIf="produits.length === 0">
+    <p>Aucun produit trouvé pour cette demande d'achat.</p>
+  </div>
+</div>
+
+  <app-workflow-decision
+    *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+    (decisionEvent)="Confirmation($event)"
+    (RetournEvent)="Return()"
+    [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+    [decisions]="decissionWF"
+    [object]="demandeForm"
+    [SaveObject]="demandeForm">
+</app-workflow-decision>
+  <dx-popup
+  [showCloseButton]="true"
+  [maxWidth]="'auto'"
+  [width]="popupWidth"
+  [height]="popupHeight"
+  [showTitle]="false"
+  title="Workflow Viewer"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="true"
+  [(visible)]="popupViewerVisible">
+<div *dxTemplate="let data of 'content'">
+  <app-journal [viewerUrl]="objectData.workflow.wfProcessID" [historicsWF]="objectData.workflow.historicWF" [historicsEvt]="objectData.events"
+               [historicsAcces]="objectData.userActivity"></app-journal>
+</div>
+</dx-popup>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    const maxTitleLength = 20; // Adjust these values as needed
+    const maxDescriptionLength = 50;
+    const maxQuantityLength = 10;
+
+    const productTitle = document.querySelector('.product-title');
+    const productDescription = document.querySelector('.product-description');
+    const productQuantity = document.querySelector('.product-quantity');
+
+    const insertLineBreaks = (element, maxLength) => {
+        const text = element.innerText;
+        let result = '';
+        for (let i = 0; i < text.length; i += maxLength) {
+            result += text.substr(i, maxLength) + '<br>';
+        }
+        element.innerHTML = result;
+    };
+
+    insertLineBreaks(productTitle, maxTitleLength);
+    insertLineBreaks(productDescription, maxDescriptionLength);
+    insertLineBreaks(productQuantity, maxQuantityLength);
+});
+
+</script>

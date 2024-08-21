@@ -1,0 +1,75 @@
+/*height of input button of tel*/
+:host::ng-deep
+.iti--allow-dropdown input,
+.iti--separate-dial-code input[type=tel] {
+  height: 31px !important;
+}
+
+/*height of input button of tel*/
+
+/*width of input button of tel*/
+:host::ng-deep
+.iti,
+.iti input,
+.iti input[type=tel] {
+  //font-size: 17px !important;
+  width: 100% !important;
+  position: relative;
+  display: block;
+}
+
+
+/*PERSONALISE STYLE OF MDB input to be the same as dev extreme input */
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+  border-top: 0rem solid #1266f1  !important ;
+  border-bottom: 0rem solid #1266f1  !important ;
+  border-left: 0rem solid #1266f1  !important ;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+  border-top: 0.01rem solid #337ab7  !important ;
+  border-bottom: 0.01rem solid #337ab7  !important ;
+  border-left: 0.01rem solid #337ab7  !important ;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+  border-bottom: 0rem solid  !important ;
+  border-color: #1266f1  !important ;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+  border-bottom: 0.01rem solid  !important ;
+  border-color: #337ab7  !important ;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+  border-top: 0rem solid #1266f1  !important ;
+  border-bottom: 0rem solid #1266f1  !important ;
+  border-right: 0rem solid #1266f1  !important ;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+  border-top: 0.01rem solid #337ab7  !important ;
+  border-bottom: 0.01rem solid #337ab7  !important ;
+  border-right: 0.01rem solid #337ab7  !important ;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-label {
+  color: #337ab7  !important ;
+}
+
+/*PERSONALISE STYLE OF MDB input to be the same as dev extreme input * */
+
+//:host ::ng-deep #pays .form-outline .form-control.disabled, .form-outline .form-control:disabled, .form-outline .form-control[readonly] {
+//  background-color: transparent;
+//}
+:host ::ng-deep.form-control-sm {
+  /* height: calc(1.5em + 0.5rem + 2px); */
+  padding: 0.25rem 0.5rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+
+

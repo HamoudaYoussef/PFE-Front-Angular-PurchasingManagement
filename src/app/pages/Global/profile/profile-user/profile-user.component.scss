@@ -1,0 +1,154 @@
+h4, h5 {
+  color: white
+}
+
+.card1 {
+  background: rgba(127, 126, 127, 0.61);
+  height: fit-content;
+}
+
+.card2 {
+  height: 100%;
+  background: rgba(127, 126, 127, 0.61);
+  box-shadow: 0px 3px 4px #ffdd00;
+}
+
+.card3 {
+  background: #7f7e7f;
+}
+
+.cred {
+  background: rgba(127, 126, 127, 0.61);
+}
+
+i {
+  color: #ffdd00;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}
+
+.av2 {
+  height: fit-content;
+  background: linear-gradient(#5d5d5d 46%, #fac607 50%, #fac607 50%, #5d5d5d 54%);
+  display: flex;
+  justify-content: center;
+}
+
+.file-upload {
+  opacity: 0;
+}
+
+.avatar-wrapper {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 1px 1px 15px -5px black;
+  transition: all .3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+
+  &:hover .profile-pic {
+    opacity: .5;
+  }
+
+  .profile-pic {
+    height: 100%;
+    width: 100%;
+    transition: all .3s ease;
+
+    &:after {
+      font-family: FontAwesome;
+      content: "\f007";
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      font-size: 100px;
+      background: #ecf0f1;
+      color: #34495e;
+      text-align: center;
+    }
+  }
+
+  .upload-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    .fa-camera {
+      position: absolute;
+      font-size: 80px;
+      top: 9px;
+      left: 7px;
+      text-align: center;
+      opacity: 0;
+      transition: all .3s ease;
+      color: #34495e;
+    }
+
+    &:hover .fa-camera {
+      opacity: .9;
+    }
+  }
+}
+
+.roles, .chef, .sid, .groupes, .favoris {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerP {
+  display: flex;
+  justify-content: center;
+}
+
+.profile, .sec {
+  display: flex;
+  justify-content: space-between;
+}
+
+.clearimage {
+  position: absolute;
+  top: 7px;
+  //right: -7px;
+  /* border: 1px solid; */
+  left: 22%;
+  border-radius: 50%;
+  /* padding: 11px; */
+  height: 20px;
+  width: 20px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: cornflowerblue;
+  box-shadow: 0 0 8px 3px #B8B8B8;
+}
+
+.checkimage {
+  position: absolute;
+  top: 7px;
+  left: 56%;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #59db41;
+  box-shadow: 0 0 8px 3px #b8b8b8;
+}

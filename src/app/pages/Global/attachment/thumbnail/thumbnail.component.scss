@@ -1,0 +1,220 @@
+@import "../Commun/Variable";
+@import "../Commun/commun-style";
+
+:host::ng-deep.dx-filemanager .dx-filemanager-breadcrumbs {
+  display: none !important;
+}
+
+:host::ng-deep.dx-filemanager .dx-filemanager-container .dx-drawer-panel-content.dx-drawer-panel-content-initial {
+  display: none !important;
+}
+
+.dx-icon-customCSSGreen {
+  color: green;
+}
+
+.custom-icon-class {
+  color: red;
+}
+
+
+:host::ng-deep.dx-drawer-wrapper {
+  width: 100% !important;
+}
+
+:host::ng-deep.dx-overlay-content.dx-popup-normal.dx-resizable.dx-popup-flex-height {
+  width: 3.3em !important;
+  transform: translate(790px, 0px) !important;
+}
+
+:host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item .dx-filemanager-thumbnails-item-content .dx-filemanager-thumbnails-item-thumbnail {
+  //:host::ng-deep.img.dx-icon.dx-filemanager-thumbnails-item-thumbnail.dx-filemanager-item-custom-thumbnail {
+  width: 135% !important;
+  font-size: 55px !important;
+  height: auto !important;
+  aspect-ratio: 3/2 !important;
+  margin-left: 6%;
+  border: none !important;
+  color: gray;
+}
+
+:host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item .dx-filemanager-thumbnails-item-content .dx-filemanager-thumbnails-item-spacer {
+  display: none !important;
+
+}
+
+dx-file-manager#fileManager {
+  border: none !important;
+
+}
+
+:host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item {
+  margin: 1% !important;
+  height: auto !important;
+  border: none !important;
+
+  //width: 8% !important;
+}
+
+
+:host::ng-deep.dx-filemanager-thumbnails-item-name {
+  word-break: break-all;
+  width: 150% !important;
+  //margin-left: 20%;
+  //white-space: normal!important;
+  //inline-size: 150px;
+  //overflow-wrap: break-word;
+}
+
+:host::ng-deep.dx-item-content.dx-filemanager-thumbnails-item-content {
+  /* background: rgb(247 247 247); */
+  border: 2px solid #dee2e6 !important;
+}
+
+:host::ng-deep.dx-filemanager .dx-filemanager-thumbnails .dx-filemanager-thumbnails-view-port .dx-filemanager-thumbnails-item .dx-filemanager-thumbnails-item-content {
+  padding-right: 30px !important;
+}
+
+.dx-field-item.dx-flex-layout {
+  padding: 0px 2px 5px !important;
+}
+
+::ng-deep a {
+  color: #2a73ae !important;
+}
+
+
+//____________________________________________________________________
+.p-10 {
+  padding: 10px !important;
+}
+
+.pad-0 {
+  padding: 0px !important;
+}
+
+.h-0em {
+  height: 0em;
+}
+
+.mt-1em {
+  margin-top: -1em;
+}
+
+.mt-2em {
+  margin-top: -2em;
+  margin-right: -1.5em;
+}
+
+/*icon style actions in data grid*/
+::ng-deep.IconStyle {
+  //margin-right: 4% !important;
+  float: right !important;
+  color: $iconColor
+}
+
+.icon-upload {
+  margin: 0;
+  transform: rotate(180deg);
+}
+
+.mar-0 {
+  margin: 0;
+}
+
+.txt-center {
+  text-align: center
+}
+
+.dx-template-style-modif {
+  float: right;
+  padding-right: 2%;
+}
+
+.icon-fa-pen {
+  margin-right: 4%;
+  margin-left: 4%;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.warning-icon {
+  cursor: pointer;
+  text-align: right
+}
+
+.PJ-style {
+  text-align: start !important;
+  padding: 1.5%;
+}
+
+.PJ-filename-style {
+  background: #b5aeae3d !important;
+  cursor: grab !important;
+}
+
+.trash-style {
+  color: red;
+  font-size: 20px;
+  cursor: pointer !important;
+}
+
+.end-txt-align {
+  text-align: end !important;
+}
+
+.mar-pad {
+  padding: 1%;
+  margin: 1%
+}
+
+.icon-size {
+  font-size: 180%;
+}
+
+.icon-size-mater {
+  font-size: 150%;
+}
+
+.mar-1 {
+  margin: 1% !important
+}
+
+.styleTitreGridAtt {
+  color: $datagridTitleColor;
+  //margin-right: 150px;
+  font-weight: bold;
+  font-size: large;
+}
+
+.margin-1 {
+  margin: -1px;
+}
+
+.hei-10 {
+  height: 10%;
+}
+
+.modif-popup-style {
+  padding: 0.75rem 0.5rem;
+}
+
+.style:before {
+  margin: 0%;
+  background-color: white
+}
+
+.margin-button-10 {
+  text-align: center;
+  margin-bottom: -10px;
+}
+
+.button-thumbnail {
+  float: right;
+  margin: 10px;
+  margin-top: -20px;
+}
+
+//____________________________________________________________________

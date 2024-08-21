@@ -1,0 +1,379 @@
+<dx-popup
+        id="popupCV"
+        [width]="widthPopover"
+        [height]="heightPopover"
+        [showTitle]="false"
+        [dragEnabled]="false"
+        [hideOnOutsideClick]="true"
+        [showCloseButton]="false"
+        container=".dx-viewport"
+        (onContentReady)="initpopGen($event)"
+        [(visible)]="popupVisible">
+    <!--**(onShown)="onShown($event)"******************************************************* Employée *******************************************************-->
+    <div class="row" style="z-index: 9 !important;justify-content: center;"
+         *ngIf="dataUser !== null && dataUser !== undefined && dataUser !== {}">
+        <div class="card border-0 box-shadow rounded-0" *ngIf="dataUser.type === 'Employe'" [ngStyle]="{'background-color':carteVisiteStyle.backgroundColor}">
+            <div class="card-header border-0 rounded-0 text-muted d-flex justify-content-between" style="padding-left: 0px;padding-right: 0px;" [ngStyle]="{'height': carteVisiteStyle.heightCardHeader+'px'}">
+                <h5 class="mb-0 ellipsis" style="color: white;">
+                    <i class="fa fa-user mr-2"></i><span
+                        *ngIf="dataUser.data.displayname !== null && dataUser.data.displayname !== ''">{{dataUser.data.displayname}} </span><span
+                        *ngIf="dataUser.data.employeeid !== null && dataUser.data.employeeid !== ''">({{dataUser.data.employeeid}}
+                    )</span>
+                </h5>
+                <div class="widget-controls" style="color: white;">
+                    Employé
+                </div>
+            </div>
+            <div class="card-body pt-3" style="padding: 0.25rem !important;background-color: white;" [ngStyle]="{'height':carteVisiteStyle.heightCardBody+'px'}">
+                <div class="media">
+                    <div class="d-flex flex-column justify-content-center">
+                        <img *ngIf="dataUser.data.thumbnailphoto === '' || dataUser.data.thumbnailphoto === null"
+                             class="rounded-circle"
+                             src="assets/img/users/default-user.jpg"
+                             style="max-height: 80px;"
+                             width="80">
+                        <img *ngIf="dataUser.data.thumbnailphoto"
+                             [src]="'data:'+ dataUser.data.photoContentType + ';base64,' + dataUser.data.thumbnailphoto"
+                             class="rounded-circle"
+                             style="max-height: 80px;" width="80">
+                    </div>
+                    <div class="media-body">
+                        <div class="row">
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.department !== null && dataUser.data.department !== ''">
+                                Département:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.department !== null && dataUser.data.department !== ''">
+                                <span class="whiteSpace boldStyle">{{dataUser.data.department}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.mail !== null && dataUser.data.mail !== ''">
+                                Email:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.mail !== null && dataUser.data.mail !== ''">
+                                <span class="whiteSpace boldStyle">{{dataUser.data.mail}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.replacing !== null && dataUser.data.replacing !== [] && dataUser.data.replacing.length !== 0">
+                                Remplaçant de:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.replacing !== null && dataUser.data.replacing !== [] && dataUser.data.replacing.length !== 0">
+                                <span class="whiteSpace boldStyle">{{dataUser.data.replacing}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.manager !== null && dataUser.data.manager !== {}">
+                                Chef:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.manager !== null && dataUser.data.manager !== {}">
+                                                        <span
+                                                                class="whiteSpace boldStyle">{{dataUser.data.manager.name}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.managerOf !== null && dataUser.data.managerOf !== {}">
+                                Chef de:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.managerOf !== null && dataUser.data.managerOf !== {}">
+                                <span>{{dataUser.data.managerOf.name}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.phoneNumber !== null && dataUser.data.phoneNumber !== ''">
+                                N° tel:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.phoneNumber !== null && dataUser.data.phoneNumber !== ''">
+                                <span>{{dataUser.data.phoneNumber}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--********************************************************* USER *******************************************************-->
+        <div class="card border-0 box-shadow rounded-0" *ngIf="dataUser.type === 'User'"  [ngStyle]="{'background-color':carteVisiteStyle.backgroundColor}">
+            <div class="card-header border-0 rounded-0 text-muted d-flex justify-content-between" style="padding-left: 0px;padding-right: 0px;" [ngStyle]="{'height': carteVisiteStyle.heightCardHeader+'px'}">
+                <h5 class="mb-0 ellipsis" style="color: white;">
+                    <i class="fa fa-user mr-2"></i><span
+                        *ngIf="dataUser.data.displayname !== null && dataUser.data.displayname !== ''">{{dataUser.data.displayname}} </span><span
+                        *ngIf="dataUser.data.samaccountname !== null && dataUser.data.samaccountname !== ''">({{dataUser.data.samaccountname}}
+                    )</span>
+                </h5>
+                <div class="widget-controls" style="color: white;">
+                    Utilisateur
+                </div>
+            </div>
+            <div class="card-body pt-3" style="padding: 0.25rem !important;background-color: white;" [ngStyle]="{'height':carteVisiteStyle.heightCardBody+'px'}">
+                <div class="media">
+                    <div class="d-flex flex-column justify-content-center">
+                        <img
+                                class="rounded-circle"
+                                src="assets/img/users/user2.png"
+                                style="max-height: 80px;"
+                                width="80">
+                    </div>
+                    <div class="media-body">
+                        <div class="row">
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.state !== null && dataUser.data.state !== ''">
+                                Statut:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.state !== null && dataUser.data.state !== ''">
+                                <span class="whiteSpace boldStyle">{{dataUser.data.state}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.mail !== null && dataUser.data.mail !== ''">
+                                Email:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.mail !== null && dataUser.data.mail !== ''">
+                                <span class="whiteSpace boldStyle">{{dataUser.data.mail}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--********************************************************* Département *******************************************************-->
+        <div class="card border-0 box-shadow rounded-0" *ngIf="dataUser.type === 'Department'"  [ngStyle]="{'background-color':carteVisiteStyle.backgroundColor}">
+            <div class="card-header border-0 rounded-0 text-muted d-flex justify-content-between" style="padding-left: 0px;padding-right: 0px;" [ngStyle]="{'height': carteVisiteStyle.heightCardHeader+'px'}">
+                <div class="widget-controls" style="color: white;">
+                    <i class="fa fa-user mr-2"></i>
+                </div>
+                <h5 class="mb-0 ellipsis" style="color: white;">
+                    <span *ngIf="dataUser.data.name !== null && dataUser.data.name !== ''">{{dataUser.data.name}} </span><span
+                        *ngIf="dataUser.data.code !== null && dataUser.data.code !== ''">({{dataUser.data.code}}
+                    )</span>
+                </h5>
+                <div class="widget-controls" style="color: white;">
+                    Département
+                </div>
+            </div>
+            <div class="card-body pt-3" style="padding: 0.25rem !important;background-color: white;" [ngStyle]="{'height':carteVisiteStyle.heightCardBody+'px'}">
+                <div class="media">
+                    <div class="d-flex flex-column justify-content-center">
+                        <img
+                                class="rounded-circle"
+                                src="assets/img/users/department.png"
+                                style="max-height: 80px;"
+                                width="80">
+                    </div>
+                    <div class="media-body">
+                        <div class="row">
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.name !== null && dataUser.data.name !== {}">
+                                Nom:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.name !== null && dataUser.data.name !== {}"><span
+
+                                    class="whiteSpace boldStyle">{{dataUser.data.name}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.companyName !== null && dataUser.data.companyName !== {}">
+                                Société:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.companyName !== null && dataUser.data.companyName !== {}"><span
+
+                                    class="whiteSpace boldStyle">{{dataUser.data.companyName}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.manager !== null && dataUser.data.manager !== {}">
+                                Chef:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.manager !== null && dataUser.data.manager !== {}"><span
+                                    class="whiteSpace boldStyle">{{dataUser.data.manager.displayname}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.parent !== null && dataUser.data.parent !== {}">
+                                Parent:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.parent !== null && dataUser.data.parent !== {}"><span
+                                    class="whiteSpace boldStyle">{{dataUser.data.parent.name}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.interim !== null && dataUser.data.interim !== {}">
+                                Remplaçant de:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.interim !== null && dataUser.data.interim !== {}"><span
+                                    class="whiteSpace boldStyle">{{dataUser.data.interim.name}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.membre !== null && dataUser.data.membre !== {}">
+                                Membres:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.membre !== null && dataUser.data.membre !== {}"><span
+                                    class="whiteSpace boldStyle">{{ArrayToStringMembre(dataUser.data.membre)}}</span>
+                            </div>
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.assistant !== null && dataUser.data.assistant !== [] && dataUser.data.assistant.length !== 0">
+                                Assistant:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.assistant !== null && dataUser.data.assistant !== [] && dataUser.data.assistant.length !== 0"><span
+                                    class="whiteSpace boldStyle">{{ArrayToStringMembre(dataUser.data.assistant)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--********************************************************* Ass Département *******************************************************-->
+        <div class="card border-0 box-shadow rounded-0" *ngIf="dataUser.type === 'Assistant'"  [ngStyle]="{'background-color':carteVisiteStyle.backgroundColor}">
+            <div class="card-header border-0 rounded-0 text-muted d-flex justify-content-between" style="padding-left: 0px;padding-right: 0px;" [ngStyle]="{'height': carteVisiteStyle.heightCardHeader+'px'}">
+                <h5 class="mb-0 ellipsis" style="color: white;">
+                    <i class="fa fa-user mr-2"></i>department
+                </h5>
+                <div class="widget-controls" style="color: white;">
+                    Ass Département
+                </div>
+            </div>
+            <div class="card-body pt-3" style="padding: 0.25rem !important;background-color: white;" [ngStyle]="{'height':carteVisiteStyle.heightCardBody+'px'}">
+                <div class="media">
+                    <div class="d-flex flex-column justify-content-center">
+                        <img
+                                class="rounded-circle"
+                                src="../../../../assets/img/company_image.png"
+                                style="max-height: 80px;"
+                                width="80">
+                    </div>
+                    <div class="media-body">
+                        <div class="row">
+
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0">
+                                Membres:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"><span class="whiteSpace boldStyle">Membre</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--********************************************************* Membres Département *******************************************************-->
+        <div class="card border-0 box-shadow rounded-0" *ngIf="dataUser.type === 'Membre'"  [ngStyle]="{'background-color':carteVisiteStyle.backgroundColor}">
+            <div class="card-header border-0 rounded-0 text-muted d-flex justify-content-between" style="padding-left: 0px;padding-right: 0px;" [ngStyle]="{'height': carteVisiteStyle.heightCardHeader+'px'}">
+                <h5 class="mb-0 ellipsis" style="color: white;">
+                    <i class="fa fa-user mr-2"></i>{{dataUser.data.department}}
+                </h5>
+                <div class="widget-controls" style="color: white;">
+                    Membres Département
+                </div>
+            </div>
+            <div class="card-body pt-3" style="padding: 0.25rem !important;background-color: white;" [ngStyle]="{'height':carteVisiteStyle.heightCardBody+'px'}">
+                <div class="media">
+                    <div class="d-flex flex-column justify-content-center">
+                        <img
+                                class="rounded-circle"
+                                src="assets/img/users/membre.jpg"
+                                style="max-height: 80px;"
+                                width="80">
+                    </div>
+                    <div class="media-body">
+                        <div class="row">
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.membre !== null && dataUser.data.membre !== [] && dataUser.data.membre.length !== 0">
+                                Membre:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"><span class="whiteSpace boldStyle"
+                                                                        *ngIf="dataUser.data.membre !== null && dataUser.data.membre !== [] && dataUser.data.membre.length !== 0">{{ArrayToStringMembre(dataUser.data.membre)}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--********************************************************* Groupe *******************************************************-->
+        <div class="card border-0 box-shadow rounded-0" *ngIf="dataUser.type === 'Group'"  [ngStyle]="{'background-color':carteVisiteStyle.backgroundColor}">
+            <div class="card-header border-0 rounded-0 text-muted d-flex justify-content-between" style="padding-left: 0px;padding-right: 0px;" [ngStyle]="{'height': carteVisiteStyle.heightCardHeader+'px'}">
+                <h5 class="mb-0 ellipsis" style="color: white;">
+                    <i class="fa fa-user mr-2"></i>{{dataUser.data.name}}
+                </h5>
+                <div class="widget-controls" style="color: white;">
+                    Groupe
+                </div>
+            </div>
+            <div class="card-body pt-3" style="padding: 0.25rem !important;background-color: white;" [ngStyle]="{'height':carteVisiteStyle.heightCardBody+'px'}">
+                <div class="media">
+                    <div class="d-flex flex-column justify-content-center">
+                        <img
+                                class="rounded-circle"
+                                src="assets/img/users/groupe.png"
+                                style="max-height: 80px;"
+                                width="80">
+                    </div>
+                    <div class="media-body">
+                        <div class="row">
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.Membres !== [] && dataUser.data.Membres !== null && dataUser.data.Membres.length !== 0">
+                                Membres:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"
+                                 *ngIf="dataUser.data.Membres !== [] && dataUser.data.Membres !== null && dataUser.data.Membres.length !== 0">
+                                <span class="whiteSpace boldStyle">{{ArrayToStringGroupe(dataUser.data.Membres)}}</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--********************************************************* Rôle *******************************************************-->
+        <div class="card border-0 box-shadow rounded-0" *ngIf="dataUser.type === 'Role'" [ngStyle]="{'background-color':carteVisiteStyle.backgroundColor}">
+            <div class="card-header border-0 rounded-0 text-muted d-flex justify-content-between" style="padding-left: 0px;padding-right: 0px;" [ngStyle]="{'height': carteVisiteStyle.heightCardHeader+'px'}">
+                <h5 class="mb-0 ellipsis" style="color: white;">
+                    <i class="fa fa-user mr-2"></i>{{dataUser.data.name}}
+                </h5>
+                <div class="widget-controls" style="color: white;">
+                    Rôle
+                </div>
+            </div>
+            <div class="card-body pt-3" style="padding: 0.25rem !important;background-color: white;" [ngStyle]="{'height':carteVisiteStyle.heightCardBody+'px'}">
+                <div class="media">
+                    <div class="d-flex flex-column justify-content-center">
+                        <img
+                                class="rounded-circle"
+                                src="assets/img/users/role.png"
+                                style="max-height: 80px;"
+                                width="80">
+                    </div>
+                    <div class="media-body">
+                        <div class="row">
+                            <div class="col-3 text-gray text-right pr-0 font-italic text-truncate paddingLeft0"
+                                 *ngIf="dataUser.data.description !== null">
+                                Description:
+                            </div>
+                            <div class="col-9 pl-2 text-truncate"><span class="whiteSpace boldStyle"
+                                                                        *ngIf="dataUser.data.description !== null">{{dataUser.data.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</dx-popup>

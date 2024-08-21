@@ -1,0 +1,25 @@
+::ng-deep #pie * {
+  margin: 0 auto;
+}
+
+::ng-deep .pies-container {
+  margin: auto;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.header1 {
+  background: #009c95 !important;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+}
+
+::ng-deep .pies-container > .pie {
+  width: 400px;
+  float: left;
+}
+
+
+

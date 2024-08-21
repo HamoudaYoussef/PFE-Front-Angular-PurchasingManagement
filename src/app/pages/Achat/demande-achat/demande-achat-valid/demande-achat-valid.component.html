@@ -1,0 +1,102 @@
+<!--<dx-popup-->
+<!--        [maxWidth]="940"-->
+<!--        [width]="900"-->
+<!--        [height]="'auto'"-->
+<!--        [showTitle]="true"-->
+<!--        title="Ajouter Demande"-->
+<!--        [dragEnabled]="false"-->
+<!--        [closeOnOutsideClick]="true"-->
+<!--        [(visible)]="popupAdd">-->
+
+<!--    <app-add-demande [id]="" (add)="add($event)"></app-add-demande>-->
+<!--</dx-popup>-->
+<!--<dx-popup-->
+<!--        [maxWidth]="940"-->
+<!--        [width]="900"-->
+<!--        [height]="'auto'"-->
+<!--        [showTitle]="true"-->
+<!--        title=" edit client"-->
+<!--        [dragEnabled]="false"-->
+<!--        [closeOnOutsideClick]="true"-->
+<!--        [(visible)]="popupEdit">-->
+
+<!--    <app-add-demande *ngIf="this.id" [id]="''+this.id" (add)="add($event)"></app-add-demande>-->
+<!--</dx-popup>-->
+
+<dx-data-grid
+    #dataGridDemande
+        [showBorders]="true"
+        [allowColumnResizing]="true"
+        id="gridContainer"
+        [dataSource]="dataSourceElement"
+        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+        keyExpr="id"
+    id="dataGridDemande"
+    class="dataGridDemande"
+>
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    <dxi-column dataField="id" dataType="number"></dxi-column>
+    <dxi-column dataField="description" dataType="string"></dxi-column>
+    <dxi-column dataField="datedemande" dataType="date"></dxi-column>
+    <dxi-column dataField="datebesoin" dataType="date"></dxi-column>
+
+
+    <dxi-column [allowResizing]="false"
+                [fixed]="false" caption="{{'' | translate}}"
+                cellTemplate="cellTemplateActions"
+    >
+    </dxi-column>
+    <div *dxTemplate="let data of 'cellTemplateActions'"
+         style="display: flex; justify-content: center; align-items: center;">
+        <a (click)="showbordereaux(data.data.id)" target="_blank"
+           title="Consulter demande"><i
+                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+
+        <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
+            <i class="fa fa-trash" style="color:#a63a3a;">
+            </i></a>
+    </div>
+    <!--div *dxTemplate="let data of 'ExportPDF'">
+        <dx-button (onClick)="exportGrid()" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"
+                   id="exportButton"></dx-button>
+    </div-->
+    <dxo-pager
+            [allowedPageSizes]="allowedPageSizes"
+            [showInfo]="true"
+            [showPageSizeSelector]="true"
+            [visible]="true"
+            displayMode="full"
+            [showNavigationButtons]="true"
+    ></dxo-pager>
+
+
+
+</dx-data-grid>
+<dx-popup
+        [maxWidth]="940"
+        [width]="500"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Confirmation de la suppression"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupDeleteVisible">
+    <div>
+        <p> Êtes-vous sûr de vouloir supprimer cet élément ? </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2"
+                    (click)="fermerPopup()">Annuler
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button type="submit" class="btn btn-success me-md-2"
+                    (click)="deletedemande()">Confirmer
+            </button>
+        </div>
+    </div>
+</dx-popup>

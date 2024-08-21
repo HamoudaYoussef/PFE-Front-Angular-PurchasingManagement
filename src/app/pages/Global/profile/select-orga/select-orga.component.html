@@ -1,0 +1,104 @@
+<div *ngIf="selectbox!='select'" class="col-md-12">
+    <div class="row col-md-12 col-sm-12 col-lg-12">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            <fieldset class="customLegendVe ">
+                <legend><i class="fas fa-user mr-1"
+                           style="color: #f11c30;"> </i>{{'Sid'|translate}}
+                </legend>
+                <dx-data-grid
+                    #gridSid
+                    (onSelectionChanged)="changeDropDownBoxSid($event)"
+                    [(selectedRowKeys)]="selectedKeysSid"
+                    [dataSource]="allOrgaData"
+                    [remoteOperations]="true"
+                    [showBorders]="true"
+                    height="520"
+                    id="grid-container"
+                    keyExpr="id">
+                    <dxo-selection [allowSelectAll]="false" mode="multiple"></dxo-selection>
+                    <dxo-paging [pageSize]="pageSize"></dxo-paging>
+                    <dxo-pager
+                            [allowedPageSizes]="allowedPageSizes"
+                            [visible]="true"
+                            displayMode="full"
+                            infoText="{0} / {1}"
+                            showInfo="true"
+                            showNavigationButtons="true"
+                            showPageSizeSelector="true"
+                    >
+                    </dxo-pager>
+                    <dxo-filter-row [applyFilter]="'true'" [visible]="true"></dxo-filter-row>
+                    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                    <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                    <dxi-column caption="Nom" dataField="sid"></dxi-column>
+                    <dxo-toolbar>
+                        <dxi-item location="before">
+                            <dx-button
+                                    (onClick)="gridSid.instance.clearSelection()"
+                                    [disabled]="!selectedKeysSid?.length"
+                                    text="Effacer la sélection">
+                            </dx-button>
+                        </dxi-item>
+                        <dxi-item location="before">
+                            <dx-button
+                                    (onClick)="affectSid()"
+                                    [disabled]="!selectedKeysSid?.length"
+                                    text="Ajouter">
+                            </dx-button>
+                        </dxi-item>
+                    </dxo-toolbar>
+                </dx-data-grid>
+            </fieldset>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            <fieldset class="customLegendVe ml-1">
+                <legend><i class="fas fa-user mr-1"
+                           style="color: #f11c30;"> </i>{{'Affecter'|translate}}
+                </legend>
+                <dx-data-grid
+                    #gridAff
+                    (onSelectionChanged)="changeDropDownBoxAffect($event)"
+                    [(selectedRowKeys)]="selectedKeysAffect"
+                    [dataSource]="userselect"
+                    [remoteOperations]="true"
+                    [showBorders]="true"
+                    height="520"
+                    id="grid-containerAffecter">
+                    <dxo-selection [allowSelectAll]="false" mode="multiple"></dxo-selection>
+                    <dxo-paging [pageSize]="pageSize"></dxo-paging>
+                    <dxo-pager
+                            [allowedPageSizes]="allowedPageSizes"
+                            [visible]="true"
+                            displayMode="full"
+                            infoText="{0} / {1}"
+                            showInfo="true"
+                            showNavigationButtons="true"
+                            showPageSizeSelector="true"
+                    >
+                    </dxo-pager>
+                    <dxo-filter-row [applyFilter]="'true'" [visible]="true"></dxo-filter-row>
+                    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                    <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                    <dxi-column caption="Nom" dataField="sid"></dxi-column>
+                    <dxo-toolbar>
+                        <dxi-item location="before">
+                            <dx-button
+                                    (onClick)="gridAff.instance.clearSelection()"
+                                    [disabled]="!selectedKeysAffect?.length"
+                                    text="Effacer la sélection">
+                            </dx-button>
+                        </dxi-item>
+                        <dxi-item location="before">
+                            <dx-button
+                                    (onClick)="desaffectSid()"
+                                    [disabled]="!selectedKeysAffect?.length"
+                                    text="Supprimer">
+                            </dx-button>
+                        </dxi-item>
+                    </dxo-toolbar>
+                </dx-data-grid>
+            </fieldset>
+        </div>
+    </div>
+</div>

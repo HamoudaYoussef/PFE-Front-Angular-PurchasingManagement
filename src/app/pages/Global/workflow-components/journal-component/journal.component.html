@@ -1,0 +1,33 @@
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-Workflow-tab" data-toggle="tab" href="#nav-Workflow" *ngIf="viewerUrl !== null"
+           role="tab" aria-controls="nav-Workflow" aria-selected="true">Workflow</a>
+        <a class="nav-item nav-link " id="nav-Journal-Wf-tab" data-toggle="tab" href="#nav-Journal-Wf" *ngIf="historicsWF !== null"
+           role="tab" aria-controls="nav-Journal-Wf" aria-selected="false">Historique Workflow</a>
+        <a class="nav-item nav-link " id="nav-Journal-evt-tab" data-toggle="tab" href="#nav-Journal-evt"
+           role="tab" aria-controls="nav-Journal-evt" aria-selected="false">Historique des événements</a>
+        <a class="nav-item nav-link " id="nav-Journal-access-tab" data-toggle="tab" href="#nav-Journal-access"
+           role="tab" aria-controls="nav-Journal-access" aria-selected="false">Historique d'accès</a>
+
+    </div>
+</nav>
+<dx-scroll-view width="100%" height="100%">
+    <div class="tab-content" id="navgg" style="border: none !important">
+        <div class="tab-pane fade show active" id="nav-Workflow" role="tabpanel" aria-labelledby="nav-Workflow-tab" *ngIf="viewerUrl !== null">
+            <app-instance-viewer   [wfProcessID]="viewerUrl"></app-instance-viewer>
+        </div>
+
+        <div class="tab-pane fade" id="nav-Journal-Wf" role="tabpanel" aria-labelledby="nav-Journal-Wf-tab" *ngIf="historicsWF !== null">
+            <app-workflow-history [historics]="historicsWF" ></app-workflow-history>
+        </div>
+
+        <div class="tab-pane fade" id="nav-Journal-evt" role="tabpanel" aria-labelledby="nav-Journal-evt-tab" *ngIf=" historicsEvt!== null">
+            <app-event-history [historics]="historicsEvt" ></app-event-history>
+        </div>
+
+        <div class="tab-pane fade" id="nav-Journal-access" role="tabpanel" aria-labelledby="nav-Journal-access-tab" >
+            <app-access-history [userActivities]=historicsAcces ></app-access-history>
+        </div>
+
+    </div>
+</dx-scroll-view>

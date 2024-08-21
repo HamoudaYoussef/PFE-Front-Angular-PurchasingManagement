@@ -1,0 +1,136 @@
+<nav class="navbar box-shadow app-header" [class.fixed-top]="settings.theme.navbarIsFixed" [class.logo-visible]="showInfoContent">
+    <div class="d-flex flex-column w-100">      
+        <div class="d-flex justify-content-start align-items-center top-navbar">                  
+            
+            <a class="logo"  (click)="closeSubMenus()">
+                <span class="start">Pico</span><span class="ng">Soft</span>
+            </a>
+
+
+            <span class="navbar-text menu-icon transition ml-3 mr-3" [ngClass]="{'open': settings.theme.showMenu}"
+                (click)="settings.theme.showMenu = !settings.theme.showMenu">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </span>
+            <div class="ml-2 mr-2 hidden-xs-down">
+                <a id="info-content-icon" data-toggle="collapse" href="#info-content">
+                    <div class="triangle" title="Version front/Version Back">V:{{versionFront}}
+                        /{{env.versionBack}}</div>
+                </a>
+            </div>
+
+            <div class="top-rigth-icons ml-auto">
+
+                <!--Config PSTK component -->
+                <i class="fas fa-exclamation-triangle" aria-hidden="true"
+                   style="    filter: drop-shadow(2px 0px 2px  #f34235) ;color:white; font-size: 16px;margin: 2px;"
+                   title="{{this.pstkInfo}} "
+                   *ngIf="this.pstkEnabled() === true && this.PstkRunning()=== false && this.submmited==true "></i>
+                <i class="fas fa-gem" aria-hidden="true"
+                   style="    filter:drop-shadow(0px 0px 0.2px #890a0a); color: grey;font-size: 16px;margin: 2px;cursor: pointer !important;"
+                   (click)="showpupupconfigpstk()" title="{{'ATTACHEMENT.pstkNotRun' | translate}}"
+                   *ngIf="this.pstkEnabled() === false || this.submmited==false"></i>
+                <i class="fas fa-gem" aria-hidden="true"
+                   style="    filter: drop-shadow(0px 0px 0.2px #890a0a); color: #1a9580;font-size: 16px;margin: 2px; cursor: pointer !important;"
+                   (click)="showpupupconfigpstk()" title="{{this.pstkInfo}}"
+                   *ngIf="this.pstkEnabled() === true && this.submmited==true"></i>
+                <!--Config PSTK component -->
+
+
+                <span class="d-none d-sm-inline-block">
+                    <app-flags-menu></app-flags-menu>
+                </span>
+                <span class="hidden-xs-down">
+                    <app-user-menu></app-user-menu>
+                </span>
+                <!--                <span class="hidden-xs-down">-->
+                <!--                    <app-header-components></app-header-components>-->
+                <!--                </span>-->
+                <!--                /*UTILE POUR AFFECTATION DES ROUTES*/-->
+                <span class="hidden-xs-down" >
+                    <div id="messagesDropDown" class="dropdown d-inline-block keep-inside-clicks-open">
+                         <a class="dropdown-toggle no-caret pl-2 pr-2" id="messages" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" (click)="synchronisation()">
+                             <i class="fas fa-ellipsis-v" aria-hidden="true" title="Ecrasement des routes"></i>
+                         </a>
+                    </div>
+                </span>
+<!--                add notification icon-->
+<!--                <span class="hidden-xs-down" >-->
+<!--                    <div id="messagesDropDown2" class="dropdown d-inline-block keep-inside-clicks-open">-->
+<!--                         <a class="dropdown-toggle no-caret pl-2 pr-2" id="notif" data-toggle="dropdown"-->
+<!--                            aria-haspopup="true" aria-expanded="false" (click)="showNotification()">-->
+<!--                             <i class="fas fa-bell" aria-hidden="true" title="Notification"></i>-->
+<!--                         </a>-->
+<!--                    </div>-->
+<!--                </span>-->
+<!--                <div class="dropdown d-inline-block keep-inside-clicks-open" >-->
+<!--                    <a class="dropdown" id="notif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="showNotification()">-->
+<!--                        <i class="fas fa-bell" aria-hidden="true" title="Notification"></i>-->
+<!--                    </a>-->
+<!--                    <div class="dropdown-menu" aria-labelledby="notif">-->
+<!--                        <h2>Notifications</h2>-->
+<!--                        <ul>-->
+<!--                            <li *ngFor="let notification of notifications">{{ notification.message }}</li>-->
+<!--                        </ul>-->
+
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="dropdown d-inline-block keep-inside-clicks-open">
+                    <a class="dropdown-toggle no-caret" id="notif" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="markNotificationsAsRead()">
+                        <i class="fas fa-bell" aria-hidden="true" title="Notification"></i>
+                        <span class="badge badge-pill badge-danger" *ngIf="unreadNotificationCount !== 0">{{ unreadNotificationCount }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notif">
+                        <h5 class="dropdown-header">Notifications</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let notification of notifications" (click)="navigateTo(notification.url,notification.demandeId)">
+                                <img src="assets/img.png" alt="User Logo" class="user-logo">
+                                <span class="notification-message">
+                                {{ notification.message }} créée par {{ notification.createdBy }}
+                                     </span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <span class="pl-2 pr-2">
+                    <a (click)="retourne()">
+                        <i class="fa fa-home" aria-hidden="true" title="Retourner à l'accueil"></i>
+                    </a>
+                </span>
+                <span class="pl-2 pr-2">
+                    <a (click)="logout()">
+<!--                        *********************FEDI-->
+                        <i class="fa fa-sign-out logout" aria-hidden="true" title="Déconnecter"></i>
+                        <!--                        <i class="fa fa-sign-out navBarIconColor" aria-hidden="true"></i>-->
+                    </a>
+                </span>
+            </div> 
+
+        </div>
+
+        <div class="horizontal-menu-outer" *ngIf="settings.theme.menu == 'horizontal'">
+                   
+            <app-horizontal-menu *ngIf="showHorizontalMenu"  [menuItems]="menuItems"></app-horizontal-menu>        
+            <app-vertical-menu *ngIf="!showHorizontalMenu"  [menuItems]="menuItems"></app-vertical-menu>
+
+        </div>
+
+
+
+    </div>
+</nav>
+ <app-affectation-routes [visibleTrue]="synchrouteVisibe" *ngIf="synchrouteVisibe==true" [appNameInput]="appName"
+                         [newRoutes]="this.urls" (visibleFalse)="closeEvent($event)"></app-affectation-routes>
+
+
+ <app-config-pstk [popupSetingPSTK]="popupSetingPSTK"
+                  (submitEvent)="submitEvent($event)"
+                  (pstkInfoEvent)="pstkInfoEvent($event)"
+                  (closepopupSetingPSTK)="closepopupSetingPSTK($event)"
+                  #configPstkComponent
+ ></app-config-pstk>

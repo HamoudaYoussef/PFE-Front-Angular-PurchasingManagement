@@ -1,0 +1,46 @@
+<div  *ngIf="offre">
+  <div class="demande-details"  >
+      <h2 class="demande-titre ">Détails de l'Offre</h2>
+    <div class="details-info">
+      <div class="detail-item">
+        <div class="detail-label">Description de l'offre:</div>
+        <div class="detail-value">{{ offre.description }}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Prix de l'offre:</div>
+        <div class="detail-value">{{ offre.prix | currency }}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Date de l'offre:</div>
+        <div class="detail-value">{{ offre.dateoffre  }}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Référence de l'offre:</div>
+        <div class="detail-value">{{ offre.referenceoffre }}</div>
+      </div>
+    </div>
+  </div>
+    <div class="demande-details"  *ngIf="produitsOfferts.length">
+      <h3  class="demande-titre ">Produits Offerts</h3>
+      <ul class="produit-list">
+        <li *ngFor="let produit of produitsOfferts" class="produit-item">
+          <div class="produit-info">
+            <div class="produit-nom">{{ produit.nom }}</div>
+            <div class="produit-description">{{ produit.description }}</div>
+            <div class="produit-quantite">Quantité: {{ produit.quantite }}</div>
+          </div>
+        </li>
+      </ul>
+      <button (click)="goBC()" 
+                        class="btn btn-primary btn-rounded mb-1 mr-1 butttons-style"
+                        mdbRipple
+                        style="background-color: green; font-weight: bold; color: white;"
+                        type="button">
+Envoyer un bon de commande                </button>    
+    </div>
+  
+    
+
+  
+  
+</div>

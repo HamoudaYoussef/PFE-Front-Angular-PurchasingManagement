@@ -1,0 +1,9 @@
+@import "Variable.scss";
+
+.animationspan {
+  animation-duration: 0.8s;
+  animation-name: clignoter;
+  animation-iteration-count: infinite;
+  transition: none;
+  color: $colorIconWarning;
+}

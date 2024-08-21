@@ -1,0 +1,50 @@
+
+<div *ngIf="produits.length > 0" class="hovered-product-details">
+    <p>Détails des produits pour la demande d'achat ID: {{ offreId }}</p>
+    <dx-data-grid
+    #dataGridDemande
+        [showBorders]="true"
+        [allowColumnResizing]="true"
+        id="gridContainer"
+        [columnAutoWidth]="true"
+        [dataSource]="dataSourceElement"
+        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+        keyExpr="id"
+    id="dataGridDemande"
+    class="dataGridDemande"
+>
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="description" dataType="string"></dxi-column>
+    <dxi-column dataField="quantite" dataType="number"></dxi-column>
+    <dxi-column dataField="prix" dataType="number" [format]="{ type: 'fixedPoint', precision: 2 }" displayFormat="{{ '0,0.00 ' }} + DT"></dxi-column>
+    <dxi-column
+    caption="Completed"
+    dataType="boolean"
+    [calculateCellValue]="completedValue"
+  ></dxi-column>
+
+   
+    <!--div *dxTemplate="let data of 'ExportPDF'">
+        <dx-button (onClick)="exportGrid()" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"
+                   id="exportButton"></dx-button>
+    </div-->
+    <dxo-pager
+            [allowedPageSizes]="allowedPageSizes"
+            [showInfo]="true"
+            [showPageSizeSelector]="true"
+            [visible]="true"
+            displayMode="full"
+            [showNavigationButtons]="true"
+    ></dxo-pager>
+
+
+
+</dx-data-grid>
+  </div>
+  <div *ngIf="produits.length === 0">
+    <p>Aucun produit trouvé pour cette demande d'achat.</p>
+  </div>

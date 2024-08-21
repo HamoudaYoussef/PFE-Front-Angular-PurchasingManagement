@@ -1,0 +1,35 @@
+<form [formGroup]="appForm"  *ngIf="!!appForm" class="form-outline row g-2 needs-validation">
+            <div class="col-sm-3 col-md-3 col-xs-3 col-lg-3 col-xl-3 col-xxl- mb-3">
+                <mdb-form-control>
+                    <input class=" form-control form-icon-trailing"
+                           mdbValidate
+                           required
+                           formControlName="name"
+                           id="name"
+                           mdbInput
+                           type="text"/>
+                    <label class="form-label" mdbLabel>Name<span
+                            class="spanRequired">*</span>
+                    </label>
+                </mdb-form-control>
+            </div>
+            <div class="col-sm-3 col-md-3 col-xs-3 col-lg-3 col-xl-3 col-xxl- mb-3">
+                <mdb-form-control>
+                    <input class=" form-control form-icon-trailing"
+                           formControlName="label"
+                           id="label"
+                           mdbInput
+                           type="text"/>
+                    <label class="form-label" mdbLabel>label</label>
+                </mdb-form-control>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                <button (click)="Return()" class="btn btn-light me-md-2"
+                        mdbRipple>{{'annuler' | translate}}</button>
+                <button mdbRipple class="btn btn-success me-md-2" (click)="onSubmit()"
+                        type="button">{{'sauvgarder'|translate}}
+                </button>
+            </div>
+        </form>
+

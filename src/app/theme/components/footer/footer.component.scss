@@ -1,0 +1,24 @@
+@import "../../../theme/styles/variables";
+
+.app-footer{
+    width: 100%;
+    height: $footer-height;
+    padding: 0 25px;   
+    .copyright{
+        font-size: 12px;
+    }
+    .social-icons{
+        font-size: 18px;
+        a{
+            color: inherit;
+        }
+        i{
+            margin-right: 4px;
+            opacity: 0.8;
+            &:hover{
+                opacity: 1;
+            }
+        }
+    }    
+}
+

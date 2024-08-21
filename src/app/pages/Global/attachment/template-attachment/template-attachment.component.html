@@ -1,0 +1,433 @@
+<app-http-services></app-http-services>
+<div class="card text-center margin-1 card-height-fixed" style="direction: rtl;box-shadow: {{boxShadow}}">
+    <div class="card-header hei-10" style="background-color: {{backgroundColor}} ">
+        <div class="row d-flex mt-1">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-xxl-2 width1">
+                <button type="button" class="btn btn-outline-danger mar-pad " (click)="attached()"
+                        *ngIf="fileTemplate&&!showsave&&hasRattachButton"
+                        [disabled]="showButton"
+                        title="{{ 'ATTACHEMENT.attachedFile' | translate }}">
+                    <i class='fa fa-paperclip icon-size'></i>
+                </button>
+                <button type="button" class="btn btn-outline-success  mar-pad" (click)="save()"
+                        *ngIf="hasAddButton&&showsave"
+                        [disabled]="showButton || disableSave"
+                        title="{{ 'ATTACHEMENT.buttonSave' | translate }}">
+                    <i class='fa fa-plus icon-size'></i>
+                </button>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 col-xxl-8 width2"
+                 style="text-align: center;color: #37474f" *ngIf="fileTemplate">
+                <i *ngIf="fileTemplate.fileRequired==true" title="{{ 'ATTACHEMENT.FichierObligatoire' | translate }} "
+                   class="fa fa-exclamation-circle" style="color: red"></i>
+
+                {{fileTemplate.label}}
+
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-xxl-2 width3" *ngIf="fileTemplate">
+                <!--                {{fileTemplate.minCopies}}-{{fileTemplate.maxCopies}}-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body modif-popup-style">
+        <dx-form
+                id="form"
+                [formData]="fileTemplate"
+                labelMode="floating"
+                stylingMode="filled"
+                colCount="auto"
+                [screenByWidth]="screen"
+        >
+            <dxi-item itemType="group">
+
+                <dxi-item dataField="docTitle" editorType="dxTextBox" [editorOptions]="editorOptionsName"
+                          [visible]="false"
+                          *ngIf="!this.showButton">
+                    <dxi-validation-rule type="required" message=""></dxi-validation-rule>
+                    <dxo-label text="{{ 'ATTACHEMENT.Filename' | translate }}"></dxo-label>
+                    <dxi-validation-rule type="pattern"
+                                         [pattern]="validFilename"
+                                         [message]="validFileMsg">
+                    </dxi-validation-rule>
+
+                </dxi-item>
+                <dxi-item dataField="docTitle" editorType="dxTextBox" [editorOptions]=" editorOptionsNameButtonFalse"
+                          *ngIf="this.showButton">
+                    <dxi-validation-rule type="required" message=""></dxi-validation-rule>
+                    <dxo-label text="{{ 'ATTACHEMENT.Filename' | translate }}"></dxo-label>
+                    <dxi-validation-rule type="pattern"
+                                         [pattern]="validFilename"
+                                         [message]="validFileMsg">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <dxi-item *ngIf="hasIdRegex=='MANDATORY' || hasIdRegex=='OPTIONAL'"
+                          dataField="docId" editorType="dxTextBox" [editorOptions]="editorOptionsIdentificateur">
+                    <dxi-validation-rule *ngIf=" (fileTemplate.hasIdRegex=='MANDATORY')" type="required"
+                                         message=""></dxi-validation-rule>
+                    <dxi-validation-rule type="pattern"
+                                         [pattern]="fileTemplate.idRegex"
+                                         [message]="massageExpressionRegulier"
+                                         *ngIf="namePattern===true"
+                    >
+                    </dxi-validation-rule>
+                    <dxo-label text="{{ 'ATTACHEMENT.Identificateur' | translate }}"></dxo-label>
+                </dxi-item>
+                <dxi-item *ngIf="hasIssueDate=='MANDATORY' || hasIssueDate=='OPTIONAL'"
+                          dataField="dateEmission" editorType="dxDateBox" [editorOptions]="editorOptionsDateEmission">
+                    <dxi-validation-rule *ngIf="(hasIssueDate=='MANDATORY' )" type="required"
+                                         message=""></dxi-validation-rule>
+                    <dxo-label text="{{ 'ATTACHEMENT.DateEmission' | translate }}"></dxo-label>
+                </dxi-item>
+
+                <dxi-item
+                        *ngIf="hasExpirationDate=='MANDATORY' ||hasExpirationDate=='OPTIONAL'"
+                        dataField="dateExpiration" editorType="dxDateBox" [editorOptions]="editorOptionsDateExpiration">
+                    <dxi-validation-rule *ngIf="(hasExpirationDate=='MANDATORY')" type="required"
+                                         message=""></dxi-validation-rule>
+                    <dxo-label text="{{ 'ATTACHEMENT.DateExpiration' | translate }}"></dxo-label>
+                </dxi-item>
+                <dxi-item *ngIf="hasIssueAdress=='MANDATORY' ||hasIssueAdress=='OPTIONAL'"
+                          dataField="lieuEmission" editorType="dxTextBox"
+                          [editorOptions]=" { readOnly:this.readOnly}">
+                    <dxi-validation-rule *ngIf="(hasIssueAdress=='MANDATORY')" type="required"
+                                         message=""></dxi-validation-rule>
+                    <dxo-label text="{{ 'ATTACHEMENT.LieuEmission' | translate }}"></dxo-label>
+                </dxi-item>
+                <dxi-item *ngIf="hasCopiesNbr=='MANDATORY' ||hasCopiesNbr=='OPTIONAL'"
+                          dataField="docCopies" editorType="dxNumberBox"
+                          [editorOptions]="{showSpinButtons:true,min:minCopies,max:maxCopies,value:1,readOnly:this.readOnly}">
+                    <dxi-validation-rule *ngIf="(hasCopiesNbr=='MANDATORY')" type="required"
+                                         message=""></dxi-validation-rule>
+                    <dxo-label text="{{ 'ATTACHEMENT.nbrCopies' | translate }}"></dxo-label>
+                </dxi-item>
+            </dxi-item>
+            <dxi-item itemType="group">
+                <dxo-col-count-by-screen
+                        [sm]="4">
+                </dxo-col-count-by-screen>
+                <dxi-item dataField="file" [template]="'PJ'" itemType="group" [colSpan]="2"
+                          class="pad-0">
+                    <dxi-validation-rule [type]="requiredFile" message=""></dxi-validation-rule>
+                    <dxo-label text="File"></dxo-label>
+                </dxi-item>
+
+                <dxi-item dataField="file" [template]="'templateFile'" [colSpan]="2"
+                          class="pad-0">
+                    <dxi-validation-rule [type]="requiredFile" message=""></dxi-validation-rule>
+                    <dxo-label text="File"></dxo-label>
+                </dxi-item>
+            </dxi-item>
+            <div *dxTemplate="let data of 'PJ'" class="PJ-style p-0">
+                <div class=" d-flex">
+                    <a *ngIf="fileName!=null && fileName != undefined && fileName !=''"
+                       class="PJ-filename-style showNotAllChar ">
+                        <a (click)="viewFile()" [title]="fileName">{{fileName}}</a>
+                    </a>
+
+                    <a *ngIf="fileName!=null && fileName != undefined && fileName !=''"
+                       (click)="this.popupDeleteFileVisible = true" target="_blank" class="PJ-filename-style "
+                       title="{{ 'ATTACHEMENT.deletePJ' | translate }}">
+                        <i class="fa fa-trash trash-style"></i>
+                    </a>
+
+                </div>
+
+                <a><h6 *ngIf="fileName!=null && this.sizeInput!=null">{{sizeInput}}</h6></a>
+            </div>
+
+
+            <div *dxTemplate="let data of 'templateFile'" class="end-txt-align">
+                <button type="button" class="btn btn-outline-warning mar-pad"
+                        (click)="OfficeTemplatePopUpOpen()"
+                        [disabled]="initofficeVisble()" *ngIf="hasModelOfficeButton && listOfficeNotEmpty"
+                        [disabled]="showButton">
+                    <i class='fas fa-file-contract icon-size'
+                       title="{{ 'ATTACHEMENT.addModeleOffice' | translate }}"></i>
+                </button>
+
+                <!--                <button type="button" class="btn btn-outline-info mar-pad " (click)="locked()" *ngIf="hasLockButton" [disabled] = "showButton">-->
+                <!--                    <i *ngIf="lockedValue==false" class='fa fa-unlock icon-size'-->
+                <!--                       title="{{ 'ATTACHEMENT.lock' | translate }}"></i>-->
+                <!--                    <i *ngIf="lockedValue==true" class='fa fa-lock icon-size'-->
+                <!--                       title="{{ 'ATTACHEMENT.unlock' | translate }}"></i>-->
+                <!--                </button>-->
+
+                <!--                <button type="button" class="btn btn-outline-danger mar-pad " (click)="attached()"-->
+                <!--                        *ngIf="hasRattachButton" [disabled]="showButton"-->
+                <!--                        title="{{ 'ATTACHEMENT.attachedFile' | translate }}">-->
+                <!--                    <i class='fa fa-paperclip icon-size'></i>-->
+                <!--                </button>-->
+
+                <!--                <button type="button" class="btn btn-outline-primary mar-pad " *ngIf="hasScanButton" [disabled]="(!pstkEnabledAndRunning &&  !this.authorizationTokenScan)|| showButton"-->
+                <!--                        (click)="scanner_and_save()"-->
+                <!--                        title="{{ 'ATTACHEMENT.scanner' | translate }}">-->
+                <!--                    <i class="material-icons icon-size-mater" >scanner</i>-->
+                <!--                </button>-->
+
+                <!--                <button type="button" class="btn btn-outline-success  mar-pad" (click)="save()" *ngIf="hasAddButton"-->
+                <!--                        [disabled]="showButton || disableSave"-->
+                <!--                        title="{{ 'ATTACHEMENT.buttonSave' | translate }}">-->
+                <!--                    <i class='fa fa-plus icon-size'></i>-->
+                <!--                </button>-->
+
+            </div>
+        </dx-form>
+        <!--        <dx-tooltip-->
+        <!--                showEvent="mouseenter"-->
+        <!--                hideEvent="mouseleave"-->
+        <!--                target="input[id*='docId']"-->
+        <!--        >-->
+        <!--            <div *dxTemplate="let data = data of 'content'">-->
+        <!--                {{this.massageExpressionRegulier}}-->
+        <!--            </div>-->
+        <!--        </dx-tooltip>-->
+    </div>
+</div>
+
+<input #input (change)="fileChange(input) ; input.value = null" class="file-upload-btn" hidden
+       id="addfile{{fileTemplate.label}}" type="file"/>
+
+<dx-popup
+        [(visible)]="popupDeleteFileVisible"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [maxWidth]="'100%'"
+        [width]="'20%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="popupDeleteFileVisible=false"
+        (closeOnOutsideClickChange)="popupDeleteFileVisible=false"
+        title="{{'ATTACHEMENT.deletePopupStyle' | translate}}">
+    <div>
+        <p>{{ 'ATTACHEMENT.messageConfirmationDelete' | translate }}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <button (click)="popupDeleteFileVisible=false" class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{ 'Annuler' | translate }}
+            </button>
+        </div>
+        <div>
+            <button (click)="deleteFile()" class="btn btn-success"
+                    type="submit">{{ 'Confirmer' | translate }}
+            </button>
+        </div>
+    </div>
+
+</dx-popup>
+
+<dx-popup
+        [(visible)]="openOfficePopUp"
+        [showTitle]="true"
+        closeOnOutsideClick="true"
+        [maxWidth]="'100%'"
+        [width]="'50%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="true"
+        resizeEnabled="true"
+        class="mar-1"
+        title="{{'ATTACHEMENT.Modele' | translate }}">
+    <div class="row" *ngIf="  this.officeTemplateList==null">
+        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 ">
+            <div class="card border-0 shadow-0 h-100 position-relative" mdbScrollbar>
+                <div class="card-body text-danger  pad-0 ">
+                    <div class="card-text">
+                        <p class="note note-danger fw-light fs-6">
+                            <strong>{{'ATTACHEMENT.avertissement' | translate }} : </strong>
+                            {{'ATTACHEMENT.OfficeIndisp' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="  this.officeTemplateList ==null">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button (click)="officeTemplatrePopUpClose()"
+                    class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{ 'fermer' | translate }}
+            </button>
+        </div>
+    </div>
+    <div class="row mar-1" *ngIf="  this.officeTemplateList!=null">
+        <dx-data-grid
+                [id]="this.packageName+'_'+'gridofficeTempalte'"
+                #gridofficeTempalte
+                [dataSource]="officeTemplateList"
+                [width]="'99%'"
+
+                [wordWrapEnabled]="true"
+
+                [columnMinWidth]="26"
+                [showRowLines]="true"
+
+
+                [allowColumnReordering]="true"
+                [height]="'auto'"
+                [allowColumnResizing]="true"
+                [columnAutoWidth]="true"
+                [showBorders]="true"
+                [rowAlternationEnabled]="true"
+                [remoteOperations]="true"
+                [hoverStateEnabled]="true"
+                [rtlEnabled]="true"
+                [showColumnLines]="false"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+        >
+            <dxo-state-storing [enabled]="true" type="localStorage"
+                               [storageKey]="this.packageName+'_'+'gridofficeTempalte'"></dxo-state-storing>
+            <dxo-column-chooser title="Selecteur des colonnes" [enabled]="true"></dxo-column-chooser>
+            <dxo-export [enabled]="true" [allowExportSelectedData]="true"></dxo-export>
+            <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+            <dxo-load-panel [enabled]="true"></dxo-load-panel>
+            <dxo-filter-row [visible]="false" applyFilter="false"></dxo-filter-row>
+            <div *dxTemplate="let data of 'ExportPDF'">
+                <dx-button id="exportButton" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"
+                           (onClick)="exportGridToPDF()">
+                </dx-button>
+            </div>
+            <dxi-column caption="#" cellTemplate="cellTemplateIndex" dataType="number" width="26" [fixed]="true"
+                        alignment="center"
+                        [allowEditing]="true" [allowReordering]="false" [allowResizing]="true"></dxi-column>
+
+            <dxi-column dataField="title"
+                        caption="{{'title' | translate}}"
+                        alignment="center"
+                        width="150"
+                        [allowEditing]="false"
+                        [visible]="true"
+                        [allowFiltering]="false"
+                        [allowHeaderFiltering]="false"
+                        [allowReordering]="false"
+                        [allowResizing]="false">
+            </dxi-column>
+
+            <!--            <dxi-column dataField="alias"-->
+            <!--                        caption="{{'alias' | translate}}"-->
+            <!--                        alignment="center"-->
+            <!--                        width="150"-->
+            <!--                        [allowEditing]="false"-->
+            <!--                        [visible]="true"-->
+            <!--                        [allowFiltering]="false"-->
+            <!--                        [allowHeaderFiltering]="false"-->
+            <!--                        [allowReordering]="false"-->
+            <!--                        [allowResizing]="false">-->
+            <!--            </dxi-column>-->
+
+            <dxi-column dataField="description"
+                        caption="{{'description' | translate}}"
+                        alignment="center"
+                        [allowEditing]="false"
+                        [visible]="true"
+                        [allowFiltering]="false"
+                        [allowHeaderFiltering]="false"
+                        [allowReordering]="false"
+                        [allowResizing]="false">
+            </dxi-column>
+
+            <dxi-column dataField="fileName"
+                        caption="{{'ATTACHEMENT.fileName' | translate}}"
+                        alignment="center"
+                        width="150"
+                        [allowEditing]="false"
+                        [visible]="true"
+                        [allowFiltering]="false"
+                        [allowHeaderFiltering]="false"
+                        [allowReordering]="false"
+                        [allowResizing]="false">
+            </dxi-column>
+
+            <div *dxTemplate="let data of 'titreDataGrid'">
+                <p class="styleTitreGridAtt">{{ 'ATTACHEMENT.Office' | translate }}</p>
+            </div>
+            <div *dxTemplate="let data of 'cellTemplateIndex'; ">
+                {{data.rowIndex + 1}}
+            </div>
+
+            <dxi-column [allowEditing]="false" [allowHeaderFiltering]="false"
+                        [visible]="false" caption="{{'syscreatedBy' | translate}}" dataField="syscreatedBy">
+            </dxi-column>
+
+            <dxi-column [allowEditing]="false" [allowHeaderFiltering]="true" [visible]="false" sortOrder="desc"
+                        caption="{{'sysdateCreated' | translate}}" cellTemplate="cellTemplateSysdateCreated"
+                        dataField="sysdateCreated" dataType="date">
+            </dxi-column>
+
+            <dxi-column [allowEditing]="false" [allowHeaderFiltering]="false"
+                        [visible]="false" caption="{{'sysupdatedBy' | translate}}" dataField="sysupdatedBy">
+            </dxi-column>
+
+            <dxi-column [allowEditing]="false" [allowHeaderFiltering]="true" [visible]="true"
+                        caption="{{'sysdateUpdated' | translate}}"
+                        cellTemplate="cellTemplateSysdateUpdated" dataField="sysdateUpdated" dataType="date">
+            </dxi-column>
+
+
+            <div *dxTemplate="let data of 'cellTemplateSysdateCreated' ">
+                <div *ngIf="data.data.sysdateCreated !== null && data.data.sysdateCreated !== undefined && data.data.sysdateCreated !== ''"> {{formatDate.formatDFTshort(data.data.sysdateCreated)}}</div>
+            </div>
+
+            <div *dxTemplate="let data of 'cellTemplateSysdateUpdated' ">
+                <div *ngIf="data.data.sysdateUpdated !== null && data.data.sysdateUpdated !== undefined && data.data.sysdateUpdated !== ''"> {{formatDate.formatDFTshort(data.data.sysdateUpdated)}}</div>
+            </div>
+
+
+            <dxi-column caption="Action" cellTemplate="cellTemplateActions" [fixed]="true"
+                        [allowResizing]="false"
+                        fixedPosition="right" alignment="center"></dxi-column>
+
+            <div *dxTemplate="let data of 'cellTemplateActions'" class="txt-center">
+                <button type="button" class="btn btn-outline-primary"
+                        (click)="officeTemplateAttach(data.data.title,this.classid, this.objectid,this.objectData)">
+                    {{'ATTACHEMENT.select' | translate }}
+                    <i [ngStyle]="{'color': data.data.filesTypeDTO.bgColor}"
+                       class={{data.data.filesTypeDTO.icon}}
+                       data-toggle="tooltip"
+                    ></i>
+                </button>
+
+            </div>
+
+        </dx-data-grid>
+    </div>
+
+
+</dx-popup>
+<!--------------------PDF VIWER---------------------->
+<app-popup-attachment-viewer
+        [fileName]="fileName"
+        [visibleTrueModal]="showViewerModal"
+        [PcTkExist]="pstkEnabledAndRunning"
+        [permissionDenied]="permissionToScanAction"
+        [permissionToTopViewer]="permissionToTopViewer"
+        [avertismentPopUp]="avertismentPopUp"
+        [pgNbr]="pgNbr"
+        [base64]="base64"
+        [permissionDeniedSig]="permissionToSigAction"
+        [jsondocviewer]="jsondocviewer"
+        (BASE64_Output_Reload)="getBASE64_Output($event)"
+        (BASE64_Output_Save)="BASE64_Output_Save($event)"
+        (closeModal)="closeviewFile()"
+        (fileSigned)="signedEvent($event)"
+        [fileAccessToken]="fileAccessToken"
+
+></app-popup-attachment-viewer>
+
+
+<dx-load-panel
+    #loadPanel
+    [(visible)]="loadingVisible"
+    [closeOnOutsideClick]="false"
+    [position]="{ of: '#positionLoadPanel' }"
+    [shading]="true"
+    [showIndicator]="true"
+    [showPane]="true"
+    shadingColor="rgba(0,0,0,0.4)">
+</dx-load-panel>

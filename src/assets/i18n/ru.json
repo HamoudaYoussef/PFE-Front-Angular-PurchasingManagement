@@ -1,0 +1,12 @@
+{   
+  "LOGIN": "Войти", 
+  "LOGOUT": "Выйти",
+  "REGISTER": "Регистрация", 
+  "ADMIN_NAV": {  
+    "DASHBOARD": "Приборная панель",
+    "PAGES": "Страницы",
+    "BLANK": "Пустой",
+    "ERROR": "Ошибка", 
+    "EXTERNAL_LINK": "Ссылка" 
+  } 
+}

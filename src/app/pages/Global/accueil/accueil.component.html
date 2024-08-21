@@ -1,0 +1,37 @@
+<h3>Bienvenu Tempalte V1.0.0</h3>
+<br>
+<h5>Compasant Formeo</h5>
+
+
+<app-formeo [form]="formulaire" [datasource]="datasource" [readOnly]="false"></app-formeo>
+
+<h5>Compasant DataGrid Simple</h5>
+
+<!--<app-simple-page></app-simple-page>-->
+
+
+<app-data-grid [dataGrid]="dataGrid"></app-data-grid>
+
+<div class="row" >
+  <h5>Compasant telephone</h5>
+  <app-tel  [Mode]="false" [label]="'Mobile'" [document]="datatel"></app-tel>
+
+</div>
+<h5>Compasant Address </h5>
+
+<app-adresse
+  [Mode]="false"
+  [document]="dataAdresse"
+></app-adresse>
+
+
+
+<h5>Compasant Attachement </h5>
+
+<app-attachment
+        [classid]="14"
+        [objectid]="105298"
+        [objectData]="objectData"
+        (refreshedReqFileDef)="getbyID()"
+        [URL]="'/tesst'"
+></app-attachment>

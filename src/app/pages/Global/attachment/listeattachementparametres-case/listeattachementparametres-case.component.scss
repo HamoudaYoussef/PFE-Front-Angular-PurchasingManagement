@@ -1,0 +1,70 @@
+
+.attachment-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: flex; /* Utilisez flexbox pour aligner les éléments horizontalement */
+  flex-wrap: wrap; /* Permettre le retour à la ligne des éléments */
+}
+
+.attachment-item {
+  //flex-basis: calc(33.33% - 15px); /* Définir la largeur de chaque élément à environ un tiers de la largeur parente, moins la marge */
+  //margin: 0 10px 10px 0; /* Marge entre les éléments */
+  border: 1px solid #ccc;
+  // margin-left: 15px;
+  padding: 2px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.attachment-label {
+  flex: 1;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.file-info-grid {
+  display: flex;
+  align-items: center;
+  margin-left:1rem ;
+}
+
+.action-icons {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.remove-icon,
+.view-icon,
+.file-icon {
+  pointer-events: auto; /* Assurez-vous que les événements pointer sont activés pour les icônes */
+  margin-right: 15px;
+}
+
+.view-icon {
+  margin-left: 15px;
+}
+
+.requiredetoile {
+  font-weight: bold;
+  font-size: x-large;
+  color: red;
+  margin-rignt:5px !important ;
+
+}
+
+.remove-icon {
+  cursor: pointer;
+}
+
+.remove-icon i {
+  color: red;
+}
+.view-icon {
+  cursor: pointer;
+}
+
+.view-icon i {
+  color: #025a94;
+}

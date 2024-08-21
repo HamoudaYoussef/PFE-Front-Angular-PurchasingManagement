@@ -1,0 +1,29 @@
+::ng-deep.dx-overlay-content{
+
+  margin-bottom: 2em !important;
+}
+::ng-deep.dx-fa-button .dx-overlay-content {
+
+  top: -20px !important;
+}
+::ng-deep.dx-overlay-content dx-resizable{
+
+  top: -20px !important;
+}
+::ng-deep .dx-fa-button .dx-overlay-content .dx-fa-button-icon {
+
+  background-color:gray !important ;
+
+  color: #fed102 !important;
+
+}
+::ng-deep.dx-fa-button .dx-overlay-content .dx-fa-button-label-wrapper .dx-fa-button-label {
+  border: 1px solid gray ;
+}
+
+a:not([href]):not([class]), a:not([href]):not([class]):hover {
+  color: blue;
+  text-decoration: none;
+  text-decoration: underline;
+}
+

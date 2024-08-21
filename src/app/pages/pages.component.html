@@ -1,0 +1,73 @@
+<div class="wrapper-inner" [ngClass]="{ 'vertical-menu-tooltip-place': (settings.theme.menuType == 'mini' && settings.theme.menu == 'vertical'),
+                                        'horizontal-menu-tooltip-place': (settings.theme.menuType == 'mini' && settings.theme.menu == 'horizontal') }">
+
+    <app-header></app-header>
+
+    <div class="d-flex h-100" [ngClass]="{'flex-row': settings.theme.menu == 'vertical', 'flex-column': settings.theme.menu != 'vertical'}">
+        <app-sidebar *ngIf="settings.theme.menu == 'vertical'"></app-sidebar> 
+        <div class="main-content">        
+            <app-breadcrumb></app-breadcrumb>            
+            <router-outlet></router-outlet>              
+        </div>
+    </div>   
+
+</div>
+<app-footer></app-footer>
+<!--<app-back-top position="200"></app-back-top>-->
+
+<div class="settings" [ngClass]="{'show': showSetting}">
+    <button class="btn btn-default toggle" (click)="showSetting=!showSetting"><i class="fa fa-spin fa-gear"></i></button>
+    <div class="card">
+        <div class="card-header text-center">
+            Settings
+        </div>      
+        <div class="card-body mt-2">
+            <h6>Choose menu</h6>  
+            <div class="form-group">
+                <div *ngFor="let menu of menus; let i = index;" class="custom-control custom-radio">
+                    <input [attr.id]="'radio-'+i" type="radio" name="menus" class="custom-control-input radio-dark-gray"
+                        (change)="chooseMenu(menu)" [checked]="menu === menuOption" [value]="menu">
+                    <label [attr.for]="'radio-'+i" class="custom-control-label text-capitalize">{{menu}}</label>
+                </div>
+            </div>
+        </div> 
+        <div class="card-body">
+            <h6>Choose menu type</h6>
+            <div class="form-group">
+                <div *ngFor="let menuType of menuTypes; let i = index;" class="custom-control custom-radio">
+                    <input [attr.id]="'menuType-'+i" type="radio" name="menuTypes" class="custom-control-input radio-dark-gray"
+                        (change)="chooseMenuType(menuType)" [checked]="menuType === menuTypeOption" [value]="menuType">
+                    <label [attr.for]="'menuType-'+i" class="custom-control-label text-capitalize">{{menuType}}</label>
+                </div>
+            </div> 
+        </div> 
+        <div class="card-body mb-3">
+            <h6>Choose theme skin</h6>          
+            <div class="theme light" (click)="changeTheme('light')"></div>
+            <div class="theme dark" (click)="changeTheme('dark')"></div>
+            <div class="theme blue" (click)="changeTheme('blue')"></div>
+            <div class="theme green" (click)="changeTheme('green')"></div>
+            <div class="theme combined" (click)="changeTheme('combined')"></div>
+            <div class="theme purple" (click)="changeTheme('purple')"></div>
+            <div class="theme orange" (click)="changeTheme('orange')"></div>
+            <div class="theme brown" (click)="changeTheme('brown')"></div>
+            <div class="theme grey" (click)="changeTheme('grey')"></div>
+            <div class="theme pink" (click)="changeTheme('pink')"></div>
+        </div>  
+        <div class="card-body mb-2">
+            <h6>Other theme options</h6> 
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input checkbox-dark-gray" id="navbarIsFixed" [checked]="settings.theme.navbarIsFixed" (change)="settings.theme.navbarIsFixed = !settings.theme.navbarIsFixed">
+                <label class="custom-control-label" for="navbarIsFixed">Fixed header</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input checkbox-dark-gray" id="sidebarIsFixed" [checked]="settings.theme.sidebarIsFixed" (change)="settings.theme.sidebarIsFixed = !settings.theme.sidebarIsFixed">
+                <label class="custom-control-label" for="sidebarIsFixed">Fixed sidebar</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input checkbox-dark-gray" id="footerIsFixed" [checked]="settings.theme.footerIsFixed" (change)="settings.theme.footerIsFixed = !settings.theme.footerIsFixed">
+                <label class="custom-control-label" for="footerIsFixed">Fixed footer</label>
+            </div>
+        </div>
+    </div>
+</div>

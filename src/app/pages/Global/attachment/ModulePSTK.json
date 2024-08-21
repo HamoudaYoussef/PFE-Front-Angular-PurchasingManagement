@@ -1,0 +1,6 @@
+{
+  "Module_Scan": "scan-pstk",
+  "Module_Sign": "sign-pstk",
+  "Module_Office": "office-pstk",
+  "Module_Misc": "misc-pstk"
+}

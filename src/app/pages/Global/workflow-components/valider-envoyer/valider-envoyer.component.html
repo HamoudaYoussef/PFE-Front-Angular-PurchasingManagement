@@ -1,0 +1,38 @@
+<br/>
+<div class="row justify-content-center" style="margin-top: 10px;">
+    <div class="row mb-2" style="display: none">
+        <!--        <div class="col-md-4">-->
+        <!--            <mdb-form-control>-->
+        <!--              <mdb-select #departements [multiple]="true" [filter]="true" id="multipledepatement" name="simpleunique" class="form-control form-control-lg">-->
+        <!--                <mdb-option *ngFor="let departement of departements" [value]="departement">{{departement.departmentName}}</mdb-option>-->
+        <!--              </mdb-select>-->
+        <!--              <label mdbLabel class="form-label" for="multipledepatement">Departement</label>-->
+        <!--            </mdb-form-control>-->
+        <!--        </div>-->
+
+        <mdb-form-control>
+            <input #Commentaire [readonly]="access" class="form-control" id="Commentaire"
+                   mdbInput type="text"/>
+            <label class="form-label" for="Commentaire" mdbLabel>Commentaire</label>
+        </mdb-form-control>
+    </div>
+
+
+    <div class="md-form row" style="margin-top: 10px;">
+        <div class="col-md-12">
+          <div *ngFor="let decision of decisions" style="float: right;" [hidden]="access">
+            <button *ngIf="decision !== 'valider' || (decision === 'valider' && valider)"
+                    (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
+                    class="btn btn-primary btn-rounded mb-1 mr-1 butttons-style"
+                    mdbRipple
+                    style="float: right; background-color: green; font-weight: bold; color: white;"
+                    type="button">
+              {{ decision }}
+            </button>
+          </div>
+    
+          <button (click)="Return()" *ngIf="!showInmodal" class="btn btn-primary btn-rounded" mdbRipple
+                  style="float: left; color: white; background-color: #b60808;" type="button">retour</button>
+        </div>
+      </div>
+</div>

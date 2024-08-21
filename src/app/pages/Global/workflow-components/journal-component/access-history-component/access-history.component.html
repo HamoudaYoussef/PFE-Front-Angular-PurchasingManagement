@@ -1,0 +1,44 @@
+<!--<mdb-card-header style="background-color: white;">-->
+
+
+<div class="row" style="width: 100%;margin-top: 5%;">
+    <div class="col-md-12">
+
+        <dx-data-grid #grid id="gridContainerjournal" [dataSource]="userActivities"
+                      [allowColumnReordering]="true"
+                      [allowColumnResizing]="true"
+                      [showBorders]="true"
+                      [rowAlternationEnabled]="true"
+                      [remoteOperations]="true"
+                      [showColumnLines]="false"
+                      [showRowLines]="true"
+                      (onToolbarPreparing)="onToolbarPreparingGridWf($event)">
+
+            <dxo-column-chooser [enabled]="true" title="Selecteur des colonnes"></dxo-column-chooser>
+            <dxo-load-panel [enabled]="true"></dxo-load-panel>
+            <dxi-column dataField="id" caption="{{'ID' }}"  [allowHeaderFiltering]="false" [visible]="false" sortOrder="desc"></dxi-column>
+
+            <dxi-column dataField="displayname" caption="Nom employé" [allowFiltering]="false" [filterOperations]="['contains']" [width]="200" [visible]="true"></dxi-column>
+            <dxi-column dataField="activityName" caption="Nom activité" [allowFiltering]="false"></dxi-column>
+            <dxi-column dataField="cgiLocalAddress" caption="Adresse Locale " [allowFiltering]="false"></dxi-column>
+            <dxi-column dataField="activitydatetime" caption="Date" [allowFiltering]="false" alignment="center"  datatype="date"   cellTemplate="cellTemplatedateTimeUntil" [visible]="true"></dxi-column>
+
+            <dxo-sorting mode="multiple"></dxo-sorting>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <div *dxTemplate="let data of 'cellTemplatedateTimeUntil'">
+                <div *ngIf="data.data.activitydatetime!=null && data.data.activitydatetime != undefined && data.data.activitydatetime != ''"> {{formatDate.formatDFTshort(data.data.activitydatetime)}}</div>
+            </div>
+            <!--            <dxo-search-panel [visible]="true" [width]="240" placeholder="Rechercher..."></dxo-search-panel>-->
+            <!--            <div *dxTemplate="let data of 'totalGroupCount6'">-->
+            <!--                <div class="row">-->
+            <!--                    <div class="col-md-12">-->
+            <!--                        <h5 class="text-md-center size gradient-text2" style="float:left;color: rgba(85,137,163,0.83);font-weight: bold;font-style: normal;font-variant: normal;font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;">évènement utilisateur</h5>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+
+        </dx-data-grid>
+    </div>
+</div>

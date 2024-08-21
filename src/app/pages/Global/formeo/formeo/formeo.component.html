@@ -1,0 +1,42 @@
+<br>
+<fieldset *ngIf="formulaire" >
+    <legend >{{'champsPersonaliser'|translate}}
+        <a  (click)="show()" target="_blank" rel="noopener" title="{{ 'visualisation' | translate }}" style="color:#3e50b4;border: outset;">
+        <i class="fa fa-eye" style="color: #3e50b4;"></i>JSON</a>&nbsp;
+    </legend>
+    <div class="col-md-12">
+        <formio [readOnly]="readOnly"[form]="formulaire" (change)="change($event)" (submit)="submit($event)" ></formio>
+    </div>
+</fieldset>
+<br>
+
+<dx-popup
+        [width]="'30%'"
+        [(visible)]="popupShowJsonFormulaire"
+        [hideOnOutsideClick]="true"
+        [dragEnabled]="false"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="{{'jsonFormulaire' | translate }}"
+        titleTemplate="title">
+    <div *dxTemplate="let data of 'title'">
+        <div class="row ">
+            <h4 class=" col-md-10 col-lg-10 col-xs-10 col-sm-10">{{ 'jsonFormulaire' | translate }}</h4>
+            <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1" style="text-align:right ;cursor:pointer">
+                <span (click)="copier()"> <i class="fa fa-copy fa-lg"></i></span>
+            </div>
+            <div class="col-md-1 col-lg-1 col-xs-1 col-sm-1" style="text-align:left;cursor:pointer">
+                <span (click)="closePopupCopy()"> <i class="fa fa-close fa-lg"></i></span>
+            </div>
+        </div>
+    </div>
+    <ace
+            style="border: 1px solid #ccc;overflow: auto;resize: vertical;height: 400px;background: black"
+            [disabled]="true"
+            [mode]="'json'"
+            [theme]="'monokai'"
+            [(value)]="jsonOutPutString"
+            class="form-control"
+    >
+    </ace>
+</dx-popup>

@@ -1,0 +1,31 @@
+.headerPopover {
+  //background-color: #8080808f
+  color: white;
+}
+
+.backgroundColor {
+  background-color: #00bac3;
+  color: black;
+}
+
+.boldStyle{
+  font-weight: bold;
+}
+
+//::ng-deep .dx-popover-wrapper .dx-popup-content {
+//  background: var(--backgroundCV) !important;
+//}
+//::ng-deep .dx-popover-arrow::after {
+//  background: var(--backgroundCV) !important;
+//}
+
+
+.ellipsis {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+#popCV ::ng-deep .dx-popover-wrapper .dx-overlay-content  {
+  background-color: blue !important;
+}

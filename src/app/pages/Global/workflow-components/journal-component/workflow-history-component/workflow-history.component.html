@@ -1,0 +1,52 @@
+<!--<mdb-card-header style="background-color: white;">-->
+
+
+<div class="row" style="width: 100%;margin-top: 5%;">
+    <div class="col-md-12">
+
+        <dx-data-grid #grid id="gridContainerjournal" [dataSource]="historicTasks" keyExpr="activityStartTime"
+                      [allowColumnReordering]="true"
+                      [allowColumnResizing]="true"
+                      [showBorders]="true"
+                      [rowAlternationEnabled]="true"
+                      [remoteOperations]="true"
+                      [showColumnLines]="false"
+                      [showRowLines]="true"
+                      (onToolbarPreparing)="onToolbarPreparingGridWf($event)">
+
+            <!--             <dxo-column-chooser [enabled]="true" title="Selecteur des colonnes"></dxo-column-chooser>-->
+            <dxo-load-panel [enabled]="true"></dxo-load-panel>
+            <dxo-selection mode="single"></dxo-selection>
+
+            <dxi-column dataField="activityStartTime" caption="ID" allowFiltering="true" [filterOperations]="['contains']" [width]="200" [visible]="false"></dxi-column>
+            <dxi-column dataField="activityName" caption="Activité" allowFiltering="true"></dxi-column>
+            <dxi-column dataField="decisionName" caption="Decision"  allowFiltering="true"></dxi-column>
+            <dxi-column dataField="doneBy" caption="Acteur" allowFiltering="true" cellTemplate="cellTemplateResponsable" ></dxi-column>
+            <dxi-column dataField="activityStartTime" caption="Date Debut" dataType="datetime"  format="dd/MM/yyyy" cellTemplate="cellTemplatedateTimeFrom"  allowFiltering="true"></dxi-column>
+            <dxi-column dataField="activityEndTime" caption="Date Fin" dataType="datetime"  format="dd/MM/yyyy" allowFiltering="true"  format="dd/MM/yyyy" cellTemplate="cellTemplatedateTimeUntil" ></dxi-column>
+            <dxi-column dataField="activityDescription" caption="Commentaire" allowFiltering="true"></dxi-column>
+            <dxo-sorting mode="multiple"></dxo-sorting>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+            <!--            <dxo-header-filter [visible]="true"></dxo-header-filter>-->
+            <!--            <dxo-search-panel [visible]="true" [width]="240" placeholder="Rechercher..."></dxo-search-panel>-->
+            <!--            <div *dxTemplate="let data of 'totalGroupCount6'">-->
+            <!--                <div class="row">-->
+            <!--                    <div class="col-md-12">-->
+            <!--                        <h5 class="text-md-center size gradient-text2" style="float:left;color: rgba(85,137,163,0.83);font-weight: bold;font-style: normal;font-variant: normal;font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;">historique workflow</h5>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <div *dxTemplate="let data of 'cellTemplatedateTimeFrom' ">
+                <div *ngIf="data.data.activityStartTime!=null && data.data.activityStartTime != undefined && data.data.activityStartTime != ''"> {{formatDate.formatDFTshort(data.data.activityStartTime)}}</div>
+            </div>
+            <div *dxTemplate="let data of 'cellTemplateResponsable'">
+                {{data.data.doneBy}} ({{data.data.activityAssignee}})
+            </div>
+
+            <div *dxTemplate="let data of 'cellTemplatedateTimeUntil' ">
+                <div *ngIf="data.data.activityEndTime!=null && data.data.activityEndTime != undefined && data.data.activityEndTime != ''"> {{formatDate.formatDFTshort(data.data.activityEndTime)}}</div>
+            </div>
+
+        </dx-data-grid>
+    </div>
+</div>

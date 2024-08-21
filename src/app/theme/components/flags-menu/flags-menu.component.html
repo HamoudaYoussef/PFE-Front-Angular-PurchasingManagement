@@ -1,0 +1,13 @@
+<div class="dropdown d-inline-block">
+    <a class="dropdown-toggle no-caret pl-2 pr-2" id="flags-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="flag-icon" [ngClass]="['flag-icon-'+ translateService.currentLang]"></span>
+    </a> 
+    <div class="dropdown-menu dropdown-menu-right rounded-0 mt-3 p-0 box-shadow" aria-labelledby="flags-menu">
+        <div class="flags-menu"> 
+            <a *ngFor="let lang of translateService.getLangs()" class="dropdown-item" href="javascript:void(0);" (click)="changeLang(lang)">
+                <span class="flag-icon mr-2" [ngClass]="['flag-icon-'+ lang]" ></span> 
+               {{getLangText(lang)}}
+            </a>
+        </div>
+    </div>
+</div>

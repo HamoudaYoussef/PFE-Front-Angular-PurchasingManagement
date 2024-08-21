@@ -1,0 +1,91 @@
+<dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="dataSourceElement"
+  [remoteOperations]="{ filtering: false, grouping: false, sorting: false, paging: true }"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  (onToolbarPreparing)="onToolbarPreparing($event)"
+  (onRowDblClick)="getdemande($event)"
+  (onRowUpdating)="onRowUpdating($event)"
+  keyExpr="id"
+  class="dataGridDemande"
+  [editing]="{ mode: 'cell', allowUpdating: true }"
+>
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    
+    <dxi-column dataField="nom" dataType="string" [allowEditing]="true"></dxi-column>
+    <dxi-column dataField="adresse" dataType="string" [allowEditing]="true"></dxi-column>
+    <dxi-column dataField="tel" dataType="string" [allowEditing]="true"></dxi-column>
+
+    <dxi-column [allowResizing]="false" [fixed]="false" caption="{{ '' | translate }}" cellTemplate="cellTemplateActions">
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'cellTemplateActions'" style="display: flex; justify-content: center; align-items: center;">
+        <a (click)="popupDelete(data.data.id)" title="Supprimer">
+            <i class="fa fa-trash" style="color:#a63a3a;"></i>
+        </a>
+    </div>
+
+    <dxo-pager
+        [allowedPageSizes]="allowedPageSizes"
+        [showInfo]="true"
+        [showPageSizeSelector]="true"
+        [visible]="true"
+        displayMode="full"
+        [showNavigationButtons]="true"
+    ></dxo-pager>
+</dx-data-grid>
+
+
+<dx-popup
+    [maxWidth]="940"
+    [width]="500"
+    [height]="'auto'"
+    [showTitle]="true"
+    title="Confirmation de la suppression"
+    [dragEnabled]="false"
+    [closeOnOutsideClick]="true"
+    [(visible)]="popupDeleteVisible"
+>
+    <div>
+        <p> Êtes-vous sûr de vouloir supprimer cet élément ? </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2" (click)="fermerPopup()">Annuler</button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button type="button" class="btn btn-success me-md-2" >Confirmer</button>
+        </div>
+    </div>
+</dx-popup>
+
+<dx-popup
+    [maxWidth]="940"
+    [width]="500"
+    [height]="'auto'"
+    [showTitle]="true"
+    title="Ajouter Fournisseur"
+    [dragEnabled]="false"
+    [closeOnOutsideClick]="true"
+    [(visible)]="popupAdd"
+>
+    <app-add-demande (add)="add($event)"></app-add-demande>
+</dx-popup>
+
+<dx-popup
+    [maxWidth]="940"
+    [width]="500"
+    [height]="'auto'"
+    [showTitle]="true"
+    title="Modifier Fournisseur"
+    [dragEnabled]="false"
+    [closeOnOutsideClick]="true"
+    [(visible)]="popupEdit"
+>
+    <app-add-demande [id]="id" (add)="add($event)"></app-add-demande>
+</dx-popup>

@@ -1,0 +1,119 @@
+<dx-data-grid
+  #dataGridDemande
+  id="dataGridDemande"
+  class="dataGridDemande"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="dataSourceElement"
+  [remoteOperations]="{ filtering: false, grouping: false, sorting: true, paging: true }"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  (onToolbarPreparing)="onToolbarPreparing($event)"
+  (onRowDblClick)="Editdemande($event)"
+ 
+  keyExpr="id"
+>
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <!--dxo-paging [pageSize]="pageSize" [pageIndex]="pageIndex"></dxo-paging-->
+
+  <dxi-column dataField="id" dataType="number" caption="ID"></dxi-column>
+  <dxi-column dataField="statut" dataType="string" caption="Statut"></dxi-column>
+  <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
+  <dxi-column dataField="datedemande" dataType="string" caption="Date de Demande" ></dxi-column>
+  
+  <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+  <div *dxTemplate="let demandeachat of 'detail'">
+    <div class="master-detail-caption">{{
+     "voici la demande achat" + demandeachat.data.nom + "de la date " + demandeachat.data.datedemande + "'s Tasks:"
+    }}</div>
+    <app-hover-da [demandeAchatId]="demandeachat.data.id"></app-hover-da>
+  </div>
+
+  <dxi-column
+    [allowResizing]="false"
+    [fixed]="false"
+    caption="{{ '' | translate }}"
+    cellTemplate="cellTemplateActions"
+  ></dxi-column>
+
+  <div *dxTemplate="let data of 'cellTemplateActions'" class="action-buttons">
+    <a (click)="showbordereaux(data.data.id)" target="_blank" title="Consulter demande">
+      <i class="fa fa-edit eyeIconStyle"></i>
+    </a>
+    &nbsp;
+    <a (click)="popupDelete(data.data.id)" target="_blank" title="Supprimer demande">
+      <i class="fa fa-trash" style="color:#a63a3a;"></i>
+    </a>
+  </div>
+
+  <dxo-pager
+    [allowedPageSizes]="allowedPageSizes"
+    [showInfo]="true"
+    [showPageSizeSelector]="true"
+    [visible]="true"
+    displayMode="full"
+    [showNavigationButtons]="true"
+  ></dxo-pager>
+</dx-data-grid>
+
+<div *ngIf="hoveredRow" class="hovered-product-details" [ngStyle]="hoverPosition">
+  <app-hover-da [demandeAchatId]="hoveredRow.id"></app-hover-da>
+</div>
+<dx-popup
+  [maxWidth]="940"
+  [width]="500"
+  [height]="'auto'"
+  [showTitle]="true"
+  title="Confirmation de la suppression"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="true"
+  [(visible)]="popupDeleteVisible"
+>
+  <div class="confirmation-popup">
+    <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+        <button type="button" class="btn btn-outline-secondary me-md-2" (click)="fermerPopup()">Annuler</button>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 text-right">
+        <button type="submit" class="btn btn-success me-md-2" (click)="deletedemande()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<style>
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .confirmation-popup {
+    padding: 20px;
+  }
+
+  .confirmation-popup p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .eyeIconStyle {
+    color: #007bff;
+  }
+
+  .fa-trash {
+    cursor: pointer;
+  }
+</style>

@@ -1,0 +1,198 @@
+@import "../Commun/Variable";
+@import "../Commun/commun-style";
+
+
+:host::ng-deep.dx-header-row > td > .dx-datagrid-text-content:not(.dx-sort-indicator):not(.dx-header-filter-indicator) {
+  max-width: 100%;
+  margin-right: 7% !important;
+}
+
+/*padding of data grid attachcment*/
+:host::ng-deep .dx-datagrid .dx-row > td, .dx-datagrid .dx-row > tr > td {
+  padding: 0px !important;
+}
+
+/*padding of data grid attachcment*/
+
+/*disable scroolbar of attachement*/
+:host::ng-deep .dx-scrollable-scroll {
+  overflow: scroll !important;
+}
+
+:host::ng-deep .dx-scrollable-scroll-content { /*disable scroolbar of attachement*/
+  display: none !important;
+}
+
+/*disable scroolbar of attachement*/
+
+::ng-deep .dx-dropdownbutton-popup-wrapper.dx-popup-wrapper .dx-overlay-content {
+  border-top: 1px solid #ddd;
+  transform: translate(0px, 22px) !important;
+}
+
+:host::ng-deep.dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-edit-with-icons .dx-link {
+  /* font-size: inherit !important; */
+  /* font-size: 10px; */
+  margin: 2% !important;
+  font-size: large !important;
+
+}
+
+/*Style of actions icon of datagrid*/
+:host::ng-deep a.dx-link.my-class-fa-external-link-alt.dx-icon.fas.fa-external-link-alt.filetrashIconStyle.dx-link-icon {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+:host::ng-deep dx-drop-down-button.dx-widget.dx-dropdownbutton.dx-dropdownbutton-has-arrow {
+  position: absolute !important;
+}
+
+.dx-field-item.dx-flex-layout {
+  padding: 0px 2px !important;
+}
+
+/*Style of actions icon of datagrid*/
+
+:host::ng-deep .dx-overlay-content.dx-popup-normal.dx-resizable.dx-popup-flex-height {
+  left: 50px !important;
+}
+
+//____________________________________________________________________
+.p-10 {
+  padding: 10px !important;
+}
+
+.pad-0 {
+  padding: 0px !important;
+}
+
+.h-0em {
+  height: 0em;
+}
+
+.mt-1em {
+  margin-top: -1em;
+}
+
+.mt-2em {
+  margin-top: -2em;
+  margin-right: -1.5em;
+}
+
+/*icon style actions in data grid*/
+::ng-deep.IconStyle {
+  //margin-right: 4% !important;
+  color: $iconColor
+}
+
+.icon-upload {
+  margin: 0;
+  transform: rotate(180deg);
+}
+
+.mar-0 {
+  margin: 0;
+}
+
+.txt-center {
+  text-align: center
+}
+
+.dx-template-style-modif {
+  float: right;
+  padding-right: 2%;
+}
+
+.icon-fa-pen {
+  margin-right: 4%;
+  margin-left: 4%;
+}
+
+.fs-18 {
+  font-size: 18px;
+}
+
+.warning-icon {
+  cursor: pointer;
+  text-align: right
+}
+
+.PJ-style {
+  text-align: start !important;
+  padding: 1.5%;
+}
+
+.PJ-filename-style {
+  background: #b5aeae3d !important;
+  cursor: grab !important;
+}
+
+.trash-style {
+  color: red;
+  font-size: 20px;
+  cursor: pointer !important;
+}
+
+.end-txt-align {
+  text-align: end !important;
+}
+
+.mar-pad {
+  padding: 1%;
+  margin: 1%
+}
+
+.icon-size {
+  font-size: 180%;
+}
+
+.icon-size-mater {
+  font-size: 150%;
+}
+
+.mar-1 {
+  margin: 1% !important
+}
+
+.styleTitreGridAtt {
+  color: $datagridTitleColor;
+  //margin-right: 150px;
+  font-weight: bold;
+  font-size: large;
+}
+
+.margin-1 {
+  margin: -1px;
+}
+
+.hei-10 {
+  height: 10%;
+}
+
+.modif-popup-style {
+  padding: 0.75rem 0.5rem;
+}
+
+.style:before {
+  margin: 0%;
+  background-color: white
+}
+
+//____________________________________________________________________
+
+::ng-deep .dx-button-mode-contained .dx-icon {
+  color: $buttondatagridcolor;
+}
+
+/*ROW data GRID background*/
+
+::ng-deep #gridContainer .dx-datagrid-rowsview .dx-selection.dx-row > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > td, .dx-datagrid-rowsview .dx-selection.dx-row > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:hover > tr > td {
+  //background-color: rgb(72 58 13 / 19%) !important;
+  background-color: $backgrounddatagridcolor;
+  color: $colortxtdatagridcolor;
+}
+
+.hide-actions {
+  display: none;
+}

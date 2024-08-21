@@ -1,0 +1,61 @@
+<div id="form-container" class="container mt-5">
+  <dx-form [formGroup]="formGroup">
+    <dxi-item itemType="group" [colCount]="2" caption="Ajouter la demande de devis">
+      <div formArrayName="formArray">
+        <div *ngFor="let fg of formArray.controls; let i = index" [formGroupName]="i" class="row mb-4">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="nom-{{i}}">Nom d'article:</label>
+              <input type="text" id="nom-{{i}}" formControlName="nom" class="form-control">
+              <div *ngIf="fg.get('nom').invalid && (fg.get('nom').dirty || fg.get('nom').touched)" class="text-danger">
+                <div *ngIf="fg.get('nom').errors.required">Nom is required.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="description-{{i}}">Description :</label>
+              <input type="text" id="description-{{i}}" formControlName="description" class="form-control">
+              <div *ngIf="fg.get('description').invalid && (fg.get('description').dirty || fg.get('description').touched)" class="text-danger">
+                <div *ngIf="fg.get('description').errors.required">Description is required.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="quantite-{{i}}">Quantité :</label>
+              <input type="number" id="quantite-{{i}}" formControlName="quantite" class="form-control">
+              <div *ngIf="fg.get('quantite').invalid && (fg.get('quantite').dirty || fg.get('quantite').touched)" class="text-danger">
+                <div *ngIf="fg.get('quantite').errors.required">Quantité is required.</div>
+                <div *ngIf="fg.get('quantite').errors.min">Quantité must be at least 1.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="fournisseur-{{i}}">Fournisseur :</label>
+              <dx-select-box id="fournisseur-{{i}}" formControlName="fournisseur" class="form-control" [dataSource]="fournisseurs"
+                displayExpr="nom" valueExpr="id">
+                <dxo-validation-message mode="always"></dxo-validation-message>
+              </dx-select-box>
+              <div *ngIf="fg.get('fournisseur').invalid && (fg.get('fournisseur').dirty || fg.get('fournisseur').touched)" class="text-danger">
+                <div *ngIf="fg.get('fournisseur').errors.required">Fournisseur is required.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </dxi-item>
+  </dx-form>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+    <button (click)="Return()"  class="btn btn-primary btn-rounded" mdbRipple style="color: white; background-color:#b60808;" type="button">retour </button>
+    <button 
+    class="btn btn-primary btn-rounded mb-1 mr-1 butttons-style"
+      style="background-color: green; font-weight: bold; color: white;"
+      type="button" (click)="saveDemandeDevis()">saveDemandeDevis</button>
+  </div>  
+</div>

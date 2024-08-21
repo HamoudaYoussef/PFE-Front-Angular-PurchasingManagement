@@ -1,0 +1,33 @@
+<div class="dx-field">
+    <div class="dx-field-label">{{'titleSelectLevel'|translate}}</div>
+    <div class="dx-field-value">
+        <dx-select-box
+                id="custom-templates"
+                [dataSource]="levels"
+                displayExpr="name"
+                valueExpr="id"
+                [value]="levels[0].id"
+                fieldTemplate="field"
+                (onSelectionChanged)="selectionChanged($event)"
+        >
+            <div *dxTemplate="let data of 'field'">
+                <div class="custom-item">
+                    <i class={{data.icon}} style="{{data.color}}padding-left: 3%;"></i>
+                    <dx-text-box
+                            class="level-name"
+                            [value]="data && data.name"
+                            [readOnly]="true"
+                    ></dx-text-box>
+                </div>
+            </div>
+            <div *dxTemplate="let data of 'item'">
+                <div class="custom-item">
+                    <i class={{data.icon}} style="{{data.color}}"></i>
+                    <div class="level-name">
+                        {{ data.name }}
+                    </div>
+                </div>
+            </div>
+        </dx-select-box>
+    </div>
+</div>

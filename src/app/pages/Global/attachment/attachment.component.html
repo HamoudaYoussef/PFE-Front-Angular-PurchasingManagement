@@ -1,0 +1,144 @@
+<app-http-services></app-http-services>
+
+
+<div *ngIf="(GetPermession() || !isPublic)">
+    <div *ngIf="attachements">
+
+
+        <app-data-grid-attachments
+                class="dx-swatch-custom"
+                [classid]="classid"
+                [objectid]="objectid"
+                [flipped]="ModeGridVsThumbnail"
+                [objectData]="objectData"
+                [attachements]="attachements"
+                [ContainerViewer]="!ContainerViewer"
+                [Refresh]="refreshedReqFileDef2"
+                (newFile)="refreshDataGrid($event)"
+                (filppedout)="changeFlipped($event)"
+                (ouvrirPopUpSave)="ouvrirPopUpSave($event)"
+                (jsondocviewerEventFromGrid)="jsondocviewerEventFunctionAttatchment($event)"
+                (FileDeletedToAddToremaingFileDefPopup)="RecalFileTodelete($event)"
+                [levelMin]="levelMin"
+                [showSplliter]="ShowSplitter"
+                [canDelete]="canDeleteDatagrid"
+                [canlock]="canlockDatagrid"
+                [canUploadfile]="canUploadfileDatagrid"
+                [canTransfert]="canTransfertDatagrid"
+                [canActionPDF]="canActionPDFDatagrid"
+                [canClone]="canCloneDatagrid"
+                [canDonwloadfile]="canDonwloadfileDatagrid"
+                [canModiffile]="canModiffileDatagrid"
+                [canShowfile]="canShowfileDatagrid"
+
+                [archiveButtonVisible]="archiveButtonVisible"
+                [flipedDatagridButtonVisible]="flipedDatagridButtonVisible"
+
+
+                [visibleCellIndex]="visibleCellIndex"
+                [visibleCellId]="visibleCellId"
+                [visibleCellFileType]="visibleCellFileType"
+                [visibleCelldocTitle]="visibleCelldocTitle"
+                [visibleCellfileName]="visibleCellfileName"
+                [visibleCelldocId]="visibleCelldocId"
+                [visibleCelldocIssueDate]="visibleCelldocIssueDate"
+                [visibleCelldocExpirationDate]="visibleCelldocExpirationDate"
+                [visibleCellissueAdress]="visibleCellissueAdress"
+                [visibleCelldocSize]="visibleCelldocSize"
+                [visibleCellsysdateUpdated]="visibleCellsysdateUpdated"
+                [visibleCellResponsable]="visibleCellResponsable"
+                [visibleCellsecuriteLevel]="visibleCellsecuriteLevel"
+                [visibleCellSignedOrLockedState]="visibleCellSignedOrLockedState"
+                [fileAccessToken]="fileAccessToken"
+                [listOfficeNotEmpty]="listOfficeNotEmpty"
+
+                [authorizationTokenOffice]="authorizationTokenOffice"
+
+        >
+        </app-data-grid-attachments>
+
+
+        <app-thumbnail *ngIf="ModeGridVsThumbnail"
+                       [classid]="classid"
+                       [objectid]="objectid"
+                       [flipped]="ModeGridVsThumbnail"
+                       [objectData]="objectData"
+                       [fileToThumbnail]="attachements"
+                       [ContainerViewer]="ContainerViewer"
+
+                       [canDelete]="canDeleteDatagrid"
+                       [canlock]="canlockDatagrid"
+                       [canUploadfile]="canUploadfileDatagrid"
+                       [canTransfert]="canTransfertDatagrid"
+                       [canActionPDF]="canActionPDFDatagrid"
+                       [canClone]="canCloneDatagrid"
+                       [canDonwloadfile]="canDonwloadfileDatagrid"
+                       [canModiffile]="canModiffileDatagrid"
+                       [canShowfile]="canShowfileDatagrid"
+
+
+                       [archiveButtonVisible]="archiveButtonVisible"
+                       [flipedDatagridButtonVisible]="flipedDatagridButtonVisible"
+
+                       (ouvrirPopUpSave)="ouvrirPopUpSave($event)"
+
+
+                       (outputFilpped)="changeFlipped($event)"
+                       (getAllbyId)="refreshDataGrid($event)"
+                       [fileAccessToken]="fileAccessToken"
+                       [listOfficeNotEmpty]="listOfficeNotEmpty"
+
+
+                       [authorizationTokenOffice]="authorizationTokenOffice"
+        >
+        </app-thumbnail>
+    </div>
+</div>
+
+
+<dx-popup
+        [(visible)]="popUpSave"
+        [showTitle]="true"
+        [closeOnOutsideClick]="false"
+        [width]="'auto'"
+        [height]="'auto'"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        title="{{'ATTACHEMENT.save' | translate}}"
+        titleTemplate="titleTemplate"
+>
+
+    <div *dxTemplate="let data of 'titleTemplate'" class="p-1 m-0 ">
+        <div class="d-flex justify-content-between">
+            <div>
+
+            </div>
+            <div>
+                <button type="btn btn-success float-md-right" class="btn-close" title="{{ 'close' | translate }}"
+                        aria-label="Close"
+                        (click)="popUpSave=false"></button>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex row"
+         *ngIf="!ContainerViewer">
+        <!--card of req file definition !! -->
+        <div *ngFor="let file of requestFileDef" style="width: 355px;padding: 0% 0% 0% 2%;">
+            <app-template-attachment
+                    [classid]="classid"
+                    [objectid]="objectid"
+                    [objectData]="objectData"
+                    [attachements]="attachements"
+                    [fileTemplate]="file"
+                    [isPublic]="isPublic"
+                    (newFile)="refreshDataGrid($event)"
+                    [fileAccessToken]="fileAccessToken"
+                    [listOfficeNotEmpty]="listOfficeNotEmpty"
+
+                    [authorizationTokenScan]="authorizationTokenScan"
+            >
+                >
+            </app-template-attachment>
+        </div>
+    </div>
+</dx-popup>

@@ -1,0 +1,41 @@
+
+
+//legend {
+  //display: block;
+  //padding-left: 4px;
+  //padding-right: 2px;
+  ////width: 8%;
+  //font-size:104%;
+  //border: 1px  solid;
+  //border-radius: 30px;
+  //background-color: #ece7ec;
+  //border-color: gray;
+//}
+
+fieldset{
+  display: block;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-top: 0.35em;
+  padding-bottom: 0.625em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  border: 1px solid;
+  border-color: gray;
+  border-radius: 1.5rem;
+}
+//::ng-deep  .form-outline .form-control {
+//  min-height: auto;
+//  padding-top: 0.33em;
+//  padding-bottom: 0.33em;
+//  padding-left: 0.75em;
+//  padding-right: 0.75em;
+//  border: 1;
+//  background: transparent;
+//  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+//}
+::ng-deep .has-feedback .form-control {
+  /* border-block-color: red; */
+  border:groove;
+  padding-right: 10px;
+}

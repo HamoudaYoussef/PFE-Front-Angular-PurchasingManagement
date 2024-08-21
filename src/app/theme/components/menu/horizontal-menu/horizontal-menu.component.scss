@@ -1,0 +1,65 @@
+@import "../../../../theme/styles/variables";
+
+
+.horizontal-menu-wrapper{
+    min-height: $horizontal-menu-height;
+}
+#navigation{
+    margin-left: auto;
+    margin-right: auto;
+   .menu{
+       margin-bottom: 0;
+       li{
+            display: inline-block;
+            position: relative;
+            a{
+                font-size: 14px;
+                display: block;
+                padding: 0.6em 1em;
+                cursor: pointer;
+                i{
+                    margin-right: 10px;
+                }
+            }
+            &.menu-item-has-children > a:after {
+                font-family: FontAwesome;
+                content: "\f107";
+                margin-left: 10px;
+                font-size: 13px;
+            }
+       }
+
+   }
+}
+
+#navigation .menu .sub-menu{
+  display: none;
+  padding: 0;
+  position: absolute;
+  margin-top:0;
+  left: 0;
+  z-index: 99999;
+  text-align: left;
+}
+#navigation ul.menu ul a,
+#navigation .menu ul ul a {
+  margin: 0;
+  font-size: 14px;
+  padding: 6px 10px;
+  min-width: 160px;
+  line-height: 20px;
+}
+#navigation ul.menu li:hover > ul,
+#navigation .menu ul li:hover > ul {
+  display: block;
+}
+#navigation .menu .sub-menu ul {
+  left: 100%;
+  top: 0;
+}
+#navigation ul.sub-menu > li.menu-item-has-children > a:after {
+  font-family: FontAwesome;
+  content: "\f105";
+  float: right;
+  font-size: 13px;
+}

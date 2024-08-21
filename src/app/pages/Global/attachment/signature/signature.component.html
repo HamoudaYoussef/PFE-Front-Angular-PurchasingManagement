@@ -1,0 +1,230 @@
+<mdb-form-control [formGroup]="signedUSBForm" *ngIf="selected_TypeSign=='Avec clé USB'">
+    <div class="d-flex justify-content-between" style="margin:0px !important">
+        <!--Selected Sign type-->
+        <div class="col-sm-5 col-md-5 col-xs-5 col-lg-5 col-xl-5 col-xxl-5 " style="
+    padding: 0px 5px 0px 0px!important;
+    margin-top: -0.5%;
+    height:80%!important;
+">
+            <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.Signtype'| translate }}
+                <span class="spanRequired">*</span></div>
+            <dx-select-box
+                    style="height: 56%"
+                    [items]="types"
+                    [value]="selected_TypeSign"
+                    (onSelectionChanged)="onChangeType($event)"
+            >
+            </dx-select-box>
+        </div>
+        <!--PIN OF CERTIF OF USB-->
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3 "
+             style="padding:0px !important;margin-top: -0.5%; ">
+            <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.Signpin'| translate }}
+                <span class="spanRequired">*</span></div>
+            <div style="width: 100%; ;display: flex;">
+                <mdb-form-control class="form-outline "
+                                  style="background: white ;  padding: 0 !important;border-radius: 10%; height:25px   !important;">
+                    <input mdbValidate mdbInput formControlName="pinCode" [type]="show ? 'text' : 'password'"
+                           id="pinCode" name="pinCode" required class="form-control " autocomplete="disabled"/>
+                </mdb-form-control>
+                <a (click)="ShowPassword()" target="_blank" rel="noopener" style="    position: absolute;
+    z-index: 9999999;
+    right: 8%;
+    color: #323234;
+    top: 40%;">
+                    <i class="fa" [ngClass]="{ 'fa-eye-slash': !show, 'fa-eye': show }"></i>
+                </a>
+            </div>
+        </div>
+        <!--signed button-->
+        <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 col-xl-2 col-xxl-2 alignRight " style="padding:0px !important">
+            <div class=" p-2 col-md-12" style="width: 100%; ;display: flex;margin-top: 5%;">
+                <button type="submit" class="btn btn-success btn-sm" (click)="PreSignedPDf()">
+                    <i class="fas fa-signature" title="{{'ATTACHEMENT.sign' | translate }}"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</mdb-form-control>
+
+<mdb-form-control [formGroup]="signedLOCALForm" *ngIf="selected_TypeSign=='Avec certificat local'">
+    <div class="d-flex justify-content-between" style="margin:0px !important">
+        <div class="col-sm-5 col-md-5 col-xs-5 col-lg-5 col-xl-5 col-xxl-5 "
+             style="padding: 0px 5px 0px 0px!important; margin-top: -0.5%;  height:80%!important;">
+            <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.Signtype'| translate }}
+                <span class="spanRequired">*</span></div>
+            <dx-select-box
+                    style="height: 56%"
+                    [items]="types"
+                    [value]="selected_TypeSign"
+                    (onSelectionChanged)="onChangeType($event)">
+            </dx-select-box>
+        </div>
+        <!--Password-->
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4  mb-3  "
+             style="padding:0px !important;margin-top: -0.5%;  ">
+            <div style="color: white;font-size: 9px;padding: 0px !important;margin: 0px !important;">{{'ATTACHEMENT.labelPassword'| translate }}
+                <span class="spanRequired">*</span></div>
+            <div style="width: 100%; ;display: flex;">
+                <mdb-form-control class="form-outline "
+                                  style="background: white ; padding : 0 !important;border-radius: 10%; height:25px  !important;">
+                    <input mdbValidate mdbInput formControlName="passwordCertif" [type]="show ? 'text' : 'password'"
+                           id="passwordCertif" name="passwordCertif" required class="form-control " autocomplete="off"/>
+                </mdb-form-control>
+                <!--BUTTON OF SHOW PIN OF  USB -->
+                <a (click)="ShowPassword()" target="_blank" rel="noopener"
+                   style="position: absolute;  z-index: 9999999; right: 8%; color: #323234;top: 40%;">
+                    <i class="fa" [ngClass]="{ 'fa-eye-slash': !show, 'fa-eye': show }"></i>
+                </a>
+            </div>
+        </div>
+        <!--INPUT FILE OF CERTIF LOCAL-->
+        <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 col-xl-2 col-xxl-2"
+             style="padding: 0px 0px 0px 5px!important; margin-top: 3%;">
+            <!--FILE -->
+            <button type="button" class="btn btn-danger mar-pad btn-sm " (click)="attached()" [title]="fileName">
+                <i class='fa fa-cloud-upload'></i>
+            </button>
+        </div>
+        <!--sign button -->
+        <div class="col-sm-2 col-md-2 col-xs-2 col-lg-2 col-xl-2 col-xxl-2 alignRight " style="padding:0px !important">
+            <div class=" p-2 col-md-12" style="width: 100%; ;display: flex;     margin-top: 5%;">
+                <button type="submit" class="btn btn-success btn-sm" (click)="PreSignedPDf()">
+                    <i class="fas fa-signature" title="{{'ATTACHEMENT.sign' | translate }}"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</mdb-form-control>
+
+<!--input button of certif file -->
+<input #input (change)="CertifChange(input) ; input.value = null" class="file-upload-btn" hidden
+       id="addSignature" type="file"/>
+<!--input button of certif file -->
+
+
+<!--------------------Message AFTER SIGNature---------------------->
+<dx-popup
+        [(visible)]="popupRslt"
+        [showTitle]="true"
+        [closeOnOutsideClick]="false"
+        [dragEnabled]="false"
+        [maxWidth]="'100%'"
+        [width]="'40%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        resizeEnabled="true"
+        (onHiding)="onHidingRslt($event)"
+        (closeOnOutsideClickChange)="onHidingRslt($event)"
+        title="{{ 'ATTACHEMENT.rsltSign' | translate }}">
+    <div>
+        <!----------------------Succes Case ---------------------->
+        <div class="row d-flex" *ngIf="succes===true">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex">
+                <a (click)="showSuccess=!showSuccess" style="color:green">
+                    <i class="fa fa-check" style="font-size: 200%; color:green;"></i>{{this.rslt}}
+                </a>
+            </div>
+        </div>
+        <div class="row d-flex" *ngIf="succes===true">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="float-md-right">
+                    <button (click)="closeSuccess()" class="btn btn-success mr-1" type="submit">{{'close' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row " *ngIf="succes===true">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-1 ">
+                <div class="card border-0 shadow-0 h-100 position-relative" mdbScrollbar>
+                    <div class="card-body text-success" style="height: 50px;padding: 0;">
+                        <div class="card-text">
+                            <p class="note note-success fw-light fs-6 ">
+                                <strong>{{ 'ATTACHEMENT.detail' | translate }}</strong>{{this.succescomplete}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!----------------------Succes Case ---------------------->
+
+        <!----------------------Failed Case ---------------------->
+        <div class="row " *ngIf="succes===false">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 d-flex">
+                <a (click)="showErreur=!showErreur" style="color:red">
+                    <i class="fa fa-exclamation-triangle" style="font-size: 200%;color:red;"></i>{{this.rslt}}
+                </a>
+            </div>
+        </div>
+        <div class="row " *ngIf="succes===false">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="float-md-right">
+                    <button (click)="closeFailed()" class="btn btn-danger mr-1"
+                            type="button">{{'close' | translate}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="row " *ngIf="showErreur===true  && succes===false">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mt-1 ">
+                <div class="card border-0 shadow-0 h-100 position-relative" mdbScrollbar>
+                    <div class="card-body text-danger" style="height: 70px;padding: 0;">
+                        <div class="card-text">
+                            <p class="note note-danger fw-light fs-6 ">
+                                <strong>{{ 'ATTACHEMENT.detail' | translate }}</strong>{{this.erreurcomplete}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt-1 alignRight" style="padding: 0; margin: 2%;">
+                <a class="btn btn-primary" style="backgroundColor: #edc1c1" role="button" (click)="copyText()">
+                    <i title="{{ 'ATTACHEMENT.Copy-press' | translate }}" class="fas fa-clipboard"></i>
+                </a>
+            </div>
+        </div>
+        <!----------------------Failed Case ---------------------->
+    </div>
+</dx-popup>
+
+<!--------------------Confirmation SIGNature---------------------->
+<dx-popup
+        [(visible)]="popupConfirmSign"
+        [showTitle]="true"
+        [closeOnOutsideClick]="false"
+        [maxWidth]="'100%'"
+        [width]="'30%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="onHidingConfirm($event)"
+        (closeOnOutsideClickChange)="onHidingConfirm($event)"
+        title="{{ 'ATTACHEMENT.CofirmSig' | translate }}">
+    <div>
+        <p>{{ 'ATTACHEMENT.messageConfirmationsignature' | translate }}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <button (click)="popupConfirmSign=false" class="btn btn-light mb-1 mr-1"
+                    type="button">{{ 'close' | translate }}
+            </button>
+        </div>
+        <div>
+            <button (click)="signedPdf()" class="btn btn-success"
+                    type="submit">{{ 'accept' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+
+
+<dx-load-panel
+    #loadPanel
+    [(visible)]="loadingVisible"
+    [position]="{ of: '#positionLoadPanel' }"
+    [shading]="true"
+    [showIndicator]="true"
+    [showPane]="true"
+    shadingColor="rgba(0,0,0,0.4)">
+</dx-load-panel>

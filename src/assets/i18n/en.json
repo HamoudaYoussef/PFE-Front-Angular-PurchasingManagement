@@ -1,0 +1,12 @@
+{   
+  "LOGIN": "Login", 
+  "LOGOUT": "Logout", 
+  "REGISTER": "Register",
+  "ADMIN_NAV": {  
+    "DASHBOARD": "Dashboard",  
+    "PAGES": "Pages",
+    "BLANK": "Blank",
+    "ERROR": "Error", 
+    "EXTERNAL_LINK": "External Link" 
+  } 
+}

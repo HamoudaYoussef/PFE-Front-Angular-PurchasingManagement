@@ -1,0 +1,107 @@
+@import "../../../theme/styles/variables";
+
+.navbar.app-header{
+    padding: 0; 
+    z-index: 9;
+    -webkit-transition: z-index 0.5s linear;  
+    -moz-transition: z-index 0.5s linear;  
+    transition: z-index 0.5s linear;   
+    .top-navbar{
+        padding: 0 1rem; 
+        height: $top-navbar-height;
+        .logo{
+            width: $sidebar-width - 30px;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+        }  
+    }
+    &.logo-visible{
+        z-index: 99999;  
+    }
+   
+}
+
+
+.top-rigth-icons{
+    span{
+        font-size: 14px;
+        cursor: pointer;
+    }
+}
+
+.menu-icon{
+    position: relative;
+    width: 18px;
+    cursor: pointer;
+    .line{
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        background-color: #ccc;
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+        -webkit-transition: .15s ease-in-out;
+        -moz-transition: .15s ease-in-out;
+        -o-transition: .15s ease-in-out;
+        transition: .15s ease-in-out;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        outline: 1px solid transparent;
+    }
+    .line:nth-child(1){
+       top:0;
+    }
+    .line:nth-child(2), .line:nth-child(3){
+       top:4px;
+    }
+    .line:nth-child(4){
+       top:8px;
+    }
+    &.open{
+        -webkit-backface-visibility: hidden;
+        .line:nth-child(1), .line:nth-child(4){
+            top: 4px;
+            width: 0%;
+            left: 50%;
+        }
+        .line:nth-child(2){            
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);         
+        }
+        .line:nth-child(3){
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg);            
+        }
+    }
+}
+
+
+.logo{
+    font-family: $logo-font;
+    padding: 0;
+    font-size:27px;
+    display: inline-block;
+    width: $sidebar-width;  
+    &:hover, &:focus{
+        text-decoration: none;
+        color: initial;
+    }
+}
+
+.horizontal-menu-outer{
+    height: auto;
+    #menu0{
+        height: 250px;
+    }
+}

@@ -1,0 +1,217 @@
+<app-http-services></app-http-services>
+
+<input #inputt (change)="fileChange(inputt) ; inputt.value = null" class="file-upload-btn" hidden
+       id="addfile{{IDFile}}" type="file">
+<dx-data-grid
+        [id]="this.packageName+'_'+'gridfile'"
+        [dataSource]="filedatasource"
+
+
+        [allowColumnReordering]="true"
+        [height]="'auto'"
+        [allowColumnResizing]="true"
+        [columnAutoWidth]="true"
+        [showBorders]="true"
+        [rowAlternationEnabled]="true"
+        [remoteOperations]="true"
+        [hoverStateEnabled]="true"
+        [rtlEnabled]="true"
+        [showColumnLines]="false"
+        (onCellPrepared)="onCellPrepared($event)"
+        (onToolbarPreparing)="onToolbarPreparing($event)"
+        [wordWrapEnabled]="true"
+        (onInitNewRow)="logEvent1('InitNewRow',$event)"
+        (onRowDblClick)="rowclickViewFileOrDownload($event)"
+
+
+>
+    <dxo-editing
+            [allowAdding]="!ReadOnly"
+            [allowDeleting]="!ReadOnly"
+            [useIcons]="true"
+            mode="row"
+            refreshMode="reshape"> <!-- 'batch' | 'cell' | 'form' | 'popup' -->
+    </dxo-editing>
+    <!--    <dxo-selection mode="multiple"></dxo-selection>-->
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+    <dxo-keyboard-navigation [editOnKeyPress]="editOnkeyPress" [enterKeyAction]="enterKeyAction"
+                             [enterKeyDirection]="enterKeyDirection"></dxo-keyboard-navigation>
+
+
+    <dxi-column dataField="id" [alignment]="alignment" [visible]="false" [allowHeaderFiltering]="false" sortOrder="desc"
+                caption="{{ 'id' | translate }}">
+
+    </dxi-column>
+    <dxi-column [allowEditing]="false"
+                [allowFiltering]="false"
+                [allowSorting]="false"
+                width="26"
+                caption="{{ '' | translate }}"
+                cellTemplate="cellTemplateType"
+                alignment="right"
+                dataField="filesTypeDTO"></dxi-column>
+
+    <dxi-column dataField="requestFileDefinition.label" [alignment]="alignment" [allowHeaderFiltering]="false"
+                [visible]="true" cellTemplate="cellTemplateDoctitle"
+                caption="{{ 'AutreFichiers.typeFichier' | translate }}">
+        <dxo-lookup
+                [dataSource]="objectData.remaingRequestFileDefinitions"
+                displayExpr="label">
+        </dxo-lookup>
+
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'cellTemplateDoctitle'">
+        <div *ngIf="data.data.requestFileDefinition.label==this.env.docPardefaut">
+            {{ 'ATTACHEMENT.electronicFile' | translate }}
+        </div>
+        <div *ngIf="data.data.requestFileDefinition.label!=this.env.docPardefaut">
+            {{ data.data.requestFileDefinition.label }}
+        </div>
+    </div>
+    <div *dxTemplate="let data of 'cellTemplateType'" style="text-align: center">
+        <div *ngIf="data.data.fileType=='application/pdf'"><i style="color: #f31103"
+                                                              class="fas fa-file-pdf"></i></div>
+        <div *ngIf="data.data.fileType=='application/msword'||data.data.fileType=='application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+            <i style="color: #1571a7" class="fas fa-file-word"></i></div>
+        <div *ngIf="data.data.fileType=='application/x-tika-ooxml'">
+            <i style="color: #216f44" class="fas fa-file-excel"></i></div>
+        <div *ngIf="data.data.fileType=='application/vnd.openxmlformats-officedocument.presentationml.presentation'">
+            <i style="color: #c14120" class="fas fa-file-powerpoint-o"></i></div>
+        <div *ngIf="data.data.fileType!='application/vnd.openxmlformats-officedocument.presentationml.presentation'&&data.data.fileType!='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'&&data.data.fileType!='application/msword'&&data.data.fileType!='application/vnd.openxmlformats-officedocument.wordprocessingml.document'&&data.data.fileType!='application/pdf'&&data.data.fileType!='application/x-tika-ooxml'&&data.data.fileType!='application/vnd.openxmlformats-officedocument.wordprocessingml.document'">
+            <i style="color: #1571a7" class="fas fa-file"></i></div>
+    </div>
+
+
+    <dxi-column [visible]="true" cssClass="pointer-column"
+                cellTemplate="cellTemplatePJ" width="30"></dxi-column>
+
+    <dxi-column [visible]="true" cssClass="pointer-column"
+                cellTemplate="cellTemplatePJconsult" width="30"></dxi-column>
+
+
+    <dxi-column dataField="Actions" caption=""
+                fixedPosition="left" style="text-align: center"
+                type="buttons">
+        <dxi-button name="edit"></dxi-button>
+        <dxi-button *ngIf="!ReadOnly" name="delete" [onClick]="OpenPopupDelete"></dxi-button>
+
+        <!--        <dxi-button-->
+        <!--                    hint="Imprimer Etiquette" icon="fas fa-print">-->
+        <!--        </dxi-button>-->
+
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'cellTemplatePJconsult'">
+        <div>
+            <i *ngIf="data.data.data!=null" class="fa fa-eye" (click)="consulterPjs(data.data)"
+               title="{{ 'AutreFichiers.visaliserp' | translate }}"> </i>
+        </div>
+    </div>
+
+    <div *dxTemplate="let data of 'cellTemplatePJ'">
+        <div>
+            <i *ngIf="data.data.data==null " class="fa fa-paperclip"
+               (click)="RattarcherPJ(data.row.data.requestFileDefinition.label)"
+               title="{{ 'AutreFichiers.addfile' | translate }}"> </i>
+        </div>
+    </div>
+
+
+    <!--                <dxi-column [allowHeaderFiltering]="false" [visible]="true" fixedPosition="left" fixed="true" width="50"-->
+    <!--                            [alignment]="alignment"-->
+    <!--                            cellTemplate="cellTemplateActions">-->
+
+
+    <!--                </dxi-column>-->
+
+
+    <!--                <div *dxTemplate="let data of 'cellTemplateActions'" (mouseenter)="ShowICON(data.rowIndex)"(mouseleave)="HideIcon(data.rowIndex)">-->
+    <!--                    <a  (click)="showDemande(data.data)" target="_blank"-->
+    <!--                       title="{{ 'AffaireConsultative.ConsultDemande' | translate }}">-->
+    <!--                        <i *ngIf="ShowIConBOolean[data.rowIndex]"-->
+    <!--                            class="fa fa-eye eyeIconStyle"></i></a>&nbsp;-->
+
+
+    <!--                </div>-->
+
+    <!--                <div *dxTemplate="let data of 'cellTemplateprojectDepositDate'">-->
+    <!--                    <div *ngIf="data.data.projectDepositDate">-->
+    <!--                        {{ formatDateTranslate(data.data.projectDepositDate) }}-->
+    <!--                    </div>-->
+    <!--                </div>-->
+
+    <div *dxTemplate="let data of 'cellTemplateIndex'; ">
+        {{data.rowIndex + 1}}
+    </div>
+
+
+</dx-data-grid>
+
+<dx-popup *ngIf="objectFile"
+
+          [(visible)]="visible"
+          [showTitle]="true"
+          [closeOnOutsideClick]="false"
+          [maxWidth]="'100%'"
+          [width]="970"
+          [height]="'80%'"
+          (onHiding)="close()"
+          (closeOnOutsideClickChange)="close()"
+          [maxHeight]="'100%'"
+          [dragEnabled]="true"
+          [showCloseButton]="true"
+          [resizeEnabled]="true"
+          [rtlEnabled]="true"
+>
+
+    <ngx-doc-viewer *ngIf="objectFile&&pdfSrcc!='' && objectFile.fileType === 'application/pdf'" id="doc1"
+                    [url]=pdfSrcc
+                    [viewer]="'url'"
+                    [ngStyle]="{'height':customheight ==''? getheigth() : customheight }"
+                    style="width:100% ;">
+    </ngx-doc-viewer>
+    <app-document-editor
+            *ngIf="objectFile&&objectFile.fileType !== null && objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || objectFile.fileType === 'application/msword' || objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.template' ||  objectFile.fileType === 'application/x-tika-ooxml' || objectFile.fileType === 'application/vnd.ms-word.template.macroEnabled.12'"
+            [fileType]="objectFile.fileType"
+            [fileName]="objectFile.fileName"
+            [docTitle]="objectFile.docTitle"
+            [fileContent]="objectFile.data"
+            [idAttachement]="objectFile.id"
+            [fileAccessToken]="fileAccessToken"
+            [objectData]="objectData"
+    ></app-document-editor>
+</dx-popup>
+<dx-popup
+        [(visible)]="popupDeleteFileVisible"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [maxWidth]="'100%'"
+        [width]="'20%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="popupDeleteFileVisible=false"
+        (closeOnOutsideClickChange)="popupDeleteFileVisible=false"
+        title="{{'ATTACHEMENT.deletePopupStyle' | translate}}" style="text-align: right"
+>
+    <div>
+        <p>{{'ATTACHEMENT.messageConfirmationDelete' | translate}} </p>
+    </div>
+    <div class="d-flex justify-content-between">
+
+        <div>
+            <button (click)="DeleteFile()" class="btn btn-success"
+                    type="submit">{{'Accepter' | translate}}
+            </button>
+        </div>
+        <div>
+            <button (click)="popupDeleteFileVisible=false" class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{'Fermer' | translate}}
+            </button>
+        </div>
+    </div>
+</dx-popup>

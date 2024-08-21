@@ -1,0 +1,401 @@
+<div id="messagesDropDown" class="dropdown d-inline-block keep-inside-clicks-open">
+    <a class="dropdown-toggle no-caret pl-2 pr-2" id="messages" data-toggle="dropdown" aria-haspopup="true"
+       aria-expanded="false">
+        <i class="far fa-bell" aria-hidden="true" title="Notification"><span
+                class="badge-danger badge-pill badge badgeBellStyle" id="numberNotif">{{nbrNotif}}</span></i>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right rounded-0 p-0 mt-3 box-shadow notifListStyle"
+         aria-labelledby="messages"
+         [ngStyle]="{'max-height':maxHeightNotifAdminSys+'px'}"
+         style="width: 525px;box-shadow: rgb(0 0 0 / 38%) 0px 25px 40px, rgb(0 0 0 / 38%) 0px 15px 33px">
+        <!--        *ngIf="profile === 'Admin Systeme' || profile === 'Chef Agence' || profile === 'Agent Guichet'"-->
+        <div class="tab-content" perfectScrollbar>
+            <div class="tab-pane active">
+                <div class="list">
+                    <div class="card">
+                        <li class="liStyle">
+                            <span style="float: left;font-size: 17px;font-weight: 600;padding-top: 4px;"
+                                  (click)="deleteAllNotif()">
+                                 <i class="fa fa-trash" aria-hidden="true" style="padding-left: 5px;"
+                                    title="Effacer tous les notification"></i>
+                                Effacer tous</span>
+                            <i class="fa fa-plus-square fa-2x iconPlusStyle" aria-hidden="true"
+                               title="Ajouter un nouvelle notification" (click)="ouvrirNotifPopup()"></i>
+                        </li>
+                        <li *ngFor="let notification of sortData"
+                            class="notification-box alertify-notifier ajs-bottom ajs-right liNotifStyle"
+                            data-offset="0">
+
+                            <div class="alertify-notifier ajs-bottom ajs-right div1Notif">
+                                <div class="ajs-message ajs-bg-bgprocess ajs-visible">
+                                    <!--  *********************************  LEVEL INFO ************************************************************* -->
+                                    <div class="card cardInfoStyle" *ngIf="notification.level === 'INFO'" style="max-height: 75px;">
+                                        <div class='row d-flex cardHeaderInfoStyle'>
+                                            <div class='col-md-1 col-sm-1 col-lg-1 divIcon iconInfoStyle'>
+                                                <i [class]='iconInfo'></i>
+                                            </div>
+                                            <div class='col-md-7 col-sm-7 col-lg-7 subjectInfoStyle'>
+                                                <b>{{notification.subject}}</b>
+                                            </div>
+                                            <div class='col-md-3 col-sm-3 col-lg-3'>
+                                                <span class="fa fa-clock-o "
+                                                      role="img"> {{notification.sysdateCreated | date : 'dd/MM HH:mm'}}</span>
+                                            </div>
+                                            <div class='col-md-1 col-sm-1 col-lg-1'>
+                                                <i class='fa fa-close' (click)="deleteNotif(notification.id)"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-1 cardBodyInfoStyle">
+                                            <div class="pg-bg-status col-md-12 col-sm-12 col-lg-12 bodyInfoStyle row" style="max-height: 38px">
+                                                <div class="col-md-3 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                                                    <img *ngIf="notification.fromthumbnailphoto !== null && notification.fromthumbnailphoto !== undefined"
+                                                         [src]="'data:'+ notification.fromphotoContentType + ';base64,' + notification.fromthumbnailphoto"
+                                                         class="photoInfoStyle" alt="avatar">
+                                                    <img *ngIf="notification.fromthumbnailphoto === null || notification.fromthumbnailphoto === undefined"
+                                                         class="photoInfoStyle" alt="avatar"
+                                                         src="./assets/img/users/default-user.jpg">
+                                                    <span class="fromInfoStyle"
+                                                          *ngIf="notification.fromDisplay === null"> {{notification.from}} </span>
+                                                    <span class="fromInfoStyle"
+                                                          *ngIf="notification.fromDisplay !== null"> {{notification.fromDisplay}} </span>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-lg-9"
+                                                     style="padding-left: 0px;padding-right: 0px;">
+                                                    <i class="fa fa-volume-up" (click)="readNotif(notification.body)">
+                                                        &ensp;&nbsp; </i>
+                                                    <span [innerHTML]="notification.body"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  *********************************  LEVEL ERROR ************************************************************* -->
+                                    <div class="card cardErrorStyle" *ngIf="notification.level === 'ERROR'" style="max-height: 75px;">
+                                        <div class='row d-flex cardHeaderErrorStyle'>
+                                            <div class='col-md-1 col-sm-1 col-lg-1 divIcon iconErrorStyle'>
+                                                <i [class]='iconError'></i>
+                                            </div>
+                                            <div class='col-md-7 col-sm-7 col-lg-7 subjectErrorStyle'>
+                                                <b>{{notification.subject}}</b>
+                                            </div>
+                                            <div class='col-md-3 col-sm-3 col-lg-3'>
+                                                <span class="fa fa-clock-o "
+                                                      role="img"> {{notification.sysdateCreated | date : 'dd/MM HH:mm'}}</span>
+                                            </div>
+                                            <div class='col-md-1 col-sm-1 col-lg-1'>
+                                                <i class='fa fa-close' (click)="deleteNotif(notification.id)"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-1 cardBodyErrorStyle">
+                                            <div class="pg-bg-status col-md-12 col-sm-12 col-lg-12 bodyErrorStyle row" style="max-height: 38px">
+                                                <div class="col-md-3 col-sm-3 col-lg-3" style="padding-left: 0px;">
+                                                    <img *ngIf="notification.fromthumbnailphoto !== null && notification.fromthumbnailphoto !== undefined"
+                                                         [src]="'data:'+ notification.fromphotoContentType + ';base64,' + notification.fromthumbnailphoto"
+                                                         class="photoErrorStyle" alt="avatar">
+                                                    <img *ngIf="notification.fromthumbnailphoto === null || notification.fromthumbnailphoto === undefined"
+                                                         class="photoErrorStyle" alt="avatar"
+                                                         src="./assets/img/users/default-user.jpg">
+                                                    <span class="photoErrorStyle"
+                                                          *ngIf="notification.fromDisplay === null"> {{notification.from}} </span>
+                                                    <span class="fromErrorStyle"
+                                                          *ngIf="notification.fromDisplay !== null"> {{notification.fromDisplay}} </span>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9 col-lg-9"
+                                                     style="padding-left: 0px;padding-right: 0px;">
+                                                    <i class="fa fa-volume-up" (click)="readNotif(notification.body)">
+                                                        &ensp;&nbsp; </i>
+                                                    <span [innerHTML]="notification.body"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  *********************************  LEVEL WARNING ************************************************************* -->
+                                    <div class="card cardWarningStyle" *ngIf="notification.level === 'WARNING'">
+                                        <div class='card-header row d-flex cardHeaderWarningStyle'>
+                                            <div class='col-md-1 divIcon'>
+                                                <i [class]='iconWarning'></i>
+                                            </div>
+                                            <div class='col-md-10 subjectWarningStyle'>
+                                                <b>{{notification.subject}}</b>
+                                            </div>
+                                            <div class='col-md-1'>
+                                                <i class='fa fa-close' (click)="deleteNotif(notification.id)"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-2 cardBodyWarningStyle">
+                                            <div class="d-flex py-1">
+                                                <div class="my-auto mr-2 d-flex">
+                                                    <span class="fa fa-clock-o " role="img"></span>
+                                                </div>
+                                                <div class="pg-bg-etime my-auto mr-2 dateWarningStyle"> {{notification.sysdateCreated | date : 'dd/MM HH:mm'}}</div>
+                                                <div class="ml-auto d-flex">
+                                                    <div>
+                                                        <img class="photoWarningStyle"
+                                                             src="./assets/img/avatars/avatar-1.png">
+                                                        <span class="fromWarningStyle"> {{notification.fromDisplay}} </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pg-bg-status py-1 bodyWarningStyle">
+                                                <div>
+                                                    <div (click)="readNotif(notification.body)"
+                                                         [innerHTML]="notification.body"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  *********************************  LEVEL DEBUG ************************************************************* -->
+                                    <div class="card cardDebugStyle" *ngIf="notification.level === 'DEBUG'">
+                                        <div class='card-header row d-flex cardHeaderDebugStyle'>
+                                            <div class='col-md-1 divIcon'>
+                                                <i [class]='iconDebug'></i>
+                                            </div>
+                                            <div class='col-md-10 subjectDebugStyle'>
+                                                <b>{{notification.subject}}</b>
+                                            </div>
+                                            <div class='col-md-1'>
+                                                <i class='fa fa-close' (click)="deleteNotif(notification.id)"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-2 cardBodyDebugStyle">
+                                            <div class="d-flex py-1">
+                                                <div class="my-auto mr-2 d-flex">
+                                                    <span class="fa fa-clock-o " role="img"></span>
+                                                </div>
+                                                <div class="pg-bg-etime my-auto mr-2 dateDebugStyle"> {{notification.sysdateCreated | date : 'dd/MM HH:mm'}}</div>
+                                                <div class="ml-auto d-flex">
+                                                    <div>
+                                                        <img class="photoDebugStyle"
+                                                             src="./assets/img/avatars/avatar-1.png">
+                                                        <span class="fromDebugStyle"> {{notification.fromDisplay}} </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pg-bg-status py-1 bodyDebugStyle">
+                                                <div>
+                                                    <i class="fa fa-volume-up"
+                                                       (click)="readNotif(notification.body)"> &ensp;&nbsp;</i>
+                                                    <span [innerHTML]="notification.body">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  *********************************  LEVEL TRACE ************************************************************* -->
+                                    <div class="card cardTraceStyle" *ngIf="notification.level === 'TRACE'">
+                                        <div class='card-header row d-flex cardHeaderTraceStyle'>
+                                            <div class='col-md-1 divIcon'>
+                                                <i [class]='iconTrace'></i>
+                                            </div>
+                                            <div class='col-md-10 subjectTraceStyle'>
+                                                <b>{{notification.subject}}</b>
+                                            </div>
+                                            <div class='col-md-1'>
+                                                <i class='fa fa-close' (click)="deleteNotif(notification.id)"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-2 cardBodyTraceStyle">
+                                            <div class="d-flex py-1">
+                                                <div class="my-auto mr-2 d-flex">
+                                                    <span class="fa fa-clock-o " role="img"></span>
+                                                </div>
+                                                <div class="pg-bg-etime my-auto mr-2 dateTraceStyle"> {{notification.sysdateCreated | date : 'dd/MM HH:mm'}}</div>
+                                                <div class="ml-auto d-flex">
+                                                    <div>
+                                                        <img class="photoTraceStyle"
+                                                             src="./assets/img/avatars/avatar-1.png">
+                                                        <span class="fromTraceStyle"> {{notification.fromDisplay}} </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pg-bg-status py-1 bodyTraceStyle">
+                                                <div>
+                                                    <i class="fa fa-volume-up"
+                                                       (click)="readNotif(notification.body)"> &ensp;&nbsp;</i>
+                                                    <span [innerHTML]="notification.body">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  *********************************  LEVEL FATAL ************************************************************* -->
+                                    <div class="card cardFatalStyle" *ngIf="notification.level === 'FATAL'">
+                                        <div class='card-header row d-flex cardHeaderFatalStyle'>
+                                            <div class='col-md-1 divIcon'>
+                                                <i [class]='iconFatal'></i>
+                                            </div>
+                                            <div class='col-md-10 subjectFatalStyle'>
+                                                <b>{{notification.subject}}</b>
+                                            </div>
+                                            <div class='col-md-1'>
+                                                <i class='fa fa-close' (click)="deleteNotif(notification.id)"></i>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-2 cardBodyFatalStyle">
+                                            <div class="d-flex py-1">
+                                                <div class="my-auto mr-2 d-flex">
+                                                    <span class="fa fa-clock-o " role="img"></span>
+                                                </div>
+                                                <div class="pg-bg-etime my-auto mr-2 dateFatalStyle"> {{notification.sysdateCreated | date : 'dd/MM HH:mm'}}</div>
+                                                <div class="ml-auto d-flex">
+                                                    <div>
+                                                        <img class="photoFatalStyle"
+                                                             src="./assets/img/avatars/avatar-1.png">
+                                                        <span class="fromFatalStyle"> {{notification.fromDisplay}} </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pg-bg-status py-1 bodyFatalStyle">
+                                                <div>
+                                                    <i class="fa fa-volume-up"
+                                                       (click)="readNotif(notification.body)"> &ensp;&nbsp;</i>
+                                                    <span [innerHTML]="notification.body">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<dx-popup
+        class="popupNotif"
+        [width]="700"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="{{ 'Nouvelle notification' | translate }}"
+        shadingColor="rgb(114 109 109 / 32%);"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="false"
+        [(visible)]="popupVisible">
+    <form autocomplete='new-password' [formGroup]="myForm" (ngSubmit)="addNotif(myForm.value)" id="popupNotif">
+        <dx-validation-group #targetGroup>
+            <div class="row col-md-12 mb-1">
+                <div class="col-md-2">
+                    {{ 'A' | translate }}
+                </div>
+                <div class="col-md-8">
+                    <!--                    <dx-tag-box-->
+                    <!--                            [inputAttr]="{  autocomplete: 'off'  }"-->
+                    <!--                            searchEnabled="true"-->
+                    <!--                            [dataSource]="listDestination"-->
+                    <!--                            [acceptCustomValue]="false"-->
+                    <!--                            [showSelectionControls]="true"-->
+                    <!--                            [(value)]="selectedUser"-->
+                    <!--                            applyValueMode="useButtons"-->
+                    <!--                            [maxDisplayedTags]="10"-->
+                    <!--                            valueExpr="cle"-->
+                    <!--                            displayExpr='value'-->
+                    <!--                            formControlName="sendto">-->
+                    <!--                        <dx-validator>-->
+                    <!--                            <dxi-validation-rule type="required"-->
+                    <!--                                                 message="{{'Le champ est obligatoire'|translate}}"></dxi-validation-rule>-->
+                    <!--                        </dx-validator>-->
+                    <!--                    </dx-tag-box>-->
+                    <dx-drop-down-box
+                            formControlName="sendto"
+                            [(value)]="sendtoValue"
+                            valueExpr="cle"
+                            displayExpr='value'
+                            [showClearButton]="true"
+                            [dataSource]="listDestination"
+                            [acceptCustomValue]="true"
+                            (onOptionChanged)="onGridBoxOptionChanged($event)">
+
+                        <div *dxTemplate="let data of 'content'">
+                            <dx-data-grid
+                                #gridSelectDestNotif
+                                keyExpr="cle"
+                                [dataSource]="listDestination"
+                                [filterRow]="{ visible: true }"
+                                [selection]="{ mode: 'multiple' }"
+                                [scrolling]="{ mode: 'virtual' }"
+                                [hoverStateEnabled]="true"
+                                [remoteOperations]="true"
+                                [(selectedItemKeys)]="selectedKeys"
+                                (onSelectionChanged)="selectedChanged($event,gridSelectDestNotif)"
+                                height="100%"
+                            >
+                                <dxo-selection mode="multiple"></dxo-selection>
+                                <dxo-filter-row [visible]="true"></dxo-filter-row>
+                                <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+                                <dxo-paging [enabled]="true" [pageSize]="pageSize"></dxo-paging>
+                                <dxi-column dataField="cle"
+                                            caption="{{'SID' | translate}}"></dxi-column>
+                                <dxi-column dataField="value"
+                                            caption="{{'Nom' | translate}}"></dxi-column>
+                            </dx-data-grid>
+                        </div>
+                        <dx-validator>
+                            <dxi-validation-rule type="required"
+                                                 message="{{'Le champ est obligatoire'|translate}}"></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-drop-down-box>
+                </div>
+                <div class="col-md-2">
+                    <mdb-form-control>
+                        <input class="form-check-input form-select-lg" type="checkbox"
+                               id="Important"
+                               value="Important"
+                               name="level" [checked]="theCheckboxLevel"
+                               [(ngModel)]="theCheckboxLevel" data-md-icheck formControlName="level"/>
+                        <label mdbLabel class="form-label" for="Important">{{'Important' | translate}}</label>
+                    </mdb-form-control>
+                </div>
+            </div>
+            <div class="row col-md-12 mb-1">
+                <div class="col-md-2">
+                    {{ 'Objet' | translate }}
+                </div>
+                <div class="col-md-10">
+                    <dx-text-box
+                            formControlName="subject">
+                    </dx-text-box>
+                </div>
+            </div>
+
+            <div class="row col-md-12 mb-1">
+                <div class="col-md-12 mb-1">
+                    <dx-text-area [inputAttr]="{  autocomplete: 'off'  }"
+                                  [height]="133"
+                                  [minlength]="minNotif"
+                                  [maxLength]="maxNotif"
+                                  (keyup)="lengthBody($event)"
+                                  name="body"
+                                  formControlName="body"
+                                  placeholder="Votre message ... ">
+                        <dx-validator>
+                            <dxi-validation-rule type="stringLength" [min]="minNotif" [max]="maxNotif"
+                                                 message="{{'Veuillez saisir minimum 10 caractères' | translate}}"></dxi-validation-rule>
+                        </dx-validator>
+                    </dx-text-area>
+                    <span style="float: right;"> {{subjectLength}}/{{maxNotif}} </span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <dx-button style="float: left;"
+                           class="button-info style"
+                           text="{{ 'cancel' | translate }}"
+                           (click)="closePopupVisible()">
+                </dx-button>
+                &nbsp;
+                <dx-button style="float: right;"
+                           class="button-info"
+                           type="success"
+                           text="Envoyer"
+                           [disabled]="btnDisabled"
+                           (click)="addNotif(myForm.value)">
+                </dx-button>
+            </div>
+        </dx-validation-group>
+    </form>
+</dx-popup>

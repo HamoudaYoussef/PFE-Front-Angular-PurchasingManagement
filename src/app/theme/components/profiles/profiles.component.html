@@ -1,0 +1,15 @@
+<div class="dropdown d-inline-block">
+    <a class="dropdown-toggle no-caret pl-2 pr-2" id="user-menu" data-toggle="dropdown" aria-haspopup="true"
+       aria-expanded="false">
+        <i class="fa fa-caret-down" aria-hidden="true" title="changer Profile"></i>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right rounded-0 mt-3 p-0 box-shadow" aria-labelledby="user-menu"
+         style="    position: fixed; margin: 0; top: 40px;">
+        <div class="user-menu" *ngIf="profiles">
+            <a class="dropdown-item"  *ngFor="let p of profiles" (click)="onchageProfile(p.sid,p.sammacountname)">
+                <i class="fa fa-user mr-2"></i> {{p.displayname}} ({{p.sammacountname}})
+            </a>
+        </div>
+    </div>
+</div>

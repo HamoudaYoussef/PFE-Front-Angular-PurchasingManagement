@@ -1,0 +1,205 @@
+<app-http-services></app-http-services>
+<div class="row" >
+  <!------------------------------------------COMPANY NAME ---------------------------------------------------->
+
+  <div *ngIf="document.showcompanyName==true"  class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="80"
+      #companyName=ngModel
+      [(ngModel)]="document.companyName"
+      label="{{ 'adresse.Societe' | translate }}"
+      [disabled]="Mode"
+
+    >
+
+    </dx-text-box>
+
+  </div>
+  <!------------------------------------------Contact ---------------------------------------------------->
+  <div *ngIf="document.showpersonName==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="64"
+      #personName=ngModel
+      [(ngModel)]="document.personName"
+      label="{{ 'adresse.Contact' | translate }}"
+      [disabled]="Mode"
+
+    >
+
+    </dx-text-box>
+  </div>
+  <!-----------------------------------------Departement---------------------------------------------->
+  <div *ngIf="document.showentity==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="64"
+      #entity=ngModel
+      label="{{ 'adresse.departement' | translate }}"
+      [disabled]="Mode"
+      [(ngModel)]="document.entity"
+    >
+
+    </dx-text-box>
+  </div>
+
+  <!------------------------------------------Mobile------------------------------------------------------->
+  <div *ngIf="document.showphoneNumber==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+    <app-tel  [document]="document"   [label]="'Mobile'"></app-tel>
+  </div>
+  <!------------------------------------------Fax------------------------------------------------------->
+  <div *ngIf="document.showfaxNumber==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+    <app-tel    [document]="document"  [label]="'Fax'"></app-tel>
+  </div>
+
+  <!----------------------------------------------------mail----------------------------------------->
+  <div *ngIf="document.showemail==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="64"
+      mode="email"
+      #email=ngModel
+      label="{{ 'adresse.email' | translate }}"
+      [disabled]="Mode"
+
+      [(ngModel)]="document.email"
+    >
+      <dx-validator>
+        <dxi-validation-rule type="email" message="Email est non valide"></dxi-validation-rule>
+      </dx-validator>
+    </dx-text-box>
+  </div>
+
+
+  <!-----------------------------------------------Adress----------------------------------------------->
+  <div *ngIf="document.showaddressLine1==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="80"
+      type="text"
+      label="{{ 'adresse.adressesDepartement' | translate }}"
+      [disabled]="Mode"
+      #addressLine1=ngModel
+      [(ngModel)]="document.addressLine1"
+
+    >
+
+    </dx-text-box>
+  </div>
+  <!-------------------------------------------addressLine2----------------------------------->
+  <div *ngIf="document.showaddressLine2==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2">
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="255"
+      type="text"
+      label="{{ 'adresse.adressesDepartement2' | translate }}"
+      [disabled]="Mode"
+      #addressLine2=ngModel
+      [(ngModel)]="document.addressLine2"
+
+    >
+
+    </dx-text-box>
+  </div>
+  <!---------------------------------------------------Country input----------------------------------->
+  <div *ngIf="document.showcountryName==true && document.CountryInput==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2 ">
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="80"
+      type="text"
+      label="{{ 'adresse.countryName' | translate }}"
+      [disabled]="Mode"
+      #countryName=ngModel
+      [(ngModel)]="document.countryName"
+
+    >
+
+    </dx-text-box>
+  </div>
+  <!---------------------------------------------------Country select----------------------------------->
+  <div *ngIf="document.showcountryName==true && document.CountrySelect==true"
+       class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6  mt-2 ">
+
+    <dx-select-box
+
+      (onValueChanged)="changePays($event)"
+      [acceptCustomValue]="true"
+      [dataSource]="CountryData"
+      [disabled]="Mode"
+      [displayExpr]="displayExprcountry"
+      [searchEnabled]="true"
+      [searchExpr]="'namenative'"
+      [searchMode]="'contains'"
+      #countryName=ngModel
+      [(ngModel)]="document.countryName"
+      id="pays"
+      label="Pays"
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+    >
+    </dx-select-box>
+  </div>
+  <!------------------------------------------------city------------------------------------------------------>
+  <div *ngIf="document.showcity==true" class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4  mt-2 ">
+    <dx-drop-down-box
+      [(value)]="gridBoxValue"
+      [(opened)]="isGridBoxOpened"
+      [deferRendering]="false"
+      label="Ville"
+      #city=ngModel
+      [(ngModel)]="document.city"
+      [displayExpr]="gridBox_displayExpr"
+      placeholder="Select a value..."
+      [dataSource]="CityData"
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      [acceptCustomValue]="true"
+      (onValueChanged)="onGridBoxOptionChanged($event)"
+    >
+      <div *dxTemplate="let data of 'content'">
+        <dx-data-grid
+          [dataSource]="CityData"
+          [hoverStateEnabled]="true"
+          [(selectedRowKeys)]="gridBoxValue"
+          height="100%"
+
+        >
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+          <dxi-column dataField="name" caption="Ville"></dxi-column>
+          <dxi-column dataField="postalCode" caption="Code Postale"></dxi-column>
+
+        </dx-data-grid>
+      </div>
+    </dx-drop-down-box>
+  </div>
+  <!---------------------------------------------postalCode-------------------------------------------------->
+  <div *ngIf="document.showpostalCode==true" class="col-xs-6 col-sm-6 col-md-6 col-lg-2 col-xl-2 col-xxl-2  mt-2">
+    <dx-text-box
+      [stylingMode]="env.stylingMode"
+      [labelMode]="env.labelMode"
+      maxLength="80"
+      type="text"
+      label="{{ 'adresse.postalCode' | translate }}"
+      [disabled]="Mode"
+      [(ngModel)]="document.postalCode"
+      #postalCode=ngModel
+    >
+
+    </dx-text-box>
+  </div>
+
+</div>
+
+

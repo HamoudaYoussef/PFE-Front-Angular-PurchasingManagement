@@ -1,0 +1,26 @@
+{
+    "items": [
+        {
+            "key": "$base-accent",
+            "value": "rgba(158, 57, 41, 1)"
+        },
+        {
+            "key": "$datagrid-columnchooser-item-color",
+            "value": "rgba(94, 34, 25, 1)"
+        },
+        {
+            "key": "$datagrid-menu-icon-color",
+            "value": "rgba(130, 47, 34, 0.73)"
+        },
+        {
+            "key": "$datagrid-row-alternation-bg",
+            "value": "rgba(157, 58, 41, 0.24)"
+        }
+    ],
+    "baseTheme": "material.orange.light.compact",
+    "outputColorScheme": "myTheme",
+    "makeSwatch": true,
+    "version": "23.1.5",
+    "widgets": [],
+    "removeExternalResources": false
+}

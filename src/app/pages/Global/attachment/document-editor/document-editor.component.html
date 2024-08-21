@@ -1,0 +1,11 @@
+<div class="control-section">
+    <div>
+        <div id="default_title_bar" class="e-de-ctn-title"></div>
+        <div>
+            <ejs-documenteditorcontainer  #documenteditor_default [documentEditorSettings]= "settings" [enableToolbar]="editable"  [enableRtl]="culture === 'ar'"  [showPropertiesPane]="editable"
+                                           [locale]="culture" (created)="onCreate()" (documentChange)="onDocumentChange()" [toolbarItems]="items" (toolbarClick)="onToolbarClick($event)" [height]="window.innerHeight - 70+'px'"
+                                          style="display:block;"></ejs-documenteditorcontainer>
+        </div>
+    </div>
+</div>
+

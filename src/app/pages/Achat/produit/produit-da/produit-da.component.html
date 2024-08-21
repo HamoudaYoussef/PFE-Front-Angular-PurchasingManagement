@@ -1,0 +1,53 @@
+<dx-data-grid
+  #grid
+  id="grid-container"
+  [dataSource]="dataSourceElement"
+  keyExpr="ID"
+  [(selectedRowKeys)]="selectedRows"
+  (onSelectionChanged)="handleSelectionChange($event.selectedRowsData, $event.selectedRowsData.length > 0 ? $event.selectedRowsData[0].id : null)"
+  (onRowClick)="handleSelectionChange([$event.data], $event.data.id)"
+  [showBorders]="true"
+>
+  <dxo-selection mode="multiple"> </dxo-selection>
+
+  <dxi-column dataField="Prefix" caption="id" [width]="70"></dxi-column>
+  <dxi-column dataField="nom"></dxi-column>
+  <dxi-column dataField="description"></dxi-column>
+  <dxi-column dataField="couleur" [width]="180"></dxi-column>
+  <dxo-toolbar>
+    <dxi-item location="before">
+      <dx-select-box
+        [inputAttr]="{ 'aria-label': 'Title' }"
+        placeholder="Select title"
+        [width]="150"
+        [value]="prefix"
+        (onValueChanged)="filterSelected($event)"
+      >
+      </dx-select-box>
+    </dxi-item>
+    <dxi-item location="before">
+      <dx-button
+        text="Clear Selection"
+        [disabled]="!selectedRows?.length"
+        (onClick)="grid.instance.clearSelection()"
+      >
+      </dx-button>
+      <dx-button
+        text="Ajouter produits à la demande"
+        [disabled]="!selectedRows?.length"
+        (onClick)="ajouterProduitsDemandees()"
+      >
+      </dx-button>
+    </dxi-item>
+  </dxo-toolbar>
+</dx-data-grid>
+<div class="selected-data">
+  <span class="caption">Selected Records:</span>
+  <span>
+    {{
+      grid.selectedRowKeys.length
+        ? (grid.instance.getSelectedRowsData() | stringifyProduits)
+        : "Nobody has been selected"
+    }}
+  </span>
+</div>

@@ -1,0 +1,12 @@
+{   
+  "LOGIN": "Oturum aç", 
+  "LOGOUT": "Çıkış",
+  "REGISTER": "Kayıt ol",
+  "ADMIN_NAV": {  
+    "DASHBOARD": "Kontrol Paneli",  
+    "PAGES": "Sayfalar",
+    "BLANK": "Boş",
+    "ERROR": "Hata", 
+    "EXTERNAL_LINK": "Harici Bağlantı" 
+  } 
+}

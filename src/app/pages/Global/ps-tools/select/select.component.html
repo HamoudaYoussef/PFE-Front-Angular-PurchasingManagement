@@ -1,0 +1,18 @@
+<app-http-services></app-http-services>
+<!--<select class="browser-default custom-select" (change)="onValueChange(mySelect)" #mySelect>-->
+<!--    <option selected="true" value=""-->
+<!--            style="background: #FFFFFF;color: rgb(2 2 1);">{{ 'tous' | translate }}</option>-->
+<!--    <option [value]="item[select['displayExpr']]" *ngFor="let item of data"-->
+<!--          >{{item[select['displayExpr']]}}</option>-->
+<!--</select>-->
+<dx-select-box
+        [dataSource]="data"
+        [displayExpr]="select['displayExpr']"
+        [valueExpr]="select['valueExpr']"
+        (onValueChanged)="onValueChange($event)"
+        [searchEnabled]="true"
+        [label]="select['title']"
+        labelMode="floating"
+        stylingMode="outlined"
+></dx-select-box>
+<!--[value]=""-->

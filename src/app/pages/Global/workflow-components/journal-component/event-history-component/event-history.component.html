@@ -1,0 +1,89 @@
+<!--<mdb-card-header style="background-color: white;">-->
+
+
+<div class="row" style="margin-top: 3%;
+    margin-left: 1%;
+    margin-right: 1%;">
+    <!--    <div class="col-md-12">-->
+
+    <dx-data-grid #grid id="gridContainerjournal" [dataSource]="historicEvent"
+                  [allowColumnReordering]="true"
+                  [allowColumnResizing]="false"
+                  [showBorders]="true"
+                  [rowAlternationEnabled]="true"
+                  [remoteOperations]="true"
+                  [showColumnLines]="false"
+
+                  [showRowLines]="true"
+
+                  (onToolbarPreparing)="onToolbarPreparingGridWf($event)">
+
+        <!--             <dxo-column-chooser [enabled]="true" title="Selecteur des colonnes"></dxo-column-chooser>-->
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-paging [pageSize]="pageSize"></dxo-paging>.
+        <dxo-pager [showPageSizeSelector]="true" [visible]="true" [allowedPageSizes]="allowedPageSizes"
+                   [showInfo]="true" displayMode="full"
+                   infoText="{{numPage}} / {{nbPage}} ({{count}} {{ 'items' }})"></dxo-pager>
+
+        <dxi-column dataField="activityStartTime" caption="ID" allowFiltering="true" [filterOperations]="['contains']" [width]="200" [visible]="false"></dxi-column>
+        <dxi-column dataField="eventType" caption="type d’événement " width="200" allowFiltering="true"></dxi-column>
+        <dxi-column dataField="evtDate" caption="Date d’événements"  width="150"  sortOrder="asc" dataType="datetime" format="shortDateShortTime"    cellTemplate="cellTemplatedateTimeUntil" allowFiltering="true"></dxi-column>
+        <dxi-column dataField="sendEmail" caption="{{'sendEmail' | translate}}" width="40"
+                    headerCellTemplate="sendEmailHeaderTemplate" [allowReordering]="false"
+                    [allowResizing]="false" [allowFiltering]="false"
+                    [allowHeaderFiltering]="false" cellTemplate="celleTemplatesendEmail"></dxi-column>
+        <dxi-column dataField="sendNotif" caption="{{'sendNotif' | translate}}" width="40"
+                    headerCellTemplate="sendNotifHeaderTemplate" [allowReordering]="false"
+                    [allowResizing]="false" [allowFiltering]="false"
+                    [allowHeaderFiltering]="false" cellTemplate="celleTemplatesendNotif"></dxi-column>
+        <dxi-column dataField="process" caption="{{'process' | translate}}" width="40"
+                    headerCellTemplate="processHeaderTemplate" [allowReordering]="false"
+                    [allowResizing]="false" [allowFiltering]="false"
+                    [allowHeaderFiltering]="false" cellTemplate="celleTemplateprocess"></dxi-column>
+
+
+        <div *dxTemplate="let info of 'sendEmailHeaderTemplate'">
+            <i class="fas fa-envelope blackIcon" title="{{'sendEmail' | translate}}"></i>
+        </div>
+        <div *dxTemplate="let info of 'sendNotifHeaderTemplate'">
+            <i class="far fa-bell blackIcon" title="{{'sendNotif' | translate}}"></i>
+        </div>
+        <div *dxTemplate="let info of 'processHeaderTemplate'">
+            <i class="fas fa-exchange-alt blackIcon" title="{{'process' | translate}}"></i>
+        </div>
+        <div *dxTemplate="let data of 'cellTemplatedateTimeUntil'">
+            <div *ngIf="data.data.evtDate!=null && data.data.evtDate != undefined && data.data.evtDate != ''"> {{formatDate.formatDFTshort(data.data.evtDate)}}</div>
+        </div>
+        <dxo-sorting mode="multiple"></dxo-sorting>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <!--            <dxo-header-filter [visible]="true"></dxo-header-filter>-->
+        <!--            <dxo-search-panel [visible]="true" [width]="240" placeholder="Rechercher..."></dxo-search-panel>-->
+        <!--            <div *dxTemplate="let data of 'totalGroupCount6'">-->
+        <!--                <div class="row">-->
+        <!--                    <div class="col-md-12">-->
+        <!--                        <h5 class="text-md-center size gradient-text2" style="float:left;color: rgba(85,137,163,0.83);font-weight: bold;font-style: normal;font-variant: normal;font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;">Historique des événements</h5>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+
+        <div *dxTemplate="let data of 'celleTemplatesendEmail' ">
+            <div *ngIf="data.data.sendEmail === true"><i class="fas fa-check"></i></div>
+            <div *ngIf="data.data.sendEmail === false"><i class="fas fa-times"></i></div>
+            <div *ngIf="data.data.sendEmail === null"></div>
+        </div>
+        <div *dxTemplate="let data of 'celleTemplatesendNotif' ">
+            <div *ngIf="data.data.sendNotif === true"><i class="fas fa-check"></i></div>
+            <div *ngIf="data.data.sendNotif === false"><i class="fas fa-times"></i></div>
+            <div *ngIf="data.data.sendNotif === null"></div>
+        </div>
+        <div *dxTemplate="let data of 'celleTemplateprocess' ">
+            <div *ngIf="data.data.process === true"><i class="fas fa-check"></i></div>
+            <div *ngIf="data.data.process === false"><i class="fas fa-times"></i></div>
+            <div *ngIf="data.data.process === null"></div>
+        </div>
+
+
+    </dx-data-grid>
+    <!--    </div>-->
+</div>

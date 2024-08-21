@@ -1,0 +1,34 @@
+.flag-icon-background {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.flag-icon {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width: 1.33333333em;
+  line-height: 1em;
+}
+.flag-icon:before {
+  content: "\00a0";
+}
+ 
+.flag-icon-en {
+  background-image: url(../../../../assets/img/flags/en.svg);
+}
+.flag-icon-de {
+  background-image: url(../../../../assets/img/flags/de.svg);
+}
+.flag-icon-fr {
+  background-image: url(../../../../assets/img/flags/fr.svg);
+}
+.flag-icon-ru {
+  background-image: url(../../../../assets/img/flags/ru.svg);
+}
+.flag-icon-tr {
+  background-image: url(../../../../assets/img/flags/tr.svg);
+}

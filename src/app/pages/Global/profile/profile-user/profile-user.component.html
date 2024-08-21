@@ -1,0 +1,402 @@
+<input #inputt (change)="fileChange($event)" accept="image/*" hidden id="addfileemplye$" type="file">
+<div class="row" style="align-items: center">
+    <div class="col-3 hideP"></div>
+    <div [ngClass]="width ? 'col-12':'col-6'" class="col-6" style="height:fit-content">
+        <div *ngIf="user" class="card card1">
+            <h4 *ngIf="user.mydata.civilite !== null && user.mydata.civilite !== undefined"
+                class="card-title"
+                style="padding:1%; text-align: center;color: #ffdd00;">{{user.mydata.civilite}}
+                .{{user.mydata.displayname}}</h4>
+            <h4 *ngIf="user.mydata.civilite === null || user.mydata.civilite === undefined"
+                class="card-title"
+                style="padding:1%; text-align: center;color: #ffdd00;">{{user.mydata.displayname}}</h4>
+            <div class="av2">
+                <div class="avatar-wrapper">
+                    <img (click)="inputt.click()"
+                         *ngIf="user.mydata.thumbnailphoto !== null && user.mydata.thumbnailphoto !== undefined && user.mydata.thumbnailphoto !== 'null'"
+                         [src]="'data:'+ user.mydata.photoContentType + ';base64,' + user.mydata.thumbnailphoto"
+                         class="profile-pic" id="previewImageEmployecartevisite"/>
+                    <img (click)="inputt.click()"
+                         *ngIf="user.mydata.thumbnailphoto === null || user.mydata.thumbnailphoto === undefined || user.mydata.thumbnailphoto === 'null'"
+                         class="profile-pic"
+                         id="previewImageEmployecartevisite" name="previewImage"
+                         src="./assets/img/users/default-user.jpg" title="Ajouter Photo"/>
+                    <i (click)="clearimage()" *ngIf="showclearicon" aria-hidden="true"
+                       class="fa fa-times clearimage" title="Supprimer"></i>
+                    <i (click)="uploadImage()" *ngIf="showValidicon" aria-hidden="true"
+                       class="fa fa-check checkimage" title="Ajouter"></i>
+                </div>
+            </div>
+            <div class="card-body bodypro" style="color: white">
+                <div class="row">
+                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-at"></i>
+                        Mail:</strong> {{user.mydata.mail}}</div>
+                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-registered"></i>
+                        Matricule:</strong> {{user.mydata.matricule}}</div>
+                </div>
+                <div class="row" style="margin-top:1%">
+                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-building"></i>
+                        Département:</strong> {{user.departement}}</div>
+                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-tasks"></i>
+                        Département rôle:</strong> {{user.departementRole}}</div>
+                </div>
+                <div class="row" style="margin-top:1%">
+                    <div [ngClass]="width2 ? 'col-12':'col-6'"><strong><i class="fas fa-crown"></i>
+                        Chef:</strong> <span *ngFor="let manager of user.managerName"> {{manager}} </span></div>
+                    <div [ngClass]="width2 ? 'col-12':'col-6'">
+                        <div class="d-flex" style="width: 15% !important;float: left;">
+                            <strong><i class="fas fa-phone"></i>Tél:</strong>
+                        </div>
+                        <div class="d-flex" style="width: 60% !important;float: left;">
+                            <span *ngIf="!editMode" class="ml-2">{{user.mydata.mobile}}</span>
+                            <form *ngIf="editMode" class="md-form md-outline row g-2 needs-validation" novalidate
+                                  style="width: 100% !important;">
+                                <div class="d-flex" style="width: 80% !important;float: left;">
+                                    <input #phoneNumber=ngModel [(ngModel)]="user.mydata.mobile" id="phoneNumber"
+                                           name="phoneNumber" pattern="^\+?\d{0,12}\s?\d{8}$|^\+?\d{10,12}$"
+                                           required style="width: 100% !important;" type="text">
+
+                                </div>
+                                <div class="d-flex" style="width: 20% !important;float: left;">
+                                    <i (click)="updatePhoneNumber(user.mydata.matricule, user.mydata.mobile); editMode = false"
+                                       *ngIf="editMode && !phoneNumber.invalid"
+                                       class="fa fa-check ml-2"
+                                       style="cursor: pointer;color: red"></i>
+                                    <i (click)="editMode = true" *ngIf="!editMode" class="fa fa-pencil ml-2"
+                                       style="cursor: pointer;color: red"></i>
+                                </div>
+                                <div *ngIf="phoneNumber.invalid && phoneNumber.dirty," class="text-danger">
+                                    <span *ngIf="phoneNumber.errors.required">num de tél obligatoire</span>
+                                    <span *ngIf="phoneNumber.errors.pattern">num invalid (+216 22 222 222)</span>
+                                </div>
+                            </form>
+                            <div class="d-flex" style="width: 20% !important;float: left;">
+                                <i (click)="editMode = true" *ngIf="!editMode" class="fa fa-pencil ml-2"
+                                   style="cursor: pointer;color: red"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:1%">
+                    <div [ngClass]="width2 ? 'col-12':'col-6'"></div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-3 hideP"></div>
+</div>
+<div class="row m-1">
+    <div class="col-md-6 col-lg-6 col-xs-12 pl-0" style="margin-top: 1%">
+        <div class="card card2">
+            <div class="card-body" style="color:white">
+                <div class="favoris">
+                    <h5 class="headerP">
+                        <strong><i class="far fa-star"></i> Gestion des Favoris <i (click)="getListFavoris()"
+                                                                                   class="fa fa-pencil"
+                                                                                   style="cursor: pointer;"
+                                                                                   title="Gérer mes favoris"></i></strong>
+                    </h5>
+                    <ul *ngIf="user">
+                        <li *ngFor="let fav of userFavoris">{{fav.sid}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-xs-12 pr-0" style="margin-top: 1%">
+        <div class="card card2">
+            <div class="card-body" style="color:white">
+                <div *ngIf="user" class="chef">
+                    <div class="row col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                            <ul>
+                                <h5 class="headerP">
+                                    <strong>Chef de</strong>
+                                </h5>
+                                <li *ngFor="let r of user.managerOf.entites">{{r.entite}}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                            <ul>
+                                <h5 class="headerP">
+                                    <strong> Interim</strong>
+                                </h5>
+                                <li *ngFor="let r of user.managerOf.interim">{{r}}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                            <ul>
+                                <h5 class="headerP">
+                                    <strong> Remplaçant</strong>
+                                </h5>
+                                <li *ngFor="let r of user.managerOf.personnes">{{r}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--    <div class="col-md-6 col-lg-6 col-xs-12" style="margin-top: 1%">-->
+    <!--        <div class="card card2">-->
+    <!--            <div class="card-body" style="color:white">-->
+    <!--                <div class="roles" *ngIf="user">-->
+    <!--                    <div class="row col-md-12 col-sm-12 col-lg-12">-->
+    <!--                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">-->
+    <!--                            <ul>-->
+    <!--                                <h5 class="headerP">-->
+    <!--                                    <strong>Profil</strong>-->
+    <!--                                </h5>-->
+    <!--                                <li *ngIf="profile">{{ profile}}</li>-->
+    <!--                            </ul>-->
+    <!--                            <h5 class="headerP">-->
+    <!--                                <strong> Niveau de sécurité</strong><span-->
+    <!--                                    style="font-weight: 400">&ensp;{{securityLevel}}</span>-->
+    <!--                            </h5>-->
+    <!--                        </div>-->
+    <!--                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12" style="padding-right: 0px;">-->
+    <!--                            <ul>-->
+    <!--                                <h5 class="headerP">-->
+    <!--                                    <strong> Rôle(s)</strong>-->
+    <!--                                </h5>-->
+    <!--                                <li *ngFor="let r of roles">{{r}}</li>-->
+    <!--                            </ul>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="col-md-12 col-lg-12 col-xs-12 p-0" style="margin-top: 1%">
+        <div class="card card2">
+            <div class="card-body" style="color:white">
+                <h5 class="headerP">
+                    <strong><i class="fas fa-star-of-life"></i> PS Toolkit <i (click)="refresh()"
+                                                                              class="fa fa-refresh"
+                                                                              style="cursor: pointer;"
+                                                                              title="Actualiser la page"></i></strong>
+                </h5>
+                <div class="row col-md-12 col-sm-12 col-lg-12 padding0">
+                    <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+                            <div class="card border-0 shadow-0 h-100 position-relative">
+                                <div [ngStyle]="{'height':this.pstkEnabled() === true ?'160px':'50px'}"
+                                     class="card-body pr-0 pl-0 pt-3 pb-3">
+                                    <app-config-pstk
+                                        #configPstkComponent
+                                        (closepopupSetingPSTK)="closepopupSetingPSTK($event)"
+                                        (pstkInfoEvent)="pstkInfoEvent($event)"
+                                        (submitEvent)="submitEvent($event)"
+                                        [PopupDisplay]="false"
+                                        [popupSetingPSTK]="popupSetingPSTK"
+                                    ></app-config-pstk>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="ListeScanner && this.pstkEnabled() === true" class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="col-md-12 col-lg-12 col-sm-12 padding0">
+                            <div class="card border-0 shadow-0 h-100 position-relative">
+                                <div class="card-body p-0">
+                                    <div class="card-text p-2">
+                                        <p *ngIf="avertissementPstk"
+                                           class="note note-danger fst-normal fs-6 text-danger m-0">
+                                            <strong>{{'ATTACHEMENT.avertissement' | translate }} : </strong>
+                                            {{'ATTACHEMENT.UserLicensePstk' | translate}}
+                                        </p>
+                                        <form #config="ngForm">
+                                            <div class="row col-md-12 col-lg-12 col-sm-12 mb-2 mt-1">
+                                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                                    <dx-select-box
+                                                        #scannerName="ngModel"
+                                                        (ngModelChange)="changeScannerName($event)"
+                                                        [(ngModel)]="configjson.scannerName"
+                                                        [dataSource]="ListeScanner"
+                                                        [labelMode]="'floating'"
+                                                        [searchEnabled]="true"
+                                                        [showClearButton]="true"
+                                                        [stylingMode]="'outlined'"
+                                                        label="{{'ATTACHEMENT.scannerName'|translate}}"
+                                                        name="scannerName"
+                                                        placeholder="sélectionner un scanner">
+                                                    </dx-select-box>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                                    <dx-select-box
+                                                        #scannerProfil="ngModel"
+                                                        (ngModelChange)="changeScannerProfile($event)"
+                                                        [(ngModel)]="configjson.scannerProfil"
+                                                        [dataSource]="scan_preferences"
+                                                        [labelMode]="'floating'"
+                                                        [searchEnabled]="true"
+                                                        [showClearButton]="true"
+                                                        [stylingMode]="'outlined'"
+                                                        displayExpr="name"
+                                                        label="{{'ATTACHEMENT.ProfileScanner'|translate}}"
+                                                        name="scannerProfil"
+                                                        placeholder="sélectionner un profil de numérisation">
+                                                    </dx-select-box>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="row col-md-12 col-lg-12 col-sm-12 mb-2" style="color: black;">
+                                            <p *ngIf="this.pstkEnabled() === true"
+                                               class="note note-danger fst-normal fs-6 text-danger">
+                                                <strong>{{'ATTACHEMENT.Reinsignement' | translate }} : </strong>
+                                                {{'ATTACHEMENT.notifImprimant' | translate }}
+                                            </p>
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-sm-12 text-center">
+                                                    <span *ngIf="this.pstkEnabled() === true" class="float-md-left">
+                                                        <dx-check-box (valueChange)="switchImprimanteChange($event)"
+                                                                      [value]="imprimante"></dx-check-box>
+                                                    Imprimante thermique</span>
+                                                </div>
+                                                <div *ngIf="imprimante && this.pstkEnabled() === true"
+                                                     class="col-md-6 col-lg-6 col-sm-12 text-center">
+                                                    <!--                                                    <dx-select-box *ngIf="imprimante && envEnabled === true"-->
+                                                    <!--                                                                   [showClearButton]="true"-->
+                                                    <!--                                                                   placeholder="sélectionner un script"-->
+                                                    <!--                                                                   [dataSource]="listScript"-->
+                                                    <!--                                                                   [labelMode]="'floating'"-->
+                                                    <!--                                                                   [stylingMode]="'outlined'"-->
+                                                    <!--                                                                   [value]="scriptSelected"-->
+                                                    <!--                                                                   label="{{'Script'|translate}}"-->
+                                                    <!--                                                                   [searchEnabled]="true"-->
+                                                    <!--                                                                   (onValueChanged)="scriptChange($event)">-->
+                                                    <!--                                                    </dx-select-box>-->
+                                                    <fieldset>
+                                                        <legend class="position-absolute top-0 bg-white d-flex "
+                                                                style="width:max-content;transform:translateX(30px); transform:translateY(-50%); font-size: 90%;
+    background: white;
+    z-index: 100; ">
+                                                            <i aria-hidden="true" class="fa fa-plug mr-1"
+                                                               style="color: black"></i>{{'port' | translate}}
+                                                        </legend>
+
+                                                        <dx-number-box (onValueChanged)="scriptChange($event)"
+                                                                       [min]="0"
+                                                                       [showClearButton]="true"
+                                                                       [step]="1"
+                                                                       [value]="scriptSelected"
+                                                                       format="LPT#0"
+                                                        >
+                                                            <dx-validator>
+                                                                <dxi-validation-rule
+                                                                        message="{{'Le champ est obligatoire'|translate}}"
+                                                                        type="required">
+                                                                </dxi-validation-rule>
+                                                            </dx-validator>
+                                                        </dx-number-box>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--                </div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-6 col-xs-12 p-0" style="margin-top: 1%">
+        <div class="card card2">
+            <div class="card-body" style="color:white">
+                <div class="groupes">
+                    <h5 class="headerP">
+                        <strong><i class="fas fa-users"></i> Groupe(s)</strong>
+                    </h5>
+                    <ul *ngIf="user">
+                        <li *ngFor="let grp of user.groups">{{grp}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dx-popup
+        (onHiding)="getMyFavory()"
+        [(visible)]="popupfavoris"
+        [hideOnOutsideClick]="false"
+        [dragEnabled]="true"
+        [height]="700"
+        [maxHeight]="700"
+        [maxWidth]="'85%'"
+        [showTitle]="true"
+        [width]="'70%'"
+        resizeEnabled="true"
+        title="Gérer mes favoris">
+    <!--    <dx-scroll-view width="100%" height="100%">-->
+    <div>
+        <app-select-orga (personnes)="getPersonnefinale($event)" [mode]="false"
+                         [selectMode]="'multiple'"
+                         [selectdata]="userFavoris" selectbox="asmail"></app-select-orga>
+
+        <div class="footer">
+            <div class="col-md-12 col-lg-12 col-sm-12 row">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <button (click)="Return()" class="btn btn-light"
+                            type="button"> Annuler
+                    </button>
+                </div>
+                <!--                    <div class="col-md-6 col-lg-6 col-sm-6  alignRight">-->
+                <!--                        <button type="submit" class="btn btn-success me-md-2"-->
+                <!--                                style="background-color: #0c8d12" (click)="confirmer()">Confirmer-->
+                <!--                        </button>-->
+                <!--                    </div>-->
+            </div>
+        </div>
+    </div>
+    <!--    </dx-scroll-view>-->
+</dx-popup>
+
+<dx-popup
+        [(visible)]="popupInstallToolkitVisible"
+        [hideOnOutsideClick]="true"
+        [dragEnabled]="false"
+        [height]="'auto'"
+        [maxWidth]="940"
+        [showTitle]="true"
+        [width]="500"
+        title="{{'ATTACHEMENT.popuptoolkittitle' | translate }}">
+    <div class="row">
+        <p> {{'ATTACHEMENT.downloadPstoolkit' | translate }} </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button (click)="popupInstallToolkitVisible=false"
+                    class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{ 'annuler' | translate }}
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button (click)="TelechargerTollkit()" class="btn btn-success"
+                    type="submit">{{ 'ATTACHEMENT.download' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+
+<dx-load-panel
+    #loadPanel
+    [(visible)]="loadingVisible"
+    [hideOnOutsideClick]="false"
+    [position]="{ of: '#positionLoadPanel' }"
+    [shading]="true"
+    [showIndicator]="true"
+    [showPane]="true"
+    shadingColor="rgba(0,0,0,0.4)">
+</dx-load-panel>

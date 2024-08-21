@@ -1,0 +1,26 @@
+.headerPopover {
+  //background-color: #8080808f
+  color: white;
+}
+
+.backgroundColor {
+  background-color: #00bac3;
+  color: black;
+}
+
+//::ng-deep .dx-popup-content {
+//  background-color: #004bc3 !important;
+//  color: white;
+//  border-radius:6px;
+//}
+
+
+.boldStyle {
+  font-weight: bold;
+}
+
+#popCV ::ng-deep .dx-overlay-content .dx-popup-content{
+  background-color: #00bac3 !important;
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}

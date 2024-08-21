@@ -1,0 +1,108 @@
+.product-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product-card {
+  flex: 1 1 calc(33.333% - 20px); /* 33.333% de largeur moins la marge */
+  margin: 10px; /* Marges pour séparer les cartes */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* Inclure padding et border dans la largeur */
+}
+
+@media (max-width: 900px) {
+  .product-card {
+    flex: 1 1 calc(50% - 20px); /* Deux par ligne pour les écrans plus petits */
+  }
+}
+
+@media (max-width: 600px) {
+  .product-card {
+    flex: 1 1 100%; /* Une par ligne pour les écrans très petits */
+  }
+}
+
+.dx-data-grid-header-panel {
+  background-color: #f5f5f5; /* Couleur de fond des en-têtes */
+  font-weight: bold;
+}
+
+.dx-data-grid .dx-datagrid-headers {
+  border-bottom: 2px solid #ddd;
+}
+
+.dx-data-grid .dx-data-row .dx-row-alt {
+  background-color: #f9f9f9; /* Alternance de couleur de ligne */
+}
+
+.dx-data-grid .dx-row-focused,
+.dx-data-grid .dx-row-selected {
+  background-color: #e0f7fa; /* Couleur de la ligne sélectionnée */
+}
+
+.dx-data-grid .dx-row-hovered {
+  background-color: #f1f1f1; /* Couleur de survol de la ligne */
+}
+
+.dx-data-grid .dx-datagrid-group-closed {
+  font-style: italic; /* Style pour les groupes fermés */
+}
+
+.dx-data-grid .dx-link {
+  color: #1e88e5; /* Couleur des liens */
+}
+.selected-products-list {
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.selected-products-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.selected-products-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.selected-products-list li:last-child {
+  border-bottom: none;
+}
+
+.selected-products-list img {
+  max-width: 100px;
+  height: auto;
+  display: block;
+  margin-top: 10px;
+}
+.butttons-style {
+  background-color: green;
+  font-weight: bold;
+  color: white;
+}
+.demande-details {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.demande-titre {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5;
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}

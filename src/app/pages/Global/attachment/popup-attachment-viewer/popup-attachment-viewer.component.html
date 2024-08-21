@@ -1,0 +1,75 @@
+<dx-popup
+        [(visible)]="visibleTrueModal"
+        [showTitle]="true"
+        [closeOnOutsideClick]="false"
+        [maxWidth]="'100%'"
+        [width]="970"
+        [height]="'80%'"
+        (onHiding)="close($event)"
+        (closeOnOutsideClickChange)="close($event)"
+        title="{{this.fileName}}"
+        [maxHeight]="'100%'"
+        [dragEnabled]="true"
+        [showCloseButton]="true"
+        [resizeEnabled]="true"
+><!--CLOSE FROM CLOSE POPUP BUTTON -->
+    <!--VIWER OF FILE -->
+    <div class="row mt-2">
+        <!--avertissment for signature usess !!! -->
+        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 " *ngIf="!PcTkExist">
+            <div class="card border-0 shadow-0 h-100 position-relative" mdbScrollbar>
+                <div class="card-body " style="padding: 0;">
+                    <div class="card-text text-danger">
+                        <p class="note note-danger fw-light fs-6 ">
+                            <strong>{{'ATTACHEMENT.avertissement' | translate }} : </strong>
+                            {{'ATTACHEMENT.pctkdonotexiste' | translate }} Ou {{'ATTACHEMENT.pstkerror'| translate}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Avertissment-->
+        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12 " *ngIf="avertismentPopUp">
+            <div class="card border-0 shadow-0 h-100 position-relative" mdbScrollbar>
+                <div class="card-body text-danger" style="padding: 0;">
+                    <div class="card-text">
+                        <p class="note note-danger fw-light fs-6">
+                            <strong>{{'ATTACHEMENT.avertissement' | translate }} : </strong>
+                            {{'ATTACHEMENT.Validationmodif' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12" style="height: 610px">
+            <app-container-top-viewer *ngIf="permissionToTopViewer"
+                                      (BASE64_Output_Reload)="Output($event)"
+                                      [BASE64_Input]="base64"
+                                      [totalpage]="pgNbr"
+                                      (BASE64_Output_Save)="Output_Save($event)"
+                                      (closeModal)="close($event)"
+                                      (fileSigned)="signed($event)"
+
+                                      [PcTkExist]="PcTkExist"
+                                      [permissionDeniedSig]="permissionDeniedSig && this.permissionToTopViewer"
+                                      [permissionDenied]="permissionDenied && this.permissionToTopViewer"
+
+                                      [FileNameToSigned]=fileName
+                                      [idAttachement]="idAttachement"
+                                      [objectData]="objectData"
+                                      [filebyId]="filebyId"
+                                      (updateWaterMarker)="updateWaterMarkers($event)"
+                                      [fileAccessToken]="fileAccessToken"
+
+            ></app-container-top-viewer>
+            <Doc_viewer *ngIf="jsondocviewer.pdfSrcc!='' "
+                        [pdfSrcc]="jsondocviewer.pdfSrcc"
+                        [customheight]="'800px'"
+                        [visionneuse]="jsondocviewer.visionneuse">
+            </Doc_viewer>
+        </div>
+    </div>
+</dx-popup>

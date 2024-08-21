@@ -1,0 +1,123 @@
+<div>
+    <!--        <div  class="card-header text-center bg-secondary  text-white" style="background-color: #242f50 !important;">-->
+    <!--            <h5> {{'caseRequest.TitleRqEdit'|translate}} ({{demandeForm.requestCaseNumber}})</h5>-->
+    <!--        </div>-->
+    <div>
+        <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
+            <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
+                <h5> Process Bon de commande ({{objectData.id}})</h5>
+
+
+            </div>
+            <div  >
+                <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
+                    <div class="icon-container"  title="{{'show-event.Voir la liste des événements' | translate}}">
+                       <i class="fas fa-project-diagram"></i>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+	<form id="bon-de-commande">
+		<div class="form-container">
+			<h2>Bon de Commande d'Offre</h2>
+			<form [formGroup]="demandeF">
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="id" class="form-label">Numéro de commande :</label>
+						<input type="text" class="form-control" formControlName="id" id="id" disabled>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="reference" class="form-label">Référence du bon de commande :</label>
+						<input type="text" class="form-control" id="reference"  formControlName="reference" disabled>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="nomentreprise" class="form-label">Nom entreprise :</label>
+						<input type="text" class="form-control" id="nomentreprise" formControlName="nomentreprise">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="adresseentreprise" class="form-label">Adresse d'entreprise :</label>
+						<input type="text" class="form-control" id="adresseentreprise" formControlName="adresseentreprise">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="referenceoffre" class="form-label">Référence de l'offre :</label>
+						<input type="text" class="form-control" id="referenceoffre" formControlName="referenceoffre" disabled>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="prix" class="form-label">Prix de l'offre :</label>
+						<input type="number" class="form-control" id="prix" formControlName="prix" disabled>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="delailivraison" class="form-label">Délai de livraison :</label>
+						<input type="date" class="form-control" id="delailivraison" formControlName="delailivraison">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="typelivraison" class="form-label">Modalités de livraison :</label>
+						<select class="form-control" id="typelivraison" formControlName="typelivraison">
+							<option *ngFor="let option of typeLivraisonOptions" [value]="option">{{ option }}</option>
+						  </select>
+					</div>
+				</div>
+				<div class="form-row">			
+					<div class="form-group col-md-6">
+						<label for="infopaiement" class="form-label">Informations de paiement :</label>
+						<select class="form-control" id="infopaiement" formControlName="infopaiement">
+						  <option *ngFor="let option of infoPaiementOptions" [value]="option">{{ option }}</option>
+						</select>
+					  </div>
+				</div>
+				<!--div class="form-row">
+					<div class="form-group col-md-12">
+						<label for="signature-du-client" class="form-label">Signature du client :</label>
+						<input type="text" class="form-control" id="signature-du-client" name="signature-du-client">
+						
+					</div>
+				</div-->
+			</form>
+		</div>
+
+		<div class="d-grid gap-2 d-md-flex justify-content-md-between">
+			<!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
+			<!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
+			<app-workflow-decision
+					*ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
+					(decisionEvent)="Confirmation($event)"
+					(RetournEvent)="Return()"
+					[access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+					[decisions]="decissionWF"
+					[object]="demandeForm"
+					[SaveObject]="demandeForm">
+			</app-workflow-decision>
+	
+			<!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
+			<!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
+			<!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
+	
+		</div>
+	</form>
+	<dx-popup
+        [showCloseButton]="true"
+        [maxWidth]="'auto'"
+        [width]="popupWidth"
+        [height]="popupHeight"
+        [showTitle]="false"
+        title="Workflow Viewer"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupViewerVisible">
+    <div *dxTemplate="let data of 'content'">
+        <app-journal [viewerUrl]="objectData.workflow.wfProcessID" [historicsWF]="objectData.workflow.historicWF" [historicsEvt]="objectData.events"
+                     [historicsAcces]="objectData.userActivity"></app-journal>
+    </div>
+</dx-popup>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

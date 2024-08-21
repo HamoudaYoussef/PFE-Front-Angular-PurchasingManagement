@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-center align-items-center w-100 h-100 error-container">
+    <div class="col-xl-4 col-md-6 col-10">
+        <div class="card border-0 box-shadow rounded-0">
+            <div class="card-header d-flex justify-content-center align-items-center border-0 box-shadow">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            </div>
+            <div class="card-body text-center">
+
+                <h1 class="display-1">404</h1>
+                <h6 class="card-title">Opps, it seems that this page does not exist.</h6>
+                <p class="card-text"> If you are sure it should, search for it.</p>
+
+                <form method="get">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Enter search keyword..." type="text">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn" type="button" (click)="searchResult()"><i class="fa fa-search"></i> Submit</button>
+                    </div>
+                </form>
+             
+            </div>
+        </div>
+    </div>
+</div>

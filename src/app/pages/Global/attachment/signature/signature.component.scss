@@ -1,0 +1,27 @@
+.custom-file-label:after {
+  content: "\f093"; /* inspect an icon for this value */
+  font-family: Font Awesome\ 6 Free;
+  font-weight: 900;
+  position: absolute;
+  font-size: 16px;
+}
+
+#key:after {
+  content: "\f093"; /* inspect an icon for this value */
+  font-family: Font Awesome\ 6 Free;
+  font-weight: 900;
+  position: absolute;
+  font-size: 16px;
+}
+
+mdb-option.option {
+  margin-right: 0px !important;
+}
+
+::ng-deep.card {
+  border-radius: 0px !important;
+}
+
+::ng-deep a {
+  color: #2a73ae !important;
+}

@@ -1,0 +1,60 @@
+p {
+  font-family: Lato;
+}
+
+.country-selector {
+  opacity: 1 !important;
+  bottom: 8px !important;
+}
+
+input:not(.country-search) {
+  bottom: 3px;
+  left: 10px;
+}
+
+.country-list-button {
+  font-size: 0.8rem !important;
+}
+
+.mat-menu-content:not(:empty) {
+  max-height: 250px;
+}
+
+.mat-form-field {
+  display: initial;
+  position: relative;
+  text-align: left;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0.5em 0 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  display: flex;
+  position: absolute;
+  top: 0.45em !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 47% !important;
+  pointer-events: none;
+}
+
+.error {
+  color: red;
+}
+
+.styleicon {
+  margin-left: 98%;
+  color: #ffcb05;
+  margin-top: -3.5%;
+}
+
+.mat-fab.mat-accent, .mat-flat-button.mat-accent, .mat-mini-fab.mat-accent, .mat-raised-button.mat-accent {
+  background-color: #ffd740;
+}
+
+::ng-deep button.mat-focus-indicator.mat-menu-trigger.country-selector.mat-button.mat-button-base {
+  background: white !important;
+}

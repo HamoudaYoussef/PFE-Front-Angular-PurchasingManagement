@@ -1,0 +1,41 @@
+<!--<div class="dx-field" >-->
+<!--    <div class="dx-field-label">{{'titleSelectTheme'|translate}}</div>-->
+<!--    <div class="dx-field-value">-->
+        <dx-select-box
+                [dataSource]="fromUngroupedData"
+                displayExpr="name"
+                valueExpr="id"
+                [grouped]="true"
+                groupTemplate="group"
+                placeholder="{{'titleSelectTheme'|translate}}"
+                (onSelectionChanged)="selectionChanged($event)"
+        >
+            <div *dxTemplate="let data of 'group'">
+                <div>
+<!--                    <img src="data.icon" width="30" height="30"/>-->
+                    {{ data.key }}
+                </div>
+            </div>
+<!--            <div *dxTemplate="let data of 'field'">-->
+<!--                <div class="custom-item">-->
+<!--                    <div class="light"></div>-->
+<!--&lt;!&ndash;                    <i class={{data.icon}} style="{{data.color}}padding-left: 3%;"></i>&ndash;&gt;-->
+<!--                    <dx-text-box-->
+<!--                            class="theme-name"-->
+<!--                            [value]="data && data.name"-->
+<!--                            [readOnly]="true"-->
+<!--                    ></dx-text-box>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div *dxTemplate="let data of 'item'">-->
+<!--                <div class="custom-item">-->
+<!--                    <div class="light"></div>-->
+<!--&lt;!&ndash;                    <i class={{data.icon}} style="{{data.color}}"></i>&ndash;&gt;-->
+<!--                    <div class="theme-name">-->
+<!--                        {{ data.name }}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </dx-select-box>
+<!--    </div>-->
+<!--</div>-->

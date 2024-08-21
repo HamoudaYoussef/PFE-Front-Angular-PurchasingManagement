@@ -1,0 +1,24 @@
+<form #f="ngForm" class="col-md-12 row" >
+  <mat-form-field style="width:100%" class="col-md-12" >
+    <ngx-mat-intl-tel-input
+      [cssClass]="'custom'"
+      [preferredCountries]="['tn', 'fr']"
+      [enablePlaceholder]="true"
+      placeholder="{{label}}"
+      [disabled]="Mode"
+      (change)="change($event)"
+      #phone=ngModel
+      [(ngModel)]="document[label]"
+      (countryChanged)="countrychange($event)"
+      name="phone"
+    >
+    </ngx-mat-intl-tel-input>
+
+    <mat-error *ngIf="f.form.controls['phone']?.errors?.required ">Required Field
+    </mat-error>
+    <mat-error *ngIf="f.form.controls['phone']?.errors?.validatePhoneNumber">Invalid Number
+    </mat-error>
+
+  </mat-form-field>
+  <i class="fa-solid {{typeicon}} styleicon col-md-2"></i>
+</form>

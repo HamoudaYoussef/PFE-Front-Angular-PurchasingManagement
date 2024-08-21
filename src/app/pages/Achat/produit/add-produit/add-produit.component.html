@@ -1,0 +1,23 @@
+<div class="container" *ngFor="let form of forms; let i = index">
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <label for="nom-{{i}}" class="form-label">Article:</label>
+        <input class="form-control small-input" [formControl]="form.get('nom')" id="nom-{{i}}" type="text" required>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <label for="description-{{i}}" class="form-label">Description:</label>
+        <textarea class="form-control textarea-input" [formControl]="form.get('description')" id="description-{{i}}" rows="3"></textarea>
+      </div>
+  
+      <div class="col-md-3 mb-3">
+        <label for="quantite-{{i}}" class="form-label">Quantité:</label>
+        <input class="form-control tiny-input" [formControl]="form.get('quantite')" id="quantite-{{i}}" type="number">
+      </div>
+    </div>
+  </div>
+  
+  <!-- Button to add a new form -->
+  <div class="toolbar">
+    <button (click)="addForm()">Add Produit</button>
+  </div>

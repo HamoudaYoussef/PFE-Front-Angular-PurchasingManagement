@@ -1,0 +1,51 @@
+@mixin menu-level-bg-color($color){
+    $elem: '';
+    @for $i from 1 through 10 {
+        $elem: if($i == 1, ".card", selector-nest($elem, ".card"));      
+        #{$elem + ' a'} {
+            padding-left: 15px * $i;
+            background-color: rgba($color, 0.2 + (0.1 * $i));
+        }
+    }
+}
+
+
+@mixin placeholder-color($color, $opacity) {
+    input[type='text']::-webkit-input-placeholder { color: rgba($color, $opacity); }/* Chrome/Opera/Safari */
+    input[type='text']::-moz-placeholder          { color: rgba($color, $opacity); }/* Firefox 19+ */
+    input[type='text']:-moz-placeholder           { color: rgba($color, $opacity); }/* Firefox 18- */
+    input[type='text']:-ms-input-placeholder      { color: rgba($color, $opacity); }/* IE 10+ */
+    textarea::-webkit-input-placeholder { color: rgba($color, $opacity); }/* Chrome/Opera/Safari */
+    textarea::-moz-placeholder          { color: rgba($color, $opacity); }/* Firefox 19+ */
+    textarea:-moz-placeholder           { color: rgba($color, $opacity); }/* Firefox 18- */
+    textarea:-ms-input-placeholder      { color: rgba($color, $opacity); }/* IE 10+ */
+}
+
+
+@mixin table-row-variant($state, $background) {
+  .table-#{$state} {
+    &,
+    > th,
+    > td {
+      background-color: $background;
+    }
+  }
+  .table-hover {
+    $hover-background: darken($background, 5%);
+    .table-#{$state} {
+      @include hover {
+        background-color: $hover-background;
+
+        > td,
+        > th {
+          background-color: $hover-background;
+        }
+      }
+    }
+  }
+}
+@mixin hover {
+    &:hover { @content }
+}
+
+

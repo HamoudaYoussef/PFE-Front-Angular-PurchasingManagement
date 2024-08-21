@@ -1,0 +1,8 @@
+.hovered-product-details {
+    position: relative; /* Utilisez relative pour qu'il soit positionné par rapport à la ligne */
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    padding: 10px;
+  }

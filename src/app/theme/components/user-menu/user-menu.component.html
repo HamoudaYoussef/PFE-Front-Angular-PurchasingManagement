@@ -1,0 +1,46 @@
+<div class="dropdown d-inline-block">
+    <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle no-caret pl-2 pr-2" data-toggle="dropdown"
+       id="user-menu">
+        <i aria-hidden="true" class="fa fa-user"></i>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right rounded-0 mt-3 p-0 box-shadow" aria-labelledby="user-menu">
+        <div class="user-menu">
+            <div class="user-info text-center p-3">
+                <!--                <img src="assets/img/users/user.jpg" alt="user-img" class="user-img rounded-circle">-->
+                <p class="mt-1 mb-0">
+                    {{displayname}} - {{profile}}
+                    <br>
+                    <small>{{appName}}</small>
+                </p>
+            </div>
+            <div class="row">
+                <a class="dropdown-item" routerLink="Profile/user"><i class="fa fa-user mr-2"></i>Profile</a>
+
+
+                <div *ngIf="profiles " class="justify-content-end" style=" background-color: #f5f5f5">
+                    <a (click)="onchageProfileApp(p)" *ngFor="let p of profiles" class="dropdown-item">
+                        &nbsp;&nbsp;&nbsp; <i aria-hidden="true" class="fa fa-shield"></i> {{p}}
+                    </a>
+                </div>
+
+                <!--                <ul class="navbar-nav ml-auto" *ngIf="showprofiles">-->
+                <!--                    <li class="nav-item dropdown">-->
+                <!--                        <div class="dropdown-menu dropdown-menu-right rounded-0 mt-3 p-0 box-shadow"-->
+                <!--                             aria-labelledby="navbarDropdown">-->
+                <!--                            <div class="user-menu" *ngIf="profiles">-->
+                <!--                                <a class="dropdown-item" *ngFor="let p of profiles" (click)="onchageProfileApp(p)">-->
+                <!--                                    {{p}}-->
+                <!--                                </a>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </li>-->
+                <!--                </ul>-->
+            </div>
+            <!--            <a class="dropdown-item" routerLink="settings"><i class="fa fa-cog mr-2"></i>Settings</a>-->
+            <a (click)="logout()" class="dropdown-item mb-1"><i class="fa fa-power-off mr-2"></i>Log out</a>
+            <!--            <a class="dropdown-item mb-1"><app-select-level-logger></app-select-level-logger></a>-->
+
+        </div>
+    </div>
+</div>

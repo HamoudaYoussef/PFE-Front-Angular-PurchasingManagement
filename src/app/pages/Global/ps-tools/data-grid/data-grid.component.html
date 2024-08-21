@@ -1,0 +1,138 @@
+
+<div class="row justify-content-center">
+    <mdb-card class="col-md-12">
+        <dx-data-grid
+                [id]="dataGrid.id"
+                [(dataSource)]="dataSource"
+                [(keyExpr)]="dataGrid.key"
+                [(showBorders)]="dataGrid.showBorders"
+                (onOptionChanged)="gridOptionChanged($event)"
+                [(remoteOperations)]="dataGrid.lazy"
+                [(allowColumnResizing)]="dataGrid.allowColumnResizing"
+                [(focusedRowEnabled)]="dataGrid.focusedRowEnabled"
+                [(columnAutoWidth)]="dataGrid.columnAutoWidth"
+                [(allowColumnReordering)]="dataGrid.allowColumnReordering"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [(wordWrapEnabled)]="dataGrid.wordWrap"
+                [(rowAlternationEnabled)]="dataGrid['rowAlternationEnabled']"
+                (onRowDblClick)="dataGrid.onRowDblClick($event)"
+                (onSelectionChanged)="dataGrid.onSelectionChanged($event)"
+                (onExporting)="onExporting($event)"
+                (onCellClick)="dataGrid.onCellClick($event)"
+                (onInitNewRow)="dataGrid.onInitNewRow($event)"
+                (onRowClick)="dataGrid.onRowClick($event,dataSource)"
+        >
+<!--            <div *dxTemplate="let data of 'ExportPDF'">-->
+<!--                <dx-button id="exportButton" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"-->
+<!--                           (onClick)="exportGridToPDF()"></dx-button>-->
+<!--            </div>-->
+            <dxo-export
+                    [enabled]="true"
+                    [allowExportSelectedData]="true"
+                    [formats]="['xlsx', 'pdf']"
+            >
+            </dxo-export>
+            <dxo-column-fixing [enabled]="dataGrid.columnFixing"></dxo-column-fixing>
+            <dxo-column-chooser [enabled]="dataGrid.columnChooser"></dxo-column-chooser>
+            <dxo-load-panel [enabled]="dataGrid.loadPanel"></dxo-load-panel>
+            <dxo-filter-row [visible]="dataGrid.filterRow" [applyFilter]="dataGrid.applyFilter"></dxo-filter-row>
+            <dxo-header-filter [visible]="dataGrid.headerFilter"></dxo-header-filter>
+
+            <dxo-editing
+                    [mode]="dataGrid.editingMode"
+                    [refreshMode]="dataGrid.editingRefreshMode"
+                    [allowAdding]="dataGrid.wsPost != ''"
+                    [allowUpdating]="dataGrid.wsPut != ''"
+                    [allowDeleting]="dataGrid.wsDelete != ''"
+                    [selectTextOnEditStart]="dataGrid.selectTextOnEditStart"
+                    [useIcons]="dataGrid.useIcons"
+            >
+            </dxo-editing>
+            <dxo-paging [pageSize]="pageSize"> </dxo-paging>
+            <dxo-pager
+                    [allowedPageSizes]="allowedPageSizes"
+                    [displayMode]="dataGrid.modePagination"
+                    [showPageSizeSelector]="dataGrid.showPageSizeSelector"
+                    [showInfo]="dataGrid.pagerShowInfo"
+                    [visible]="true"
+                    [showNavigationButtons]="dataGrid.showNavigationButtons"
+                    infoText="{0} / {1} ( {2} )"
+            >
+            </dxo-pager>
+            <dxo-state-storing [enabled]="dataGrid.stateStoring" type="localStorage" [storageKey]="dataGrid.id"></dxo-state-storing>
+            <dxo-selection
+                    selectAllMode="allPages"
+                    showCheckBoxesMode="always"
+                    [mode]="dataGrid.selectMode"
+            ></dxo-selection>
+            <dxo-group-panel [visible]="dataGrid.groupPanel"></dxo-group-panel>
+            <dxo-grouping #expand [autoExpandAll]="false" [contextMenuEnabled]="true"></dxo-grouping>
+
+
+            <dxi-column [visible]="false" caption="{{ 'id' | translate }}" dataField="id" sortOrder="desc" width="50"></dxi-column>
+
+
+            <div id="actions" *dxTemplate="let data of 'cellTemplateActions'">
+                <a id="show"  *ngIf="dataGrid.linkSowButton!='' && dataGrid.linkSowButton!=undefined && dataGrid.linkSowButton!=null" (click)="navigateDisplay(data.data.id)" target="_blank" rel="noopener" title="{{ 'PM.show' | translate }}"><i class="fa fa-eye" style="color: rgb(32, 166, 219);"></i></a>&nbsp;
+                <a id="edit"  *ngIf="dataGrid.linkEditButton!='' && dataGrid.linkEditButton!=undefined && dataGrid.linkEditButton!=null"(click)="navigateEdit(data.data.id)" target="_blank" title="{{ 'PM.buttonEdit' | translate }}" ><i class="fa fa-pencil pencilIconStyle"></i></a>&nbsp;
+                <a id="delete"   *ngIf="dataGrid.wsButtonDelete!='' && dataGrid.wsButtonDelete!=undefined && dataGrid.wsButtonDelete!=null"(click)="deletePopUp(data.data.id)" target="_blank" title="{{ 'PM.delete' | translate }}" ><i class="fa fa-trash" style="color: red;"></i></a>
+            </div>
+            <div *dxTemplate="let data of 'select-filter'">
+                <div  *ngIf="dataGrid.select!=null && dataGrid.select!=undefined">
+                    <div class="flex-row">
+                        <div  *ngFor="let item of dataGrid.select"  style="display: inline-block;">
+                            <app-select [webService]="item"   (itemSelected)="refreshdataGridSelect($event)" ></app-select> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *dxTemplate="let data of 'cellTemplateIndex'; ">
+                {{data.rowIndex + 1}}
+            </div>
+            <div *dxTemplate="let data of 'titreGrid'">
+
+                <p class="styleTitreGrid">{{dataGrid.title}}</p>
+            </div>
+            <div *dxTemplate="let data of 'cellTemplateTypeBoolean' ">
+                <div *ngIf="data.value === true"><i style="color: green;" class="fas fa-check"></i></div>
+                <div *ngIf="data.value=== false"><i style="color: red;" class="fas fa-times"></i></div>
+                <div *ngIf="data.value=== null"></div>
+            </div>
+
+            <div *dxTemplate="let data of 'cellTemplateOrgaName'; ">
+                <span triggers="mouseenter:mouseleave"
+                      >{{data.value}}</span>
+                <ng-template #popContent let-greeting="greeting">
+                    <app-carte-visite-grid [value]="data.value"></app-carte-visite-grid>
+                </ng-template>
+            </div>
+
+        </dx-data-grid>
+    </mdb-card>
+</div>
+
+<dx-popup
+        [maxWidth]="940"
+        [width]="500"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Confirmation de la suppression"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popUpDelete">
+    <div>
+        <p> {{ 'messageDelete' | translate }} {{idDelete}}? </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2"
+                    (click)="popUpDelete=false">{{ 'annuler' | translate }}
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 alignRight">
+            <button type="submit" class="btn btn-success me-md-2"
+                    (click)="deletews()">{{ 'confirmer' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>

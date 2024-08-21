@@ -1,0 +1,119 @@
+@import "../theme/styles/variables";
+
+.wrapper-inner{
+    min-height: 100%;
+    height: auto !important;
+    margin-bottom: -$footer-height;
+    padding: 0 0 $footer-height;
+    // overflow: hidden;
+}
+
+.main-content{
+    width: 100%;
+    padding: 25px;
+    -webkit-box-flex: 1;     
+    min-height: calc(100vh - (#{$top-navbar-height} + #{$footer-height}));
+    overflow: hidden;
+}
+
+
+/*settings*/
+.settings {
+    position: fixed;
+    top: 80px;
+    right: -212px;
+    z-index: 995;
+    width: 210px;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    &.show{
+        right: -1px;
+    }
+    .btn{
+        position: absolute;
+        left: -34px;
+        padding: 7px 12px 7px 10px;
+        z-index: 99;
+        background: #fff;      
+        border-color: rgba(0, 0, 0, 0.125);
+        border-style: solid;
+        border-width: 1px 0px 1px 1px;
+        border-radius: 0;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+        cursor: pointer;
+        &:focus{
+            box-shadow: none;
+        }
+    }
+    .card{
+        border-top: none;
+        border-radius: 0;
+        .card-header{
+            padding: 0.34rem 1.25rem;
+            background: #fff !important;
+            border-radius: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: bold;
+            border-top: 1px solid rgba(0, 0, 0, 0.125);
+            border-bottom: 0;
+        }
+    }   
+    .card-body{
+        padding: 2px 20px;
+        h6{
+            border-bottom: 1px solid #eceeef;
+            padding-bottom: 2px;
+        }
+    }
+    .theme{
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+        cursor: pointer;        
+        &.light{
+            background-color: #ececec;
+        }
+        &.dark{
+            background-color: #262626;
+        }
+        &.blue{
+            background-color: #1875D1;
+        }
+        &.green{
+            background-color: #00786A;
+        }
+        &.combined{
+            overflow: hidden;
+            background-color: #262626;
+            &:before{
+                content: "";
+                background-color: #f5f5f5;
+                width: 10px;
+                height: 20px;
+                display: inline-block;
+            }
+        }
+        &.purple{
+            background-color: #7A1EA1;
+        }
+        &.orange{
+            background-color: #F47B00;
+        }
+        &.brown{
+            background-color: #5C3F36;
+        }
+        &.grey{
+            background-color: #445963;
+        }
+        &.pink{
+            background-color: #C1175A;
+        }
+    }
+    .custom-control .custom-control-description{
+        margin-top: -1px;
+    } 
+}

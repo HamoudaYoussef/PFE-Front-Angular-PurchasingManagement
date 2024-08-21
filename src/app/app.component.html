@@ -1,0 +1,43 @@
+<div class="app" *ngIf="show" [ngClass]="settings.theme.skin"
+                  [class.navbar-fixed]="settings.theme.navbarIsFixed"  
+                  [class.sidebar-fixed]="settings.theme.sidebarIsFixed"  
+                  [class.horizontal-menu]="settings.theme.menu == 'horizontal'" 
+                  [class.compact]="settings.theme.menuType == 'compact'" 
+                  [class.mini]="settings.theme.menuType == 'mini'" 
+                  [class.menu-hide]="!settings.theme.showMenu">
+    <div class="wrapper">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+<div class="loader-outer" id="preloader">
+    <div class="loader-container">
+        <div class="loader-inner">
+            <h2 *ngIf="showmessage"  style="margin-left: 50%; ">Vérification Paramétrage Module UI Front</h2>
+            <button *ngIf="showmessage" (click)="retouner()" type="button" style="margin-left: 56%;margin-top: 3%;
+    width: 8%;" class="btn btn-danger"> <i class="far fa-caret-square-left fa-2x  mr-3"></i>Retour Page d'Accueil</button>
+
+            <!--Add some description for your loader -->
+
+            <div class="loader" *ngIf="!show && !showmessage">
+                <!--        <div id="top" class="mask">-->
+                <!--          <div class="plane"></div>-->
+                <!--        </div>-->
+                <!--        <div id="middle" class="mask">-->
+                <!--          <div class="plane"></div>-->
+                <!--        </div>-->
+                <!--        <div id="bottom" class="mask">-->
+                <!--          <div class="plane"></div>-->
+                <!--        </div>-->
+                <!--        <p class="loader-text">start<span>NG</span></p>-->
+                <!--        <img src="./assets/img/agil.png">-->
+
+            </div>
+            <div style="margin-left: 40%;margin-top: -7%;" *ngIf="showmessage===true">
+                <i class="fas fa-exclamation-triangle" style="color: red;font-size: 17em;"></i>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

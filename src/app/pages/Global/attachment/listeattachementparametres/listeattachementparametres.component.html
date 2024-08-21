@@ -1,0 +1,82 @@
+<!--<div *ngFor="let group of groupItemsPerThreeTAB">-->
+<div class="attachment-container ">
+
+    <div *ngFor="let item of datsourcesFiles; let i = index" [lang]="languageAcual" class="col-md-4"  style="padding-right:0 !important;">
+        <div class="attachment-item mt-2">
+            <span *ngIf="item.fileRequired" class="requiredetoile">*</span>
+            <label [lang]="languageAcual" class="attachment-label">{{ item.label }}</label>
+            <div class="file-info-grid">
+                <div class="action-icons">
+
+                    <span (click)="consulterPjs(item.attachement,longContent)" *ngIf="item.attachement " class="view-icon"><i
+                            class="fa fa-eye"></i></span>
+                    <span *ngIf="AddVisible(item.attachement)" (click)="fun(idRef('input', i))" class="file-icon"><i
+                            class="fa fa-paperclip"></i></span>
+                    <span (click)="OpenPopupDelete(item.attachement)" *ngIf="DeleteVisible(item.attachement)"
+                          class="remove-icon"><i class="fa fa-trash"></i></span>
+                </div>
+            </div>
+            <input (change)="onFileChange($event, i, item)" [id]="idRef('input', i)" hidden type="file"
+                   class="file-input">
+        </div>
+    </div>
+</div>
+<!--</div>-->
+
+<app-http-services></app-http-services>
+<ng-template #longContent let-modal   let-c="close" let-d="dismiss">
+    <div class="modal-header" dir="ltr" style="background: #37474f !important; color: white !important;">
+        <button type="button" dir="ltr" style="float: left;color: white !important;" class="btn-close float-left" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body" >
+        <Doc_viewer *ngIf="objectFile&&pdfSrcc!='' && objectFile.fileType === 'application/pdf'" id="doc1"
+                    [pdfSrcc]=pdfSrcc
+                    [visionneuse]="'url'"
+
+                    style="width:100% ;">
+        </Doc_viewer>
+        <app-document-editor
+                *ngIf="objectFile && objectFile.fileType !== null && objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || objectFile.fileType === 'application/msword' || objectFile.fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.template' ||  objectFile.fileType === 'application/x-tika-ooxml' || objectFile.fileType === 'application/vnd.ms-word.template.macroEnabled.12'"
+                [fileType]="objectFile.fileType"
+                [fileName]="objectFile.fileName"
+                [docTitle]="objectFile.docTitle"
+                [fileContent]="fileExtractedContent"
+                [idAttachement]="objectFile.id"
+                [fileAccessToken]="fileAccessToken"
+                [objectData]="objectData"
+        ></app-document-editor>
+    </div>
+</ng-template>
+
+
+<dx-popup
+        [(visible)]="popupDeleteFileVisible"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [maxWidth]="'100%'"
+        [width]="'20%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="popupDeleteFileVisible=false"
+        (closeOnOutsideClickChange)="popupDeleteFileVisible=false"
+        title="{{'ATTACHEMENT.deletePopupStyle' | translate}}" style="text-align: right"
+>
+    <div>
+        <p>{{'ATTACHEMENT.messageConfirmationDelete' | translate}} </p>
+    </div>
+    <div class="d-flex justify-content-between">
+
+        <div>
+            <button (click)="DeleteFile()" class="btn btn-success"
+                    type="submit">{{'Accepter' | translate}}
+            </button>
+        </div>
+        <div>
+            <button (click)="popupDeleteFileVisible=false" class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{'Fermer' | translate}}
+            </button>
+        </div>
+    </div>
+</dx-popup>

@@ -1,0 +1,414 @@
+<app-http-services></app-http-services>
+
+<div id="DWTcontainerTop">
+    <div id="divEdit" class="row" style="margin: 0;">
+        <div class="col-5 p-0" *ngIf="PcTkExist">
+            <div *ngIf=" permissionDenied" style="display: flex;justify-content: start; padding:0; ">
+                <ul>
+                    <li class="espacement">
+                        <i class=" menuIcon fa-solid fas fa fa-arrow-up fa-xl"
+                           title="{{ 'ATTACHEMENT.prviousg' | translate }}"
+                           style="font-size: 22px;line-height: 44px;cursor: pointer" (click)="moinindex()"></i>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="espacement">
+                        <i class=" menuIcon fa-solid fas fa fa-arrow-down fa-xl"
+                           title="{{ 'ATTACHEMENT.prochaine' | translate }}"
+                           style="font-size: 22px;line-height: 44px;cursor: pointer" (click)="plusindex()"></i>
+                    </li>
+                </ul>
+                <ul style="margin-top: 2.5px;height: 40px;border: none;">
+                    <li class="espacement" style="width:50px;">
+                        <dx-number-box
+                                style=";width: 100%  ;border-radius: 0.5rem !important ; font: normal 20px verdana !important;"
+                                height="27" class="mt-1" required [showSpinButtons]="false"
+                                [(ngModel)]="Indexvalue" [(value)]="Indexvalue" [max]="totalpage"
+                                [min]="Mindefaultvalue"
+                        ></dx-number-box>
+                    </li>
+                </ul>
+                <p class="espacement"
+                   style="width:0px;line-height: 38px;font: normal 20px verdana;    margin-left: 10px !important;margin-top: 6px;">
+                    /</p>
+                <ul style="margin-top: 2.5px;height: 40px;border: none;">
+                    <span class=" mt-1 totalpage" [title]="totalpage">{{totalpage}}</span>
+                </ul>
+                <ul class="operateGrp" style="border-right: 5px solid #ccc;padding-right: 5%;
+    height: 70%;">
+                    <li class="espannncement">
+
+                    <span style="height: 0em; cursor: pointer !important;" (click)="deletepagebyindex()"
+                          class="fa-stack fa-lg" title="{{'ATTACHEMENT.deletepg' | translate}} {{Indexvalue}}">
+                        <i class='far fa-file-image fa-stack-1x'
+                           style="margin-top: -0.25em;font-size: 1.7em; border: 1px solid white"></i>
+                        <i class="fa fa-times fa-stack" style=" margin-top: -2.5em;color:red;font-size: 1.2em;"></i>
+                    </span>
+
+
+                        <!--                    <img class="menuIcon"-->
+                        <!--                         style="margin-left: 5px;height: 42px;padding: 8px 4px !important;"-->
+                        <!--                         src="assets/Images/RemoveSelectedImages.png"-->
+                        <!--                         title="{{ 'ATTACHEMENT.deletepg' | translate }} {{Indexvalue}}"-->
+                        <!--                         alt="{{ 'ATTACHEMENT.deletethispg' | translate }}"-->
+                        <!--                         id="DW_btnRemoveCurrentImage" (click)="deletepagebyindex()"/>-->
+                    </li>
+                    <li class="espacement">
+                    <span class="d-flex justify-content-start menuIcon fa-border"
+                          style="align-items: center; cursor: pointer"
+                          title="{{ 'ATTACHEMENT.numAvant' | translate }} {{Indexvalue}}"
+                          (click)="ScanBeforeBoutton()">
+                    <i class=" fa fa-arrow-down " id="arrowdown1" style="font-size: 16px;cursor: pointer"></i>
+                    <i class="material-icons" style="font-size: 31px;cursor: pointer">scanner</i>
+                    </span>
+                    </li>
+                    <li class="espacement">
+                    <span class="d-flex justify-content-start menuIcon fa-border"
+                          style="padding-left: 0px; cursor: pointer ; position: relative ; align-items: center ;  "
+                          title="{{ 'ATTACHEMENT.numApres' | translate }} {{Indexvalue}}" (click)="ScanAfterBoutton()">
+                    <i class="material-icons" style="font-size: 31px;cursor: pointer">scanner</i>
+                <i class=" fa fa-arrow-down " id="arrowdown" style="font-size: 16px;cursor: pointer"></i>
+                    </span>
+                    </li>
+                </ul>
+            </div>
+            <div style="justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"
+                 *ngIf=" !permissionDenied">
+                <i class="fa fa-exclamation-triangle p-1"
+                   style="font-size: 200%;color:red;display:flex; justify-content: center"
+                   title="{{'ATTACHEMENT.scanLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}} Ou {{'ATTACHEMENT.PermissionLocked'| translate}}"></i>
+
+            </div>
+
+        </div>
+        <div class="col-5"
+             style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"
+             *ngIf="!PcTkExist">
+        </div>
+        <div class="col-5" style="border-right: 5px solid #ccc;  height: 100%;" *ngIf="PcTkExist">
+            <app-signature *ngIf=" permissionDeniedSig"
+                           [BASE64_Input]="BASE64_Input"
+                           [FileNameToSigned]=FileNameToSigned
+                           (fileSigned)="signedEvent($event)">
+            </app-signature>
+            <i *ngIf="!permissionDeniedSig" class="fa fa-exclamation-triangle p-1"
+               style="font-size: 200%;color:red; display:flex; justify-content: center"
+               title=" {{'ATTACHEMENT.signLicensePstk'| translate}} Ou {{'ATTACHEMENT.pstkerror'| translate}} Ou {{'ATTACHEMENT.PermissionFichier'| translate}}"></i>
+        </div>
+        <div class="col-5"
+             style="display: flex;justify-content: center; padding:0; border-right: 5px solid #ccc;padding-right: 5%; height: 100%;"
+             *ngIf="!PcTkExist">
+        </div>
+        <div class="col-2">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span style="height: 0em; cursor: pointer !important;" (click)="initWaterMarker()"
+                          class="fa-stack " title="{{'ATTACHEMENT.watermarker' | translate}}">
+                                         <i class="material-icons">format_shapes</i>
+                    </span>
+                </div>
+                <div style="padding: 2.5%">
+                    <span style="height: 0em; cursor: pointer !important;" (click)="popupDeleteWaterMarker=true"
+                          class="fa-stack fa-lg" title="{{'ATTACHEMENT.removewatermarker' | translate}}">
+                          <i class="material-icons fa-stack-1x" style="margin-top: -0.25em;">format_shapes</i>
+                          <i class="fa fa-times fa-stack" style=" margin-top: -2.5em;color:white"></i>
+                    </span>
+                </div>
+                <div style="border-right: 5px solid #ccc;  height: 40px;">
+                    <span style="height: 0em; cursor: pointer !important;" (click)="openOcrPopup()"
+                          class="fa-stack " title="{{'ATTACHEMENT.OCR' | translate}}">
+                                         <i class="material-icons" style="
+    border: 1px solid;
+">abc</i>
+                    </span>
+                </div>
+                <div style="padding-left: 5%">
+                    <i class=" menuIcon fa-solid fas fa-save fa-xl" title="Sauvegarder"
+                       style="font-size: 22px;line-height: 44px;cursor: pointer" (click)="Sauvegarder()"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-popup
+        [(visible)]="popupDeleteWaterMarker"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [maxWidth]="'100%'"
+        [width]="'30%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="popupDeleteWaterMarker=false"
+        (closeOnOutsideClickChange)="popupDeleteWaterMarker=false"
+        title="{{ 'ATTACHEMENT.deletePopupStyle' | translate }}">
+    <div>
+        <p>{{ 'ATTACHEMENT.messageConfirmationDeleteWaterMarker' | translate }}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div>
+            <button (click)="popupDeleteWaterMarker=false" class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{ 'annuler' | translate }}
+            </button>
+        </div>
+        <div>
+            <button (click)=" removeWaterMarker()" class="btn btn-success"
+                    type="submit">{{ 'confirmer' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+<dx-popup
+        [(visible)]="openPopupOcr"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [maxWidth]="'100%'"
+        [width]="'20%'"
+        [height]="'auto'"
+        [maxHeight]="'100%'"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="openPopupOcr=false"
+        (closeOnOutsideClickChange)="openPopupOcr=false"
+        title="{{'ATTACHEMENT.OCR' | translate }}"
+>
+
+    <div class="col-md-12 col-xs-12 col-lg-12 col-sm-12">
+        <div class="form">
+            <div class="dx-field">
+                <div class="dx-field-label"> {{'ATTACHEMENT.stateOCR' | translate }}</div>
+                <div class="dx-field-value" *ngIf="selected!= null && selected!=undefined">
+                    <dx-radio-group
+                            [items]="itemsList"
+                            [(value)]="selected"
+                            (onValueChanged)="onValueChanged($event)"
+                            [ngClass]="selected.color.toLowerCase()"
+                    >
+                        <div *dxTemplate="let priority of 'item'">
+                            <div>{{ priority.text }}</div>
+                        </div>
+                    </dx-radio-group>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6 p-3">
+        <dx-select-box
+
+                style="height: 56%"
+                [items]="dataSourceLanguage"
+                [value]="selected_Item"
+                (onSelectionChanged)="onChange($event)"
+
+                [labelMode]="'floating'"
+                [stylingMode]="'outlined'"
+                label="{{'langue'|translate}}"
+                [searchEnabled]="true"
+        >
+        </dx-select-box>
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-between">
+        <button (click)="openPopupOcr=false"
+                class="btn btn-light" mdbRipple
+                type="button">{{ 'annuler' | translate }}
+        </button>
+        <button (click)="submitOCR()" [disabled]="disableOCR"
+                class="btn btn-success me-md-2" mdbRipple type="submit">
+            {{ 'confirmer' | translate }}
+        </button>
+    </div>
+</dx-popup>
+<dx-popup
+        [(visible)]="openPopupWaterMarker"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [maxWidth]="'100%'"
+        [width]="'30%'"
+        [height]="'auto'"
+        [maxHeight]="'100%'"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="openPopupWaterMarker=false"
+        (closeOnOutsideClickChange)="openPopupWaterMarker=false"
+        title="{{'ATTACHEMENT.watermarker' | translate }}"
+>
+    <form [formGroup]="WaterMarkerForm" class="row">
+        <div class="col-md-6 mb-3 ">
+            <mdb-form-control>
+
+                <input mdbInput id="waterMarkercontent"
+                       formControlName="content" type="text" class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkercontent">{{'ATTACHEMENT.watermarkerContent' | translate}}</label>
+            </mdb-form-control>
+        </div>
+
+        <div class="col-md-6 mb-3 pl-0">
+            <div class="form">
+                <div class="dx-field ">
+                    <div class="dx-field-label">
+                        {{'Paramétre avancé' | translate }} :
+                    </div>
+                    <div class="dx-field-value">
+                        <dx-switch [value]="advencedState" (onValueChanged)="switchchange($event)"></dx-switch>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <input mdbInput
+                       id="waterMarkerleftmargin"
+                       mask="00"
+                       useMaskedValue="true"
+                       type="text"
+                       placeholder="cm"
+                       [textMask]="{mask:mask_px}"
+                       formControlName="leftmargin"
+                       class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkerleftmargin">{{'ATTACHEMENT.leftmargin' | translate}}</label>
+            </mdb-form-control>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <input mdbInput
+                       id="waterMarkertopmargin"
+                       mask="00"
+                       useMaskedValue="true"
+                       type="text"
+                       placeholder="cm"
+                       [textMask]="{mask:mask_px}"
+                       formControlName="topmargin"
+                       class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkertopmargin">{{'ATTACHEMENT.topmargin' | translate}}</label>
+            </mdb-form-control>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <input mdbInput
+                       id="waterMarkerrotation"
+                       mask="00"
+                       useMaskedValue="true"
+                       value="Degré"
+                       type="text"
+                       [textMask]="{mask:mask_deg}"
+                       placeholder="Degré"
+                       formControlName="rotation"
+                       class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkerrotation">{{'ATTACHEMENT.rotation' | translate}}</label>
+            </mdb-form-control>
+        </div>
+
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <mdb-range [min]="0"
+                           [max]="1"
+                           formControlName="opacity"
+                           [step]="0.001"
+                           label="{{'ATTACHEMENT.opacity' | translate}}"
+                ></mdb-range>
+            </mdb-form-control>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <input mdbInput id="waterMarkerfontSize"
+                       formControlName="fontSize" type="number" class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkerfontSize">{{'ATTACHEMENT.fontSize' | translate}}</label>
+            </mdb-form-control>
+        </div>
+
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <input mdbInput id="waterMarkercolor"
+                       formControlName="color" type="text" class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkercolor">{{'ATTACHEMENT.color' | translate}}</label>
+            </mdb-form-control>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <input mdbInput id="waterMarkerfontStyle"
+                       formControlName="fontStyle" type="text" class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkerfontStyle">{{'ATTACHEMENT.fontStyle' | translate}}</label>
+            </mdb-form-control>
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="advencedState">
+            <mdb-form-control>
+                <input mdbInput id="waterMarkerfontFamily"
+                       formControlName="fontFamily" type="text" class="form-control"/>
+                <label mdbLabel class="form-label"
+                       for="waterMarkerfontFamily">{{'ATTACHEMENT.fontFamily' | translate}}</label>
+            </mdb-form-control>
+        </div>
+
+    </form>
+    <div class="row d-flex ">
+        <div class="d-grid gap-2 d-md-flex justify-content-between">
+            <button (click)="openPopupWaterMarker=false"
+                    class="btn btn-light" mdbRipple
+                    type="button">{{ 'annuler' | translate }}
+            </button>
+            <button (click)="submit()"
+                    class="btn btn-success me-md-2" mdbRipple type="submit">
+                {{ 'ATTACHEMENT.addFiligrane' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+<dx-popup
+        [(visible)]="ConfirmeOCR"
+        [showTitle]="true"
+        [closeOnOutsideClick]="true"
+        [maxWidth]="'100%'"
+        [width]="'20%'"
+        [height]="'auto'"
+        [maxHeight]="500"
+        [dragEnabled]="false"
+        resizeEnabled="true"
+        (onHiding)="ConfirmeOCR=false"
+        (closeOnOutsideClickChange)="ConfirmeOCR=false"
+        title="{{ 'ATTACHEMENT.titleOCR' | translate }}">
+    <div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-1 ">
+            <div class="card border-0 shadow-0  position-relative">
+                <div class="card-body text-success">
+                    <div class="card-text">
+                        <p class="note note-success fw-light fs-6">
+                            <strong>{{ 'ATTACHEMENT.ConfirmOCR' | translate }}</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div>
+
+        </div>
+        <div>
+            <button (click)=" ConfirmeOCR=false" class="btn btn-success"
+                    type="submit">{{ 'confirmer' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+<dx-load-panel
+    #loadPanel
+    [(visible)]="loadingVisible"
+    [closeOnOutsideClick]="false"
+    [position]="{ of: '#positionLoadPanel' }"
+    [shading]="true"
+    [showIndicator]="true"
+    [showPane]="true"
+    shadingColor="rgba(0,0,0,0.4)">
+</dx-load-panel>

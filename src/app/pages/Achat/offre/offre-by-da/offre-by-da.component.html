@@ -1,0 +1,24 @@
+
+<div *ngFor="let offre of offres">
+  <div class="demande-details" *ngIf="offre">
+    <h2 class="details-title">{{ offre.nom }}</h2>
+    <div class="details-info">
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Description de l'offre:</div>
+          <div class="detail-value">{{ offre.description }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Prix de l'offre:</div>
+          <div class="detail-value">{{ offre.prix }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Date de l'offre:</div>
+          <div class="detail-value">{{ offre.dateoffre }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Réference de l'offre:</div>
+          <div class="detail-value">{{ offre.referenceoffre }}</div>
+        </div>
+      </div>
+</div>
+</div>

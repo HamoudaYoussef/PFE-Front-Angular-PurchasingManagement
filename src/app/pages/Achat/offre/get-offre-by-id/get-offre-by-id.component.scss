@@ -1,0 +1,128 @@
+/* Styles pour le conteneur principal des détails */
+.details-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour le header */
+.details-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #8B0000;
+}
+
+/* Styles pour les détails de l'offre */
+.details-info {
+  margin-bottom: 20px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #8B0000;
+}
+
+.detail-value {
+  color: #333;
+}
+
+/* Styles pour les produits offerts */
+.produits-offerts {
+  margin-top: 20px;
+}
+
+.produit-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.produit-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.produit-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.produit-nom {
+  font-weight: bold;
+  color: #333;
+}
+
+.produit-description {
+  color: #666;
+}
+
+.produit-quantite {
+  margin-top: 5px;
+  color: #333;
+}
+
+/* Styles pour les boutons */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-rounded {
+  border-radius: 50px;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+.demande-details {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.demande-titre {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5;
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}
+.details-title {
+    font-size: 24px;
+    color: #8B0000; /* bordeaux */
+    margin-bottom: 15px;
+}
+
+.butttons-style {
+  background-color: green;
+  font-weight: bold;
+  color: white;
+}

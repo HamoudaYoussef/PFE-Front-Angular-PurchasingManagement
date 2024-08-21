@@ -1,0 +1,12 @@
+{   
+  "LOGIN": "Einloggen", 
+  "LOGOUT": "Ausloggen",
+  "REGISTER": "Anmeldung",
+  "ADMIN_NAV": {  
+    "DASHBOARD": "Instrumententafel", 
+    "PAGES": "Seiten",
+    "BLANK": "Leer",
+    "ERROR": "Error", 
+    "EXTERNAL_LINK": "Externer Link"
+  }
+}

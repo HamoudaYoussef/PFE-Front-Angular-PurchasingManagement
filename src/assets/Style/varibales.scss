@@ -1,0 +1,556 @@
+$footer-height: 28px;
+$font-size-xs: 12px;
+
+$yellow-color: rgb(243, 239, 9);
+//$HeaderBorderCAColor: rgba(35, 132, 115, 0.82);
+//$HeaderBackgroundCAColor: #238473d1;
+//$HeaderButtonColor: #649580;
+$HeaderFirstRowLeftSide: gray;
+$HeaderFirstRowLeftSidePolice: white;
+
+:root {
+  --HeaderBorderCAColor: rgba(35, 132, 115, 0.82);/*default header box border && button header border  */
+  --HeaderBackgroundCAColor:  #238473d1;/*default color background  of all header box du courrier  */
+  --HeaderButtonColor:  #649580;/*default header box button background color  */
+}
+//.logoSidebar {
+//  margin-bottom: -16%;
+//  width: 109px;
+//  height: 72px;
+//}
+.fieldset-custom-label {
+  color: black !important;
+  font-weight: 900;    font-family: sans-serif !important;
+  width:max-content;
+  transform:translateX(30px);
+  transform:translateY(-50%);
+  //color: #e1159d!important;
+  //font-weight: bold;
+}
+
+.styleTitreGridAtt {
+  //color: #e1159d;
+  color: black;
+  //margin-right: 150px;
+  font-weight: bold;
+  font-size: large;
+}
+
+
+
+//::ng-deep #gridTasks .dx-datagrid-headers .dx-header-row > td {
+//  background-color: #1572a7 !important;
+//  color: #ffffff;
+//  text-align: left !important;
+//}
+
+$fontSize: 18px;
+
+/*PERSONALISE STYLE OF HEADER component*/
+.HeaderCAStyleRow1 {
+  border-right: 3px solid var(--Courrier_colorBorderHeaderC);
+  border-bottom: 3px solid var(--Courrier_colorBorderHeaderC);
+  border-left: 3px solid var(--Courrier_colorBorderHeaderC);
+  background: var(--Courrier_header_backgroundColor);
+  padding: 0;
+  align-items: center;
+  border-radius: 10px !important;
+}
+
+.HeaderCAStyleRow2 {
+  border-top: 1px solid white;
+  border-right: 3px solid var(--HeaderBorderCAColor);
+  border-bottom: 3px solid var(--HeaderBorderCAColor);
+  border-left: 3px solid var(--HeaderBorderCAColor);
+  background: var(--HeaderBackgroundCAColor);
+  padding: 0;
+  align-items: center;
+  //padding-top: 0.5%;
+}
+
+.HeaderFirstRowLeftSideBox {
+  text-align: center;
+}
+
+.HeaderFirstRowLeftSide {
+  color: $HeaderFirstRowLeftSidePolice;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.headerModal {
+  background: var(--Courrier_header_backgroundColor);
+  color: white;
+}
+
+:host a.btn.p-1 {
+  background: var(--Courrier_HeaderButtonColor);
+  color: white;
+  border-radius: 0px;
+  margin-left: 0.2%;
+  display: inline-flex;
+}
+
+:host a.btn.p-1:hover {
+  color: white !important;
+  background: #93a3ab !important;
+  text-decoration: none;
+  outline-style: solid;
+  outline-color: white;
+  outline-width: thin;
+}
+
+.colorWhite {
+  color: white;
+
+}
+
+.icon-size {
+  font-size: $fontSize
+}
+
+.SL-Style {
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/*imporant icon*/
+.animationspan {
+  animation-duration: .8s;
+  animation-name: clignoter;
+  animation-iteration-count: infinite;
+  transition: none;
+  color: red !important;
+}
+/*imporant icon*/
+.animationspanWhite {
+  animation-duration: .8s;
+  animation-name: clignoter;
+  animation-iteration-count: infinite;
+  transition: none;
+  color: white !important;
+}
+.font-size-15 {
+  font-size: 15px;
+}
+
+.cursorpointer {
+  color: blue;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+}
+
+/*imporant icon*/
+
+@keyframes clignoter {
+  0% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.headerSecondRowStyle {
+  font-weight: 700;
+  font-size: 18px
+}
+
+/*PERSONALISE STYLE OF HEADER component*/
+
+
+/*PERSONALISE STYLE OF MDB input to be the same as dev extreme input */
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+  border-top: 0rem solid #1266f1;
+  border-bottom: 0rem solid #1266f1;
+  border-left: 0rem solid #1266f1;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+  border-top: 0.01rem solid #337ab7;
+  border-bottom: 0.01rem solid #337ab7;
+  border-left: 0.01rem solid #337ab7;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+  border-bottom: 0rem solid;
+  border-color: #1266f1;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+  border-bottom: 0.01rem solid;
+  border-color: #337ab7;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+  border-top: 0rem solid #1266f1;
+  border-bottom: 0rem solid #1266f1;
+  border-right: 0rem solid #1266f1;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+  border-top: 0.01rem solid #337ab7;
+  border-bottom: 0.01rem solid #337ab7;
+  border-right: 0.01rem solid #337ab7;
+}
+
+:host ::ng-deep.form-outline .form-control:focus ~ .form-label {
+  color: #337ab7;
+}
+
+/*PERSONALISE STYLE OF MDB input to be the same as dev extreme input * */
+
+
+/*##############################################################################################################################*/
+
+
+/*PERSONALISE STYLE OF NGX TEL*/
+
+/*height of input button of tel*/
+:host::ng-deep
+.iti--allow-dropdown input,
+.iti--separate-dial-code input[type=tel] {
+  height: 31px !important;
+}
+
+/*height of input button of tel*/
+
+/*width of input button of tel*/
+:host::ng-deep
+.iti,
+.iti input,
+.iti input[type=tel] {
+  //font-size: 17px !important;
+  width: 100% !important;
+  position: relative;
+  display: block;
+}
+
+/*width of input button of tel*/
+/*PERSONALISE STYLE OF NGX TEL*/
+
+/*##############################################################################################################################*/
+
+
+/*PERSONALISE STYLE OF icon*/
+
+.iconColor {
+  color: var(--Courrier_header_backgroundColor);
+}
+
+/*PERSONALISE STYLE OF icon*/
+
+/*PERSONALISE STYLE OF dev extreme dxo-pagger in the footer*/
+
+::ng-deep .dx-popup-content {
+  padding: 10px 10px 8px 10px !important;
+}
+
+::ng-deep .dx-light-pages {
+  display: none !important;
+}
+
+::ng-deep .dx-datagrid-pager {
+  padding: 0px !important;
+}
+
+/*PERSONALISE STYLE OF dev extreme dxo-pagger in the footer*/
+
+
+/*PERSONALISE STYLE OF SPLITTER*/
+.e-splitter.e-splitter-horizontal, .e-splitter.e-splitter-vertical {
+  border: 0px solid #e0e0e0;
+}
+
+:host ::ng-deep#container .e-splitter .e-split-bar .e-resize-handler:before {
+  content: "\e934";
+  font-family: 'e-icons';
+  font-size: 11px;
+  transform: rotate(90deg);
+}
+
+:host ::ng-deep #resizegrip.e-splitter .e-split-bar.e-split-bar-horizontal.e-resizable-split-bar,
+#resizegrip.e-splitter .e-split-bar.e-split-bar-horizontal.e-resizable-split-bar::after {
+  cursor: e-resize;
+}
+
+
+:host ::ng-deep.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-active {
+  background: var(--Courrier_HeaderButtonColor);
+}
+
+:host ::ng-deep.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-hover,
+:host ::ng-deep .e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-active {
+  background: var(--Courrier_HeaderButtonColor);
+  border-left: none;
+  border-right: none;
+}
+
+/* split bar arrows */
+:host::ng-deep.e-splitter .e-split-bar.e-split-bar-horizontal {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  min-width: 1px;
+  z-index: 0 !important;
+}
+
+:host ::ng-deep.e-splitter.e-splitter-horizontal .e-pane.e-pane-horizontal,
+:host ::ng-deep.e-splitter.e-splitter-vertical .e-pane.e-pane-horizontal {
+  overflow: hidden !important;
+}
+
+
+:host ::ng-deep.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-hover .e-resize-handler,
+:host ::ng-deep.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-active .e-resize-handler {
+  background: var(--Courrier_colorBorderHeaderC);;
+  color: var(--Courrier_HeaderButtonColor);;
+}
+
+#outerSplitter ::ng-deep.e-split-bar.e-split-bar-horizontal.e-split-bar-hover {
+  background: var(--Courrier_colorBorderHeaderC);;
+}
+
+::ng-deep.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-hover {
+  background: var(--Courrier_colorBorderHeaderC);;
+}
+
+::ng-deep.e-splitter .e-split-bar.e-split-bar-horizontal.e-split-bar-active {
+  background: var(--Courrier_HeaderButtonColor);
+}
+
+#outerSplitter {
+  ::ng-deep.e-split-bar.e-split-bar-horizontal .e-arrow-right:not(.e-icon-hidden)::before {
+
+    background: var(--Courrier_HeaderButtonColor);
+    opacity: 1;
+    transform: rotate(-40deg);
+    transition-duration: .3s;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  }
+}
+
+#outerSplitter {
+  ::ng-deep.e-split-bar.e-split-bar-horizontal .e-arrow-right:not(.e-icon-hidden)::after {
+    background: var(--Courrier_HeaderButtonColor);
+    opacity: 1;
+    transform: rotate(40deg);
+    transition-duration: .3s;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  }
+}
+
+#outerSplitter {
+  ::ng-deep.e-split-bar.e-split-bar-horizontal .e-arrow-left:not(.e-icon-hidden)::before {
+
+    background: var(--Courrier_HeaderButtonColor);
+    opacity: 1;
+    transform: rotate(40deg);
+    transition-duration: .3s;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  }
+}
+
+#outerSplitter {
+  ::ng-deep.e-split-bar.e-split-bar-horizontal .e-arrow-left:not(.e-icon-hidden)::after {
+    background: var(--Courrier_HeaderButtonColor);
+    opacity: 1;
+    transform: rotate(-40deg);
+    transition-duration: .3s;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  }
+}
+
+#outerSplitter {
+  ::ng-deep.e-split-bar.e-split-bar-horizontal .e-navigate-arrow:not(.e-icon-hidden) {
+    background-color: #6b1e1200;
+    border-color: var(--Courrier_colorBorderHeaderC);
+    color: #92373700;
+    transition: background-color 500ms ease-out
+  }
+}
+
+/*PERSONALISE STYLE OF SPLITTER*/
+
+/*PERSONALISE STYLE OF FOOTER component*/
+.app-footer-ca {
+  width: 100%;
+  height: $footer-height;
+  //padding: 0 1%;
+  position: fixed;
+  bottom: 0%;
+  background-color: var(--Courrier_header_backgroundColor);
+  color: white;
+  left: 0%;
+
+  .copyright {
+    font-size: $font-size-xs;
+    margin-left: auto;
+  }
+
+  .date, .copyright {
+    font-size: $font-size-xs;
+
+    i {
+      color: $yellow-color;
+      margin-right: 4px;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.z-index-footer {
+  z-index: 10;
+}
+
+/*PERSONALISE STYLE OF FOOTER component*/
+
+
+
+
+/*PERSONALISE STYLE OF SUJET component*/
+
+.input-without-standard-style {
+  border-width: 0 0 1px;
+  padding: 0;
+  border-radius: 0%;
+
+}
+
+:host ::ng-deep.form-control:hover {
+  box-shadow: 0px 1px 0px #007bff14;
+  border-radius: 0%;
+}
+
+:host ::ng-deep.form-control:focus {
+  box-shadow: 0px 1px 0px #007bff14;
+  border-radius: 0%;
+}
+
+:host ::ng-deep input::placeholder {
+  opacity: .8;
+}
+
+
+input#subjectField:focus ~ .form-notch .form-notch-middle {
+  border-bottom: .125rem solid;
+  border-width: 0 0 1px;
+  border-radius: 0px;
+}
+
+input#subjectField :focus ~ .form-notch .form-notch-trailing {
+  border-bottom: .125rem solid;
+  border-width: 0 0 1px;
+  border-radius: 0px;
+
+}
+
+
+.bold-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+
+}
+
+/*PERSONALISE STYLE OF SUJET component*/
+
+
+/*GLOBAL STYLE OF ALL dx datagrid*/
+
+::ng-deep .dx-datagrid .dx-row > td, .dx-datagrid .dx-row > tr > td {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+::ng-deep .dx-datagrid .dx-row > td, .dx-datagrid .dx-row > tr > td {
+  padding: 0px !important;
+}
+
+::ng-deep .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-select {
+  padding: 0px;
+  width: 25px !important;
+  min-width: 25px !important;
+  max-width: 25px !important;
+}
+
+::ng-deep .dx-dropdownlist-popup-wrapper .dx-list:not(.dx-list-select-decorator-enabled) .dx-list-item-content {
+  padding: 1px 7px !important;
+}
+
+/*GLOBAL STYLE OF ALL dx datagrid*/
+/*style title global in data grid*/
+.styleTitreGrid {
+  //color: #607D8B;
+  font-weight: bold;
+  font-size: large;
+}
+
+.informer {
+  text-align: center;
+  color: rgb(2, 6, 247);
+  margin-top: 14%;
+}
+
+/*GLOBAL STYLE OF ALL dx datagrid*/
+//.trash-style {
+//  color: red;
+//  cursor: pointer !important;
+//}
+
+/*grid CA*/
+//.iconeGridColor {
+//  color: #b1a756;
+//}
+
+
+.textColorHeader {
+
+  font-family: Arial;
+  font-weight: 100;
+}
+
+/*grid CA*/
+
+.size-legend{
+  font-size: 94% !important;
+}
+.size-legend-insideCourrier{
+  font-size: 90% !important;
+}
+
+.background-transparent{
+  background: #f0f8ff00 !important;
+}
+
+/*Style to display icon of tel && fax behind inout ngx-tel*/
+.tel-input-icon {
+  width: 20px; /* adjust the width of the icon */
+  height: 20px; /* adjust the height of the icon */
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-left: 5px; /* add some space between the input and the icon */
+}
+
+
+.tel-input-container {
+  display: flex;
+  align-items: center;
+}
+/*Style to display icon of tel && fax behind inout ngx-tel*/
+.border-fieldset {
+  border-color: var(--border-fieldset) !important;
+}

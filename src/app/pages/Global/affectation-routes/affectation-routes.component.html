@@ -1,0 +1,156 @@
+<dx-popup
+        [(visible)]="visibleTrueModal"
+        [hideOnOutsideClick]="false"
+        [dragEnabled]="true"
+        [height]="573"
+        [maxWidth]="1300"
+        [showCloseButton]="false"
+        [showTitle]="true"
+        [width]="900"
+        title="Affectation des routes du module courant">
+    <div class=" d-flex row padding0">
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4 mb-3 border-right">
+            <dx-data-grid
+                    [dataSource]="arrayOldSrc"
+                    [height]="405"
+                    [showBorders]="true"
+                    id="gridContainer"
+                    keyExpr="id"
+            >
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-scrolling mode="standard" rowRenderingMode="standard"></dxo-scrolling>
+
+                <dxo-pager
+                        [allowedPageSizes]="allowedPageSizes"
+                        [displayMode]="displayMode"
+                        [showInfo]="false"
+                        [showNavigationButtons]="showNavButtons"
+                        [showPageSizeSelector]="showPageSizeSelector"
+                        [visible]="true"
+                >
+                </dxo-pager>
+                <dxo-filter-row
+                        [applyFilter]="currentFilter"
+                        [visible]="showFilterRow"
+                ></dxo-filter-row>
+                <dxi-column [width]="260" caption="{{'Old_data' |translate}}" dataField="old">
+                </dxi-column>
+                <dxo-summary>
+                    <dxi-total-item
+                            alignment="right"
+                            column="old"
+                            summaryType="count">
+                    </dxi-total-item>
+                </dxo-summary>
+            </dx-data-grid>
+        </div>
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4 mb-3 border-right">
+            <dx-data-grid
+                    [dataSource]="newDataSrc"
+                    [height]="405"
+                    [showBorders]="true"
+                    id="gridContainer1"
+                    keyExpr="id"
+            >
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-scrolling mode="standard" rowRenderingMode="standard"></dxo-scrolling>
+
+                <dxo-pager
+                        [allowedPageSizes]="allowedPageSizes"
+                        [displayMode]="displayMode"
+                        [showInfo]="false"
+                        [showNavigationButtons]="showNavButtons"
+                        [showPageSizeSelector]="showPageSizeSelector"
+                        [visible]="true"
+                >
+                </dxo-pager>
+                <dxo-filter-row
+                        [applyFilter]="currentFilter"
+                        [visible]="showFilterRow"
+                ></dxo-filter-row>
+                <dxi-column [width]="260" caption="{{'New_data' |translate}}" dataField="new">
+                </dxi-column>
+                <dxo-summary>
+                    <dxi-total-item
+                            alignment="right"
+                            column="new"
+                            summaryType="count">
+                    </dxi-total-item>
+                </dxo-summary>
+            </dx-data-grid>
+        </div>
+        <div class="col-sm-4 col-md-4 col-xs-4 col-lg-4 col-xl-4 col-xxl-4 mb-3 border-right">
+            <dx-data-grid
+                    [dataSource]="interDataSrc"
+                    [height]="405"
+                    [showBorders]="true"
+                    id="gridContainer2"
+                    keyExpr="id"
+            >
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-scrolling mode="standard" rowRenderingMode="standard"></dxo-scrolling>
+
+                <dxo-pager
+                        [allowedPageSizes]="allowedPageSizes"
+                        [displayMode]="displayMode"
+                        [showInfo]="false"
+                        [showNavigationButtons]="showNavButtons"
+                        [showPageSizeSelector]="showPageSizeSelector"
+                        [visible]="true"
+                >
+                </dxo-pager>
+                <dxo-filter-row
+                        [applyFilter]="currentFilter"
+                        [visible]="showFilterRow"
+                ></dxo-filter-row>
+                <dxi-column [width]="260" caption="{{'Inter_data' |translate}}" dataField="inter">
+                </dxi-column>
+
+                <dxo-summary>
+                    <dxi-total-item
+                            alignment="right"
+                            column="inter"
+                            summaryType="count">
+                    </dxi-total-item>
+                </dxo-summary>
+
+            </dx-data-grid>
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+            <button (click)="annuler()" class="btn btn-light me-md-2"
+                    mdbRipple>{{'annuler' | translate}}</button>
+            <button (click)="synchronisationProces()" class="btn btn-success me-md-2" mdbRipple
+                    type="button">{{'appliquer'|translate}}
+            </button>
+        </div>
+    </div>
+</dx-popup>
+
+
+<dx-popup
+        [(visible)]="popupConfirmationVisible"
+        [hideOnOutsideClick]="true"
+        [dragEnabled]="true"
+        [height]="'auto'"
+        [maxWidth]="940"
+        [showTitle]="true"
+        [width]="500"
+        title="Confirmation de l'affectation">
+    <div>
+        <p> Etes-vous sur de vouloir affecter les routes du module courant ? </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button (click)="annulerSecondmodal()" class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">Annuler
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button (click)="ConfirmSync()" class="btn btn-success"
+                    type="submit">Confirmer
+            </button>
+        </div>
+    </div>
+</dx-popup>

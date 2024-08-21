@@ -1,0 +1,167 @@
+.green-card {
+    background-color: #A5D6A7; /* Light Green */
+  color: #212121;
+  }
+  .red-card {
+    background-color: #cd2c3c;
+      color: #212121;
+  }
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .card {
+    width: calc(33.33% - 20px); /* 3 cartes par ligne, avec un espace de 20px entre chaque carte */
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 20px;
+  }
+  
+  .card-title {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+  }
+  
+  .card-text {
+    margin: 0 0 20px;
+  }
+  
+  .card-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  
+  .card-button:hover {
+    background-color: #0056b3;
+  }
+  .color-square {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #ccc; /* Bordure optionnelle */
+  }
+  .orange-card {
+    background-color: #FFE0B2; /* Very Light Orange */
+  color: #212121; /* Dark text for better readability */}
+  .green-card {
+    background-color: #A5D6A7; /* Light Green */
+  color: #212121;
+  }
+  .red-card {
+    background-color: #cd2c3c;
+      color: #212121;
+  }
+  .sufficient-stock img,
+  .out-of-stock img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .sufficient-stock {
+    border-color: green;
+  }
+  
+  .out-of-stock {
+    border-color: red;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-content {
+    padding: 10px;
+  }
+  
+  .color-square {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+  
+  .bordeaux {
+    color: #800020;
+  }
+  
+  .sufficient-stock img,
+  .out-of-stock img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    position: relative;
+    width: 200px;
+  }
+  
+  .sufficient-stock {
+    border-color: green;
+  }
+  
+  .out-of-stock {
+    border-color: red;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: auto;
+    display: block;
+
+  }
+  
+  .card-content {
+    padding: 10px;
+  }
+  .card-image-wrapper {
+    width: 100%;
+    height: 150px; /* Adjust as needed */
+    overflow: hidden;
+  }
+  .color-square {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+  
+  .bordeaux {
+    color: #800020;
+  }
+  
+  .sufficient-stock img,
+  .out-of-stock img {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  

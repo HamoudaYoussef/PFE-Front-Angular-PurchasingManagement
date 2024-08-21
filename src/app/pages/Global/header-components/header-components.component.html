@@ -1,0 +1,138 @@
+<div class="dropdown d-inline-block">
+    <a class="dropdown-toggle no-caret pl-2 pr-2" id="user-menu" data-toggle="dropdown" aria-haspopup="true"
+       aria-expanded="false">
+        <i class="fa fa-user-o " aria-hidden="true" [title]="profile"></i>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right rounded-0 mt-3 p-0 box-shadow" aria-labelledby="user-menu"
+         style="    position: fixed; margin: 0; top: 40px;">
+        <div class="user-menu">
+            <a class="dropdown-item" (click)="redirectProfil()" ><i class="fa fa-user mr-2"></i>Profil</a>
+            <a class="dropdown-item" (click)="logout()"><i class="fa fa-power-off mr-2"></i>Log out</a>
+            <a class="dropdown-item mb-1" (click)="configscan()"><i class="fa fa-cog mr-2"></i>Profil de
+                numérisation</a>
+            <a class="dropdown-item mb-1" (click)="absence()"><i class="fa fa-user-times mr-2"></i>{{ 'Absence' | translate }}</a>
+        </div>
+    </div>
+</div>
+
+<dx-popup
+        [(visible)]="popupConfigScanVisible"
+        [hideOnOutsideClick]="false"
+        [dragEnabled]="true"
+        [height]="'auto'"
+        [showTitle]="true"
+        [width]="'40%'"
+        title="Profil de numérisation">
+    <div *ngIf="avertissementPstk">
+        <p class="note note-danger fst-normal fs-6 text-danger m-0" >
+            <strong>{{'ATTACHEMENT.avertissement' | translate }} : </strong>
+            {{'ATTACHEMENT.UserLicensePstk' | translate}} Ou {{'ATTACHEMENT.PstkNotEncours' | translate}}
+        </p>
+    </div>
+
+    <form  [formGroup]="configjson">
+        <div class="modal-body p-0">
+            <div class="row d-flex mt-3 mb-3">
+<!--                <div class="col-md-12">-->
+<!--                    <div class="alert alert-danger" role="alert">-->
+<!--                        {{'psTolKitNotValid'|translate}}-->
+<!--                    </div>-->
+<!--                    dddd{{afficheNotificationPsTolKitNotValid}}-->
+<!--                </div>-->
+                <div class="col-md-6">
+                    <!--                    <mdb-form-control>-->
+                    <!--                        <mdb-select [(ngModel)]="configjson.scannerName" name="scannerName" required>-->
+                    <!--                            <mdb-option *ngFor="let option of ListeScanner" [value]="option">{{option}}</mdb-option>-->
+                    <!--                        </mdb-select>-->
+                    <!--                        <label class="form-label" mdbLabel>{{ 'scannerName' | translate }}</label>-->
+                    <!--                    </mdb-form-control>-->
+                    <dx-select-box
+                            formControlName="scannerName"
+                            [showClearButton]="true"
+                            placeholder="sélectionner un scanner"
+                            [dataSource]="ListeScanner"
+                            [labelMode]="'floating'"
+                            [stylingMode]="'outlined'"
+                            label="{{'ATTACHEMENT.scannerName'|translate}}"
+                            [searchEnabled]="true"
+                            name="scannerName"
+                    >
+                        <!--                        <dxo-label [customizeText]="customizeLabel"></dxo-label>-->
+                    </dx-select-box>
+                </div>
+                <div class="col-md-6">
+                    <!--                    <mdb-form-control>-->
+                    <!--                        <mdb-select [(ngModel)]="configjson.scannerProfil" name="scannerProfil" required>-->
+                    <!--                            <mdb-option *ngFor="let option of scan_preferences" [value]="option">{{option.name}}</mdb-option>-->
+                    <!--                        </mdb-select>-->
+                    <!--                        <label class="form-label" mdbLabel>{{ 'ProfileScanner' | translate }}</label>-->
+                    <!--                    </mdb-form-control>-->
+               <dx-select-box
+                       formControlName="scannerProfil"
+                            [showClearButton]="true"
+                            placeholder="sélectionner un profil de numérisation"
+                            [dataSource]="scan_preferences"
+                            displayExpr="name"
+                            [labelMode]="'floating'"
+                            [stylingMode]="'outlined'"
+                            label="{{'ATTACHEMENT.ProfileScanner'|translate}}"
+                            [searchEnabled]="true"
+                            name="scannerProfil"
+                    >
+                        <!--                        <dxo-label ></dxo-label>-->
+                    </dx-select-box>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="d-grid gap-2 d-md-flex justify-content-between">
+                <button (click)="popupConfigScanVisible=false" class="btn btn-light" mdbRipple
+                        type="button">{{ 'annuler' | translate }}
+                </button>
+                <button (click)="saveconfig()" [disabled]="configjson.invalid"
+                        class="btn btn-success me-md-2" mdbRipple type="submit">
+                    {{ 'confirmer' | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</dx-popup>
+
+<!--<dx-popup
+        [(visible)]="popupInstallToolkitVisible"
+        [closeOnOutsideClick]="true"
+        [dragEnabled]="false"
+        [height]="'auto'"
+        [maxWidth]="940"
+        [showTitle]="true"
+        [width]="500"
+        title="{{'ATTACHEMENT.popuptoolkittitle' | translate }}">
+    <div class="row">
+        <p> {{'ATTACHEMENT.downloadPstoolkit' | translate }} </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button (click)="popupInstallToolkitVisible=false"
+                    class="btn btn-outline-secondary  mb-1 mr-1"
+                    type="button">{{ 'annuler' | translate }}
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button (click)="TelechargerTollkit()" class="btn btn-success"
+                    type="submit">{{ 'ATTACHEMENT.download' | translate }}
+            </button>
+        </div>
+    </div>
+</dx-popup>-->
+
+<dx-load-panel
+    #loadPanel
+    [(visible)]="loadingVisible"
+    [hideOnOutsideClick]="false"
+    [position]="{ of: '#positionLoadPanel' }"
+    [shading]="true"
+    [showIndicator]="true"
+    [showPane]="true"
+    shadingColor="rgba(0,0,0,0.4)">
+</dx-load-panel>
