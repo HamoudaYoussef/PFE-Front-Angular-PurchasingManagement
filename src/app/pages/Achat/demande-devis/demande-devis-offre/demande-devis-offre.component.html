@@ -1,0 +1,134 @@
+<dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [dataSource]="dataSourceElement"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  (onRowDblClick)="Editdemande($event)"
+  keyExpr="id"
+  class="dataGridDemande"
+>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-scrolling mode="virtual"></dxo-scrolling>
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  
+  <dxi-column dataField="id" dataType="number"></dxi-column>
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="fournisseur" caption="Fournisseur">
+    <dxo-lookup
+      [dataSource]="fournisseurs"
+      valueExpr="ID"
+      displayExpr="Name"
+    >
+    </dxo-lookup>
+  </dxi-column> 
+  <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+  <div *dxTemplate="let demandeDevis of 'detail'">
+    <div class="master-detail-caption">{{
+     "cette demande de devis " + demandeDevis.data.nom + "avec l'id " + demandeDevis.data.id + " est envoyé au fournisseur " + demandeDevis.data.fournisseurId +" dt"
+    }}</div>
+    <app-hover-demande-devis [demandeDevisId]="demandeDevis.data.id"></app-hover-demande-devis>
+  </div>
+  <dxi-column [allowResizing]="false"
+              [fixed]="false" caption="{{'' | translate}}"
+              cellTemplate="cellTemplateActions">
+  </dxi-column>
+
+  <div *dxTemplate="let data of 'cellTemplateActions'"
+       style="display: flex; justify-content: center; align-items: center;">
+       <a (click)="popupDelete(data.data.id)" target="_blank" title="" class="affecter-fournisseur" style="margin-left: 10px;">
+        <i class="fa fa-plus"></i> Affecter fournisseur
+    </a>    <a (click)="popupDelete(data.data.id)" target="_blank" title=""     style="margin-left: 10px;">
+      <i class="fa fa-trash" style="color:#a63a3a;"></i></a>
+  </div>
+
+  <dxo-pager
+    [allowedPageSizes]="allowedPageSizes"
+    [showInfo]="true"
+    [showPageSizeSelector]="true"
+    [visible]="true"
+    displayMode="full"
+    [showNavigationButtons]="true">
+  </dxo-pager>
+
+</dx-data-grid>
+<dx-popup
+    [maxWidth]="940"
+    [width]="500"
+    [height]="'auto'"
+    [showTitle]="true"
+    title="Ajouter un nouvel article"
+    [dragEnabled]="false"
+    [closeOnOutsideClick]="true"
+    [(visible)]="popupAddVisible">
+    <div>
+        <dx-data-grid
+          [dataSource]="dataSourceElementD"
+          [showBorders]="true"
+          [allowColumnResizing]="true"
+          [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+          [rowAlternationEnabled]="true"
+          [showColumnLines]="true"
+          keyExpr="id">
+          
+          <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+          <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+          
+          <dxi-column dataField="id" dataType="number"></dxi-column>
+          <dxi-column dataField="nom" dataType="string"></dxi-column>
+          <dxi-column dataField="description" dataType="string"></dxi-column>
+          <dxi-column dataField="quantite" dataType="number"></dxi-column>
+          <dxi-column dataField="fournisseurName" dataType="string" caption="Fournisseur"></dxi-column>
+          
+          <dxo-pager
+            [allowedPageSizes]="allowedPageSizes"
+            [showInfo]="true"
+            [showPageSizeSelector]="true"
+            [visible]="true"
+            displayMode="full"
+            [showNavigationButtons]="true">
+          </dxo-pager>
+        </dx-data-grid>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2" (click)="closeAddPopup()">Annuler</button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <!-- Vous pouvez ajouter un bouton pour ajouter des articles ici -->
+            <!--button type="submit" class="btn btn-success me-md-2" (click)="saveNewItem($event)">Ajouter</button-->
+        </div>
+    </div>
+</dx-popup>
+<dx-popup
+        [maxWidth]="940"
+        [width]="500"
+        [height]="'auto'"
+        [showTitle]="true"
+        title="Confirmation de la suppression"
+        [dragEnabled]="false"
+        [closeOnOutsideClick]="true"
+        [(visible)]="popupDeleteVisible">
+    <div>
+        <p> Êtes-vous sûr de vouloir supprimer cet élément ? </p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2"
+                    (click)="fermerPopup()">Annuler
+            </button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button type="submit" class="btn btn-success me-md-2"
+                    (click)="deletedemande()">Confirmer
+            </button>
+        </div>
+    </div>
+</dx-popup>

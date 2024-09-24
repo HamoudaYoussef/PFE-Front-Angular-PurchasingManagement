@@ -1,0 +1,84 @@
+<form id="bon-de-commande" [formGroup]="demandeF">
+    <div class="form-container">
+        <h2>Ajouter Offre</h2>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="nom" class="form-label">nom:</label>
+                    <input type="text" class="form-control" formControlName="nom" id="nom" >
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="referenceoffre" class="form-label">Reference :</label>
+                    <input type="text" class="form-control" id="referenceoffre" formControlName="referenceoffre" disabled>
+                </div>
+              
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="description" class="form-label">description :</label>
+                    <input type="text" class="form-control" id="description"  formControlName="description" >
+                </div>
+                <!--div class="form-group col-md-6">
+                    <label for="adresseentreprise" class="form-label">fournisseur :</label>
+                    <input type="text" class="form-control" id="adresseentreprise" formControlName="adresseentreprise">
+                </div-->
+            </div>
+            
+            
+    </div>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+
+    </div>
+</form>
+
+<div id="data-grid-demo">
+    <dx-data-grid
+      id="gridContainer"
+      [dataSource]="dataSourceElement"
+      keyExpr="ID"
+      [showBorders]="true"
+      (onRowInserted)="onRowInserted($event)"
+
+    >
+      <dxo-paging [enabled]="false"></dxo-paging>
+      <dxo-editing
+        mode="form"
+        [allowUpdating]="true"
+        [allowAdding]="true"
+        [allowDeleting]="true"
+      >
+      </dxo-editing>
+  
+      <dxi-column dataField="nom"></dxi-column>
+      <dxi-column dataField="description"></dxi-column>
+      <dxi-column dataField="quantite" [width]="170"></dxi-column>
+      <dxi-column dataField="prix" caption="prix" [width]="125">
+      </dxi-column>   
+    </dx-data-grid>
+  </div>
+  <div class="md-form row" style="margin-top: 10px;">
+    <div class="col-md-12 d-flex justify-content-between align-items-center">
+        <div class="d-flex">
+            <button 
+                    class="btn btn-primary btn-rounded" 
+                    mdbRipple 
+                    style="color: white; background-color:#b60808; font-weight:'bold'" 
+                    type="button">
+                retourner
+            </button>
+               
+        </div>
+
+        <div class="d-flex">
+                <button  (click)="addOffreP()"
+                        class="btn btn-primary btn-rounded mb-1 mr-1 butttons-style"
+                        mdbRipple
+                        style="background-color: green; font-weight: bold; color: white;"
+                        type="button">ajouter offre
+                    
+                </button>
+           
+              
+        </div>
+    </div>
+</div>

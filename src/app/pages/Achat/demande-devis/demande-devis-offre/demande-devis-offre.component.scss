@@ -1,0 +1,12 @@
+.affecter-fournisseur {
+    color: black; /* Couleur du texte */
+    background-color: white; /* Couleur de fond */
+    padding: 5px 10px; /* Espacement interne */
+    border-radius: 5px; /* Coins arrondis */
+    text-decoration: none; /* Supprime le soulignement */
+    transition: background-color 0.3s; /* Effet de transition */
+}
+
+.affecter-fournisseur:hover {
+    background-color: #a63a3a;color: white; /* Couleur de fond au survol */
+}

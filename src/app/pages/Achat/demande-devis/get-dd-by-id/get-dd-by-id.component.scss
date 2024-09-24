@@ -1,0 +1,221 @@
+.demande-details {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  .demande-titre {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background-color: #f5f5f5;
+    padding: 0 10px;
+    font-size: 24px;
+    color: #8B0000;
+  }
+  .details-title {
+      font-size: 24px;
+      color: #8B0000; /* bordeaux */
+      margin-bottom: 15px;
+  }
+  
+  .details-info .detail-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+  
+  .details-info .detail-label {
+      color: #8B0000; /* bordeaux */
+      font-weight: bold;
+      margin-right: 10px;
+  }
+  
+  .details-info .detail-value {
+      color: #333;
+  }
+  
+  .bordeaux {
+      color: #8B0000; /* bordeaux */
+  }
+  .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
+    .sufficient-stock img,
+    .out-of-stock img {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    
+    .card {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px;
+      position: relative;
+      width: 200px;
+    }
+    
+    .sufficient-stock {
+      border-color: green;
+    }
+    
+    .out-of-stock {
+      border-color: red;
+    }
+    
+    .card-image {
+      width: 100%;
+      height: auto;
+      display: block;
+  
+    }
+    
+    .card-content {
+      padding: 10px;
+    }
+    .card-image-wrapper {
+      width: 100%;
+      height: 150px; /* Adjust as needed */
+      overflow: hidden;
+    }
+    .color-square {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .bordeaux {
+      color: #800020;
+    }
+    
+    .sufficient-stock img,
+    .out-of-stock img {
+      width: 150px;
+      height: 150px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .product-nom {
+      flex: 1 1 20%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+  }
+  .product-description {
+      flex: 1 1 50%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+  }
+  .product-quantity {
+      flex: 1 1 20%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+  }
+  
+    
+    .product-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  .product-container h3,
+  .product-container p {
+      margin: 0;
+      padding: 0 10px;
+  }
+  
+    .product-details {
+      flex: 1 1 calc(33.333% - 10px); /* Trois éléments par ligne, ajuster selon besoin */
+      margin: 5px;
+      box-sizing: border-box; /* Inclure les marges et le padding dans la taille de l'élément */
+    }
+    
+    .product-image {
+      width: 100px; /* Adjust the image size as needed */
+      height: auto;
+      margin-right: 20px; /* Space between image and info */
+    }
+    
+    .product-info {
+      flex-grow: 1;
+    }
+    .product-info {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Ajoute un espace entre les éléments */
+  }
+  
+  .product-info h3,
+  .product-info p,
+  .product-info .color-square {
+      margin: 0; /* Enlève les marges par défaut */
+  }
+  
+  .color-square {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #000; /* Optionnel : pour mieux voir le carré de couleur */
+  }
+  
+    .product-title {
+      color: #8b0000; /* Bordeaux color */
+      margin: 0; /* Remove default margin */
+    }
+    
+    .product-description,
+    .product-quantity {
+      margin: 5px 0; /* Space between text lines */
+    }
+    
+    .color-square {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .product-status img {
+      width: 20px; /* Adjust the icon size as needed */
+      height: auto;
+      margin-left: 10px; /* Space between info and status */
+    }
+    .highlight-green {
+      background-color: #d4edda; /* Couleur de fond vert clair */
+    }
+    .row-green {
+      background-color: #93e4a6 !important; /* Vert pour en stock */
+    }
+    
+    .row-red {
+      background-color: #f8d7da !important; /* Rouge pour non en stock */
+    }
+    
+    .row-no-match {
+      background-color: #fefefe !important; /* Autre couleur pour pas de correspondance */
+    }
+    .tooltip {
+      background-color: #333;
+      color: #fff;
+      padding: 5px;
+      border-radius: 4px;
+      position: absolute;
+      z-index: 1000;
+      font-size: 14px;
+    }
+    

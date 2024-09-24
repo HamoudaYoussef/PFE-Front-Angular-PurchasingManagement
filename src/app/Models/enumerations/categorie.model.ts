@@ -1,0 +1,23 @@
+export enum Categorie {
+    ProcesseursCartesMeres = 'ProcesseursCartesMeres',
+    MemoireStockage = 'MemoireStockage',
+    GraphiquesEcrans = 'GraphiquesEcrans',
+    PeripheriquesEntreeSortie = 'PeripheriquesEntreeSortie',
+    ReseauConnectivite = 'ReseauConnectivite',
+    AlimentationRefroidissement = 'AlimentationRefroidissement',
+    BoitiersAccessoires = 'BoitiersAccessoires',
+    Peripheriques = 'Peripheriques',
+    PeripheriquesMobiles = 'PeripheriquesMobiles',
+    Jeu = 'Jeu',
+    ServeurStockage = 'ServeurStockage',
+    Securite = 'Securite',
+    AudioVideo = 'AudioVideo',
+    AccessoiresOrdinateur = 'AccessoiresOrdinateur',
+    EquipementsReseau = 'EquipementsReseau',
+    ComposantsTelephonique = 'ComposantsTelephonique',
+    SecuritePhysique = 'SecuritePhysique',
+    Stockage = 'Stockage',
+    ComposantsSysteme = 'ComposantsSysteme',
+    Autres = 'Autres',
+  }
+  

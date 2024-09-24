@@ -1,0 +1,89 @@
+<div class="demande-details" *ngIf="demandeDevis">
+    <h2 class="demande-titre">Détails de la demande de devis:</h2>
+    <div class="details-info">
+        <div class="detail-row-container">
+            <div class="detail-row">
+                <div class="detail-item">
+                    <div class="detail-label bordeaux">Nom de la demande:</div>
+                    <div class="detail-value">{{ demandeDevis.nom }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label bordeaux">Nom du fournisseur:</div>
+                    <div class="detail-value">{{ fournisseurNom }}</div>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-item">
+                    <div class="detail-label bordeaux">Description:</div>
+                    <div class="detail-value">{{ demandeDevis.description }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label bordeaux">Date de la demande:</div>
+                    <div class="detail-value">{{ demandeDevis.datedemande }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="demande-details">
+<h2 class="demande-titre">Les produits de cette demande:</h2>
+
+
+<div *ngIf="produits.length > 0" class="hovered-product-details">
+    <dx-data-grid
+    #dataGridDemande
+    [showBorders]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [dataSource]="produits"
+    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+    keyExpr="id"
+  >
+      <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+      <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+      <dxi-column dataField="nom" dataType="string"></dxi-column>
+      <dxi-column dataField="description" dataType="string"></dxi-column>
+      <dxi-column dataField="quantite" dataType="number"></dxi-column>
+      <dxo-pager
+        [allowedPageSizes]="allowedPageSizes"
+        [showInfo]="true"
+        [showPageSizeSelector]="true"
+        [visible]="true"
+        displayMode="full"
+        [showNavigationButtons]="true"
+      ></dxo-pager>
+    </dx-data-grid>
+  </div>
+
+  <div *ngIf="produits.length === 0">
+    <p>Aucun produit trouvé pour cette demande d'achat.</p>
+  </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+    const maxTitleLength = 20; // Adjust these values as needed
+    const maxDescriptionLength = 50;
+    const maxQuantityLength = 10;
+
+    const productTitle = document.querySelector('.product-title');
+    const productDescription = document.querySelector('.product-description');
+    const productQuantity = document.querySelector('.product-quantity');
+
+    const insertLineBreaks = (element, maxLength) => {
+        const text = element.innerText;
+        let result = '';
+        for (let i = 0; i < text.length; i += maxLength) {
+            result += text.substr(i, maxLength) + '<br>';
+        }
+        element.innerHTML = result;
+    };
+
+    insertLineBreaks(productTitle, maxTitleLength);
+    insertLineBreaks(productDescription, maxDescriptionLength);
+    insertLineBreaks(productQuantity, maxQuantityLength);
+});
+
+</script>
