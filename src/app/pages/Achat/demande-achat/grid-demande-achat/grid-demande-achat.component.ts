@@ -11,6 +11,8 @@ import CustomStore from 'devextreme/data/custom_store';
 import { ProduitDemandeeService } from 'src/app/Service/produit-demandee.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from 'src/app/pages/Global/shared-service/token-storage.service';
+import { CookieService } from 'ngx-cookie-service';
+import { StatutDA } from 'src/app/Models/enumerations/statut-da.model';
 
 @Component({
   selector: 'app-grid-demande-achat',
@@ -21,7 +23,7 @@ export class GridDemandeAchatComponent implements OnInit {
 
   constructor(private env: EnvService,private demandeAchatService: DemandeAchatService, private translateService:TranslateService,
     private toastr: ToastrService,private router: Router,private produitDemandeeService:ProduitDemandeeService,  private httpClient: HttpClient,
-    private tokenStorage: TokenStorageService 
+    private tokenStorage: TokenStorageService ,private cookieService:CookieService
   ) { }
   demandes: NewDemandeAchat[]; // Update the type to Demande
     hoveredRowIndex: number | null = null; // Index de la ligne survolée
@@ -39,7 +41,7 @@ export class GridDemandeAchatComponent implements OnInit {
   demandeadd: any;
   hoveredRow: any = null;
   hoverPosition: any = {};
-  formData: NewDemandeAchat = { id: 0, datedemande: '', datebesoin: dayjs(this.dateString), description: '', statut: '',produits: [] };
+  formData: NewDemandeAchat = { id: 0, datedemande: '', datebesoin: dayjs(this.dateString), description: '', statut: '',produits: [],reference:''};
   isNewRecord = true;
   visible = false;
   isHovered: { [key: number]: boolean } = {}; // Pour garder une trace des lignes survolées
@@ -51,13 +53,20 @@ export class GridDemandeAchatComponent implements OnInit {
   totalCount = 0;
   sortField = 'datedemande';
   sortOrder = 'desc';
+  displayname: string;
 
 
   ngOnInit(): void {
+
     this.getRequestCaseLazy();
-    console.log(this.dataSourceElement);
+    this.displayname = this.cookieService.get('displayname');
+    console.log(this.displayname)
+    console.log("da",this.dataSourceElement);
   }
 
+ /*  getStatutLabel(statut: string): string {
+    return StatutDA[statut as keyof typeof StatutDA] || statut; // Retourne le statut ou le statut brut si non trouvé
+}*/
 
 
   popupDelete(id:any) {
@@ -128,22 +137,7 @@ export class GridDemandeAchatComponent implements OnInit {
       });
 
     }
-  /*  loadDemandes(): void {
-      this.demandeAchatService.getDemandesAchat(this.sortField, this.sortOrder, this.pageIndex, this.pageSize).subscribe(response => {
-        this.dataSourceElement = response.data;
-        this.totalCount = response.totalCount;
-      });
-    }
-    onSortChange(e): void {
-      this.sortField = e.column.dataField;
-      this.sortOrder = e.sortOrder;
-      this.loadDemandes();
-    }
-    onPageChange(e): void {
-      this.pageIndex = e.pageIndex;
-      this.pageSize = e.pageSize;
-      this.loadDemandes();
-    }*/
+
   
 
     Editdemande(id) {
@@ -152,24 +146,9 @@ export class GridDemandeAchatComponent implements OnInit {
         // Navigate to the add-demande component with the specific ID
         this.router.navigate(['DemandeAchat/demandeAchat', this.id]);
     }
-/*  exportGrid() {
-    const doc = new jsPDF();
-    exportDataGridToPdf({
-      jsPDFDocument: doc,
-      component: this.dataGridDemande.instance
-    }).then(() => {
-      doc.save('Demandes.pdf');
-    })
-  }*/
+
 
   onToolbarPreparing(e) {
-
-
-    e.toolbarOptions.items.unshift(
-        {
-          location: 'after',
-          template: 'ExportPDF'
-        });
     e.toolbarOptions.items.unshift(
         {
           location: 'after',
@@ -197,6 +176,7 @@ export class GridDemandeAchatComponent implements OnInit {
           template: 'Liste des demandes d achats'
         }
     );
+    if (this.displayname === 'youssef Hamouda') {
       e.toolbarOptions.items.unshift(
           {
               location: 'after',
@@ -208,7 +188,7 @@ export class GridDemandeAchatComponent implements OnInit {
               },
           }
       );
-
+    }
   }
   openAddPage(e) {
     this.popupAdd = true   }
@@ -216,45 +196,7 @@ export class GridDemandeAchatComponent implements OnInit {
     localStorage.removeItem(this.packageName + '_' + 'dataGridDemande');
     window.location.reload();
   }
-  // getAllDemandes() {
-  //   this.demandeService.getDemandes().subscribe((data) => {
-  //     this.demandes = data;
-  //     this.dataSourceElement = new CustomStore({
-  //       load: (loadOptions: any) => {
-  //         loadOptions.requireTotalCount = true;
-  //         const size = loadOptions.take || this.env.pageSize;
-  //         const startIndex = loadOptions.skip || 0;
-  //         const endIndex = startIndex + size;
-  //         const paginatedData = this.demandes.slice(startIndex, endIndex);
-  //
-  //         return Promise.resolve({
-  //           data: paginatedData,
-  //           totalCount: this.demandes.length,
-  //         });
-  //       },
-  //     });
-  //   });
-  // }
- /* getAllDemandes() {
-    this.demandeAchatService.getDemandesAchat(this.sortField, this.sortOrder, this.pageIndex, this.pageSize).subscribe((data) => {
-      this.demandes = data;
-      this.dataSourceElement = new CustomStore({
-        load: (loadOptions: any) => {
-          loadOptions.requireTotalCount = true;
-          const size = loadOptions.take || this.env.pageSize;
-          const startIndex = loadOptions.skip || 0;
-          const endIndex = startIndex + size;
-          const paginatedData = this.demandes.slice(startIndex, endIndex);
 
-          return Promise.resolve({
-            data: paginatedData,
-            totalCount: this.demandes.length,
-          });
-        },
-      });
-    });
-
-  }*/
   getRequestCaseLazy() {
     let size = this.env.pageSize
     this.dataSourceElement = new CustomStore({
@@ -422,10 +364,12 @@ export class GridDemandeAchatComponent implements OnInit {
             params+= '&sort=id,desc'
             
             
-            return this.httpClient.get(this.env.apiUrlMetiers + 'getDA?' + params, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)})
+            return this.httpClient.get(this.env.urlProject + 'demande-achats/getDA?' + params, {headers: new HttpHeaders().set("Authorization", this.tokenStorage.getToken()).append("application", require('package.json').name)})
                 .toPromise()
                 .then((data: any) => {
-                    
+                  console.log("API Response:", data); // Check the full response
+                  size = data.totalElements
+  
                       return {data: data.content, totalCount: data.totalElements};
 
                     },

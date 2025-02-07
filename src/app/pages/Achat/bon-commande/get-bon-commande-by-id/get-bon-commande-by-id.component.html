@@ -1,88 +1,94 @@
-<div>
-  <!--        <div  class="card-header text-center bg-secondary  text-white" style="background-color: #242f50 !important;">-->
-  <!--            <h5> {{'caseRequest.TitleRqEdit'|translate}} ({{demandeForm.requestCaseNumber}})</h5>-->
-  <!--        </div>-->
-  <div>
-      <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
-          <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
-              <h5> Process Bon de commande ({{objectData.id}})</h5>
 
+<div class="demande-details">
+  <h2 class="demande-titre" style="font-weight: 400;">Bon de commande ({{bonCommande.numero}})</h2>
+  <div class="button-container">
+    <button (click)="generatePDF()"> <i class="fas fa-upload"></i> PDF</button>
+  </div><div class="demande-details mt-3">
+  <h2 class="demande-titre ">Détails de fournisseur:</h2>
+    <div class="detail-item">
+  <div class="detail-label bordeaux">Nom du fournisseur:</div>
+  <div class="detail-value">{{ produitsOfferts[0]?.offre?.fournisseur?.nom || 'Non disponible' }}</div>
+</div>
 
-          </div>
-          <div  >
-              <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
-                  <div class="icon-container"  title="{{'show-event.Voir la liste des événements' | translate}}">
-                     <i class="fas fa-project-diagram"></i>
-                  </div>
-              </a>
-          </div>
+<div class="detail-item">
+  <div class="detail-label bordeaux">email du fournisseur:</div>
+  <div class="detail-value">{{ produitsOfferts[0]?.offre?.fournisseur?.email || 'Non disponible' }}</div>
+</div>
 
+<div class="detail-item">
+  <div class="detail-label bordeaux">Téléphone du fournisseur:</div>
+  <div class="detail-value">{{ produitsOfferts[0]?.offre?.fournisseur?.tel || 'Non disponible' }}</div>
+</div>
+
+<div class="detail-item">
+  <div class="detail-label bordeaux">Adresse du fournisseur:</div>
+  <div class="detail-value">{{ produitsOfferts[0]?.offre?.fournisseur?.adresse || 'Non disponible' }}</div>
+</div>
+
+  
+</div>
+<form id="bon-de-commande">
+  <div class="demande-details">
+    <h2 class="demande-titre">Détails du bon de commande </h2>
+    <div class="form-container">
+    <form [formGroup]="demandeF">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="numero" class="form-label">Numéro de commande :</label>
+          <input type="text" class="form-control" formControlName="numero" id="numero" disabled>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="reference" class="form-label">Référence du bon de commande :</label>
+          <input type="text" class="form-control" id="reference"  formControlName="reference" disabled>
+        </div>
       </div>
+    </form>
   </div>
 </div>
-<div class="demande-details" *ngIf="bonCommande">
-    <h2 class="details-title">Détails du bon de commande</h2>
-    <div class="details-info">
-        <div class="detail-item">
-          <div class="detail-label bordeaux">Date de création du bon de commande</div>
-          <div class="detail-value">{{ bonCommande.dateboncommande }}</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label bordeaux">Réference du bon de commande:</div>
-          <div class="detail-value">{{ bonCommande.reference }}</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label bordeaux">Nom d'netreprise:</div>
-          <div class="detail-value">{{ bonCommande.nomentreprise }}</div>
-        </div>
-        <div class="detail-item">
-          <div class="detail-label bordeaux">Adresse d'entreprise:</div>
-          <div class="detail-value">{{ bonCommande.adresseentreprise }}</div>
-        </div>
-        <div class="detail-item">
-            <div class="detail-label bordeaux">Modalité de livraison:</div>
-            <div class="detail-value">{{ bonCommande.typelivraison }}</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label bordeaux">delai de livraison:</div>
-            <div class="detail-value">{{ bonCommande.delailivraison }}</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-label bordeaux">Informations de paiement:</div>
-            <div class="detail-value">{{ bonCommande.infopaiement }}</div>
-          </div>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-            <!--            <button (click)="Return()" class="btn btn-light" mdbRipple type="button">Annuler</button>-->
-            <!--            <button class="btn btn-success me-md-2" mdbRipple type="submit">Confirmer</button>-->
-            <app-workflow-decision
-                    *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-                    (decisionEvent)="Confirmation($event)"
-                    (RetournEvent)="Return()"
-                    [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-                    [decisions]="decissionWF"
-                    [object]="demandeForm"
-                    [SaveObject]="demandeForm">
-            </app-workflow-decision>
-    
-            <!--        <div class="d-grid gap-2 d-md-flex justify-content-md-between">-->
-            <!--            <button mdbRipple class="btn btn-light" type="button" (click)="Return()">Annuler</button>-->
-            <!--            <button mdbRipple class="btn btn-success me-md-2" type="submit" >Confirmer</button>-->
-    
-        </div>
+<div class="demande-details">
+  <h2 class="demande-titre">Détails de livraison </h2>
+  <div class="form-container">
+  <form [formGroup]="demandeF">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="delailivraison" class="form-label">Délai de livraison :</label>
+        <input type="date" class="form-control" id="delailivraison" formControlName="delailivraison" disabled>
       </div>
+      <div class="form-group col-md-6">
+        <label for="typelivraison" class="form-label">Modalités de livraison :</label>
+          <input  class="form-control" id="typelivraison" formControlName="typelivraison" disabled>
+        </div>
+    </div>
+  </form>
 </div>
-<dx-popup
-[showCloseButton]="true"
-[maxWidth]="'auto'"
-[width]="popupWidth"
-[height]="popupHeight"
-[showTitle]="false"
-title="Workflow Viewer"
-[dragEnabled]="false"
-[closeOnOutsideClick]="true"
-[(visible)]="popupViewerVisible">
-<div *dxTemplate="let data of 'content'">
-<app-journal [viewerUrl]="objectData.workflow.wfProcessID" [historicsWF]="objectData.workflow.historicWF" [historicsEvt]="objectData.events"
-             [historicsAcces]="objectData.userActivity"></app-journal>
 </div>
-</dx-popup>
+
+
+</form>
+    <div class="demande-details mt-5">
+      <h2 class="demande-titre">Détails du produit</h2>
+  <dx-data-grid
+[dataSource]="produitsOfferts" 
+[showBorders]="true">
+
+<dxi-column dataField="nom" caption="Nom du Produit"></dxi-column>
+<dxi-column dataField="description" caption="Description"></dxi-column>
+<dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+<div *dxTemplate="let data of 'imageTemplate'">
+<img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+</div>
+<dxi-column dataField="quantite" caption="Quantité" [width]="80"></dxi-column>
+<dxi-column dataField="prix" caption="Prix"  [customizeText]="customizeTotalText" [width]="80"></dxi-column>
+<dxi-column
+caption="Total"
+[width]="150"
+[calculateCellValue]="calculateTotalPrice"
+[customizeText]="customizeTotalText">
+</dxi-column>
+</dx-data-grid>
+</div>
+</div>
+  <!--/div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script-->

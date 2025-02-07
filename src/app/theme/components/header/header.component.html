@@ -87,7 +87,6 @@
                         <h5 class="dropdown-header">Notifications</h5>
                         <ul class="list-group">
                             <li class="list-group-item" *ngFor="let notification of notifications" (click)="navigateTo(notification.url,notification.demandeId)">
-                                <img src="assets/img.png" alt="User Logo" class="user-logo">
                                 <span class="notification-message">
                                 {{ notification.message }} créée par {{ notification.createdBy }}
                                      </span>

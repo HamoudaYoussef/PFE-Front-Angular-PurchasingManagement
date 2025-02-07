@@ -1,6 +1,6 @@
 // Processeurs et Cartes Mères
 export enum ComposantsProcesseursCartesMeres {
-    CPU = "UCT",
+    CPU ="UCT",
     CarteMere = "CM",
     Microprocesseur = "μP",
     Chipset = "Chipset",

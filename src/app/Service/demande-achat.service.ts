@@ -19,9 +19,23 @@ export class DemandeAchatService {
   private BASE_URL_Update ='http://localhost:8888/achat/api/demande-achats/update';
   private BASE_URL_DAVALID ='http://localhost:8888/achat/api/demande-achats/demandes/termine';
 
- 
+  getDemandesAchat(params: {
+    pageIndex: number;
+    pageSize: number;
+    sortField: string;
+    sortOrder: string;
+  }): Observable<{ data: NewDemandeAchat[]; totalCount: number }> {
+    const httpParams = new HttpParams()
+      .set('pageIndex', params.pageIndex.toString())
+      .set('pageSize', params.pageSize.toString())
+      .set('sortField', params.sortField)
+      .set('sortOrder', params.sortOrder);
 
-
+    return this.http.get<{ data: NewDemandeAchat[]; totalCount: number }>(
+      `${this.BASE_URL}`,
+      { params: httpParams }
+    );
+  }
 
   generateData(count: number) {
     const data = [];
@@ -85,9 +99,24 @@ export class DemandeAchatService {
     const url = `${this.env.piOpp}${id}`;
     return this.http.get<any>(url);  }
 
+   
     updateStatut(id: number, nouveauStatut: StatutDA): Observable<any> {
-      const url = `${this.env.piOpp}${id}/changer-statut`;
-      return this.http.put(url, { statutDA: nouveauStatut });
+      return this.http.put(`${this.env.piOpp}${id}/changer-statut`, 
+        { statut: nouveauStatut },
+        { responseType: 'text' } // Indique que la réponse est du texte
+      );
+    }
+    updateStatutAnnuler(id: number, nouveauStatut: StatutDA): Observable<any> {
+      return this.http.put(`${this.env.piOpp}${id}/changer-statut-annuler`, 
+        { statut: nouveauStatut },
+        { responseType: 'text' } // Indique que la réponse est du texte
+      );
+    }
+    statutEnAttente(id: number, nouveauStatut: StatutDA): Observable<any> {
+      return this.http.put(`${this.env.piOpp}${id}/statut-en-attente`, 
+        { statut: nouveauStatut },
+        { responseType: 'text' } // Indique que la réponse est du texte
+      );
     }
 
   

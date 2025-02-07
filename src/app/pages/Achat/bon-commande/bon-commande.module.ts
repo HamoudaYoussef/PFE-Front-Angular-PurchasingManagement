@@ -7,7 +7,7 @@ import { GridBonCommandeComponent } from './grid-bon-commande/grid-bon-commande.
 
 
 export const routes: Routes  = [
-  {  path: 'add/:id/:idoffre',    component:  AddBonCommandeComponent },
+  {  path: 'add',    component:  AddBonCommandeComponent },
   { path: 'boncommande/:id', component: GetBonCommandeByIdComponent },
   { path: 'boncommandes', component: GridBonCommandeComponent },
 

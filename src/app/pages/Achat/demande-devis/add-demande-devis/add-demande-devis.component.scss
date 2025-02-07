@@ -88,7 +88,262 @@
 ::ng-deep #form-container {
   margin: 10px 10px 30px;
 }
+/* Style pour le bouton Ajouter */
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
 
-  
-  
-  
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+/* Style pour le bouton Supprimer */
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Style pour les icônes */
+.fas {
+  margin-right: 5px;
+}
+/* Assure l'alignement vertical de l'icône avec les autres champs */
+.d-flex.align-items-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.fa-trash {
+  margin-right: 120px;
+  margin-bottom: 22px;
+  font-size: 15px; /* Ajuste la taille de l'icône */
+  cursor: pointer; /* Change le curseur pour indiquer une action cliquable */
+}
+
+.text-danger {
+  color: #a63a3a; /* Couleur rouge pour l'icône de suppression */
+}
+.demande-details {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.demande-details {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.demande-titre {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5;
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}
+.demande-titre-bt {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  right: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5;
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}
+.details-title {
+    font-size: 24px;
+    color: #8B0000; /* bordeaux */
+    margin-bottom: 15px;
+}
+
+.details-info .detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.details-info .detail-label {
+    color: #8B0000; /* bordeaux */
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.details-info .detail-value {
+    color: #333;
+}
+
+.bordeaux {
+    color: #8B0000; /* bordeaux */
+}
+.sufficient-stock {
+  border-color: green;
+}
+
+.out-of-stock {
+  border-color: red;
+}
+.demande-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.demande-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.produit-grid {
+  margin-top: 10px;
+}
+.demande-details-petit {
+  background-color: #fafafa; /* Légèrement plus clair pour plus de douceur */
+  border: 1px solid #ececec; /* Couleur de bordure plus claire et plus douce */
+  border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+  position: relative;
+}
+.demande-titre-petit {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background: linear-gradient(to bottom, #f5f5f5, #fafafa);
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}
+.roman-text {
+  font-family: 'Merriweather', serif; /* Appliquez la nouvelle police */
+  font-size: 20px; /* Ajustez la taille de police selon vos besoins */
+  font-weight: normal; /* Normal pour un style romain */
+  color: #333; /* Couleur de texte par défaut */
+}
+.hover-box {
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100%;  /* Le cadre apparaîtra sous l'élément */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 12px;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+.custom-popover {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  color: #555;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.popover-content {
+  text-align: center;
+}
+.popover-header {
+  display: flex; /* Utiliser flexbox */
+  align-items: center; /* Centrer verticalement */
+  justify-content: center; /* Centrer horizontalement */
+  height: 50px; /* Hauteur pour le centrer verticalement (ajustez selon vos préférences) */
+  gap: 8px; /* Espacement entre l'icône et le titre */
+  font-weight: bold; /* Mettre en gras le texte */
+  color: #333; /* Couleur du texte */
+}
+.popover-body {
+  display: flex;
+  justify-content: center;
+}
+
+.stock-status-vert {
+  font-size: 14px;
+  color: #4CAF50; /* Couleur verte pour le statut */
+  margin-left: 5px;
+}
+.stock-status-rouge {
+  font-size: 14px;
+  color: #fa1111; /* Couleur verte pour le statut */
+  margin-left: 5px;
+}
+.detail-item {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px; /* Ajoutez un petit espace si nécessaire */
+}
+
+.detail-value {
+  color: #555;
+  flex-grow: 1; /* Pour que la valeur occupe l'espace restant */
+}
+
+.details-info .detail-value {
+    color: #333;
+}
+.product-image {
+  width: 50px; /* Ajuster la taille de l'image */
+  height: 50px;
+  border-radius: 5px; /* Bords arrondis */
+  object-fit: cover; /* Couvrir l'espace sans déformation */
+}
+
+.product-info {
+  margin-left: 10px; /* Espacement entre l'image et le texte */
+  flex-grow: 1; /* Permet au texte de prendre l'espace restant */
+}
+
+.product-name {
+  font-weight: bold; /* Nom en gras */
+  font-size: 14px; /* Taille de la police pour le nom */
+}
+
+.product-description {
+  font-size: 12px; /* Taille de la police pour la description */
+  color: #666; /* Couleur plus claire pour la description */
+  margin-top: 2px; /* Espacement au-dessus de la description */
+}

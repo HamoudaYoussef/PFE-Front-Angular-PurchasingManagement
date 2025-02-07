@@ -1,8 +1,9 @@
 export interface IFournisseur {
-  fournisseur_id: number;
+  id: number;
   nom: string ;
   adresse: string ;
   tel: string;
+  email: string;
 }
 
-export type NewFournisseur = Omit<IFournisseur, 'fournisseur_id'> & { fournisseur_id: number };
+export type NewFournisseur = Omit<IFournisseur, 'id'> & { id: number };

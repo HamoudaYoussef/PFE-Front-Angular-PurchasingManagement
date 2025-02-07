@@ -7,6 +7,7 @@ import { NewProduitDemandee } from '../Models/produit-demandee.model';
 export class DevisDaSharedService {
 
   constructor() { }
+  private demandeAchatId: number | null = null;
 
   private selectedData: NewProduitDemandee[];
 
@@ -16,5 +17,11 @@ export class DevisDaSharedService {
 
   getSelectedData(): NewProduitDemandee[] {
     return this.selectedData;
+  }
+  getDemandeAchatId(): number | null {
+    return this.demandeAchatId;
+  }
+  setDemandeAchatId(id: number): void {
+    this.demandeAchatId = id;
   }
 }

@@ -1,31 +1,106 @@
 <div class="demande-details" *ngIf="fournisseur">
-    <h2 class="details-title">Détails du fournisseur</h2>
-    <div class="details-info">
+    <h2 class="demande-titre">Détails du fournisseur:</h2>
         <div class="detail-item">
-            <div class="detail-label bordeaux">Nom du fournisseur:</div>
+            <div class="detail-label">Nom du fournisseur:</div>
             <div class="detail-value">{{ fournisseur.nom }}</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label bordeaux">L'adresse du fournisseur:</div>
-            <div class="detail-value">{{ fournisseur.adresse }}</div>
+            <div class="detail-label">Numéro de téléphone:</div>
+            <div class="detail-value">+216 {{ fournisseur.tel }}</div>
         </div>
         <div class="detail-item">
-            <div class="detail-label bordeaux">Numéro de télephone du fournisseur:</div>
-            <div class="detail-value">{{ fournisseur.tel }}</div>
+            <div class="detail-label ">Adresse:</div>
+            <div class="detail-value-adresse">
+            <p>{{fournisseur.adresse}}</p>  <a 
+            href="https://www.google.com/maps/search/?api=1&query={{ fournisseur.adresse }}" 
+            target="_blank" 
+            rel="noopener noreferrer"
+         >Voir map</a>
         </div>
-
+            <!--div role="document" style="width: 500px;">
+                <div class="modal-body">
+                  <p style="margin-right: 400px;  font-weight: bold; font-size: 14px">Coordonnées:</p>
+                  <p style="margin-right: 400px;  font-size: 16px;">{{ latitude }},{{ longitude }}</p>
+                  <div id="map" style="height: 200px; width: 100%; margin-top: 10px;"></div>
+                </div>
+              </div-->
+        </div>
         <!-- Autres détails à afficher -->
-    </div>
 </div>
-<h2 class="details-title">Ses Produits:</h2>
-
-<div class="card-container">
-    <div class="card" *ngFor="let produit of produits">
-      <img src="image.jpg" alt="Image" class="card-image">
-      <div class="card-content">
-        <h3 class="card-title bordeaux">{{ produit.nom }}</h3>
-        <p class="card-text">{{ produit.description }}</p>
-        <div class="color-square" [style.background-color]="produit.couleur"></div>
-      </div>
+<div class="demande-details" *ngIf="demandesDevis && demandesDevis.length > 0">
+    <h2 class="demande-titre" style="color: #1b5e0c">Flux du demandes devis et offres:</h2>
+    <div class="demande-details-petit mt-3"  *ngFor="let demandeDevis of demandesDevis">
+        <h3 class="demande-titre-petit mt-2" >Demande de devis envoyé:({{demandeDevis.reference}}):</h3>
+        <h5>{{demandeDevis.description}}</h5>
+        <div class="detail-row">
+    <div class="detail-item">
+        <div class="detail-label ">Nom de la demande:</div>
+        <div class="detail-value" style="margin-left: 10px;"> {{ demandeDevis.nom }} </div>
     </div>
-  </div>
+    <div class="detail-item">
+        <div class="detail-label ">Date:</div>
+        <div class="detail-value">{{ demandeDevis.datedemande }} </div>
+    </div>
+    </div>
+
+    <dx-data-grid
+        id="gridContainer"
+        [dataSource]="produitsCommandeesParDemandeDevis[demandeDevis.id]"
+        keyExpr="id"
+        [showBorders]="true"
+        class="custom-grid mt-3"
+        (onToolbarPreparing)="onToolbarPreparing($event)"
+        >
+        <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+        <dxi-column dataField="description" caption="Description"></dxi-column>
+        <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+        <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+        <!-- Template pour afficher l'image -->
+        <div *dxTemplate="let data of 'imageTemplate'">
+          <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+        </div>
+      </dx-data-grid>
+      <div class="demande-details-plus-petit mt-3" >
+        <h3 class="demande-titre-plus-petit mt-2" >Offre recu:({{offresParDemandeDevis[demandeDevis.id].referenceoffre}}):</h3>
+        <h5>{{offresParDemandeDevis[demandeDevis.id].description}}</h5>
+        <div class="detail-item">
+          <div class="detail-label ">Nom de la demande:</div>
+          <div class="detail-value">{{offresParDemandeDevis[demandeDevis.id].nom }} </div>
+      </div>
+      
+      <div class="detail-item">
+          <div class="detail-label ">Date de l'offre:</div>
+          <div class="detail-value">{{offresParDemandeDevis[demandeDevis.id].dateoffre }} </div>
+      </div>
+      <div class="detail-item">
+      <div class="detail-label ">Prix de l'offre:</div>
+      <div class="detail-value">{{ offresParDemandeDevis[demandeDevis.id].prix }} DT</div>
+      </div>
+
+      <dx-data-grid
+      id="gridContainer"
+      [dataSource]="produitsOffertsParOffre[offresParDemandeDevis[demandeDevis.id].id] "
+      keyExpr="id"
+      [showBorders]="true"
+      class="custom-grid mt-3"
+      (onToolbarPreparing)="onToolbarPreparingO($event)"
+      >
+      <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+      <dxi-column dataField="description" caption="Description"></dxi-column>
+      <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+      <dxi-column dataField="prix" caption="Prix" dataType="number"></dxi-column>
+
+      <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+      <!-- Template pour afficher l'image -->
+      <div *dxTemplate="let data of 'imageTemplate'">
+        <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+      </div>
+    </dx-data-grid>
+        </div>
+</div>
+<!-- Autres détails à afficher -->
+</div>
+
+

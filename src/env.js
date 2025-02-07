@@ -1,6 +1,6 @@
 (function (window) {
   window.__env = window.__env || {};
-  window.__env.apiUrlMetiers = 'http://localhost:8888/achat/api/demande-achats/';
+  window.__env.apiUrlMetiers = 'http://localhost:8888/achat/api/';
   window.__env.apiUrlkernel = 'https://kernel.picosoft.biz/kernel-v1/api/';
   window.__env.enableDebug = true;
   window.__env.apiUrlpostal = 'http://localhost.picosoft.biz:4301';

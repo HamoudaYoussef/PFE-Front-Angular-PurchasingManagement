@@ -6,7 +6,7 @@
     (onToolbarPreparing)="onToolbarPreparing($event)"
         [columnAutoWidth]="true"
         [dataSource]="dataSourceElement"
-        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+        [remoteOperations]="{filtering: true, grouping: true, sorting: true, paging: true}"
     [rowAlternationEnabled]="true"
     [showColumnLines]="true"
     (onRowDblClick)="Editdemande($event)"
@@ -14,16 +14,19 @@
     id="dataGridDemande"
     class="dataGridDemande"
 >
+<dxo-filter-row [visible]="true"></dxo-filter-row>
+<dxo-header-filter [visible]="true"></dxo-header-filter>
+<dxo-group-panel [visible]="true"></dxo-group-panel>
+<dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-    <dxi-column dataField="id" dataType="number"></dxi-column>
     <dxi-column dataField="dateboncommande" dataType="date"></dxi-column>
     <dxi-column dataField="reference" dataType="string"></dxi-column>
-    <dxi-column dataField="nomentreprise" dataType="string"></dxi-column>
-    <dxi-column dataField="adresseentreprise" dataType="string"></dxi-column>
+    <dxi-column dataField="numero" dataType="string"></dxi-column>
     <dxi-column dataField="delailivraison" dataType="date"></dxi-column>
     <dxi-column dataField="typelivraison" dataType="string"></dxi-column>
-    <dxi-column dataField="infopaiement" dataType="string"></dxi-column>
+    <dxi-column dataField="adresselivraison" dataType="string"></dxi-column>
+
 
     <dxi-column [allowResizing]="false"
                 [fixed]="false" caption="{{'' | translate}}"
@@ -32,9 +35,6 @@
     </dxi-column>
     <div *dxTemplate="let data of 'cellTemplateActions'"
          style="display: flex; justify-content: center; align-items: center;">
-        <a (click)="showbordereaux(data.data.id)" target="_blank"
-           title="Consulter demande"><i
-                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
 
         <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
             <i class="fa fa-trash" style="color:#a63a3a;">

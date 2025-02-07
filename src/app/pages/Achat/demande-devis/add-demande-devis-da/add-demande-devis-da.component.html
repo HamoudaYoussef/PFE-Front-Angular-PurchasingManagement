@@ -1,4 +1,47 @@
 <div id="form-container" class="container mt-5">
+  <dx-form [formGroup]="demandeDevisForm">
+    <dxi-item itemType="group" caption="Informations de la demande de devis">
+      <div class="row mb-4">
+        <!-- Colonne pour Nom de la demande -->
+        <div class="col-md-6 mb-3">
+          <div class="form-group">
+            <label for="nomDemandeDevis">Nom de la demande :</label>
+            <input type="text" id="nomDemandeDevis" formControlName="nom" class="form-control">
+            <div *ngIf="demandeDevisForm.get('nom').invalid && (demandeDevisForm.get('nom').dirty || demandeDevisForm.get('nom').touched)" class="text-danger">
+              <div *ngIf="demandeDevisForm.get('nom').errors.required">Nom est requis.</div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Colonne pour Fournisseur -->
+        <div class="col-md-6 mb-3">
+          <div class="form-group">
+            <label for="fournisseurDemandeDevis">Fournisseur :</label>
+            <dx-select-box id="fournisseurDemandeDevis" formControlName="fournisseur" class="form-control" [dataSource]="fournisseurs"
+              displayExpr="nom" valueExpr="id">
+              <dxo-validation-message mode="always"></dxo-validation-message>
+            </dx-select-box>
+            <div *ngIf="demandeDevisForm.get('fournisseur').invalid && (demandeDevisForm.get('fournisseur').dirty || demandeDevisForm.get('fournisseur').touched)" class="text-danger">
+              <div *ngIf="demandeDevisForm.get('fournisseur').errors.required">Fournisseur est requis.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Deuxième ligne avec Description -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="descriptionDemandeDevis">Description :</label>
+            <textarea id="descriptionDemandeDevis" formControlName="description" class="form-control"></textarea>
+            <div *ngIf="demandeDevisForm.get('description').invalid && (demandeDevisForm.get('description').dirty || demandeDevisForm.get('description').touched)" class="text-danger">
+              <div *ngIf="demandeDevisForm.get('description').errors.required">Description est requise.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dxi-item>
+  </dx-form>
   <dx-form [formGroup]="formGroup">
     <dxi-item itemType="group" [colCount]="2" caption="Ajouter la demande de devis">
       <div formArrayName="formArray">
@@ -34,18 +77,6 @@
             </div>
           </div>
 
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="fournisseur-{{i}}">Fournisseur :</label>
-              <dx-select-box id="fournisseur-{{i}}" formControlName="fournisseur" class="form-control" [dataSource]="fournisseurs"
-                displayExpr="nom" valueExpr="id">
-                <dxo-validation-message mode="always"></dxo-validation-message>
-              </dx-select-box>
-              <div *ngIf="fg.get('fournisseur').invalid && (fg.get('fournisseur').dirty || fg.get('fournisseur').touched)" class="text-danger">
-                <div *ngIf="fg.get('fournisseur').errors.required">Fournisseur is required.</div>
-              </div>
-            </div>
-          </div>
 
         </div>
       </div>

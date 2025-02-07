@@ -31,8 +31,8 @@ import {WsServiceProvider} from "../ws.service.provider";
 import {ConfigPstkModule} from "./pages/Global/config-pstk/config-pstk.module";
 import {AffectationRoutesModule} from "./pages/Global/affectation-routes/affectation-routes.module";
 import {TokenInterceptor} from "./core/auth/token.interceptor";
-import {DxBoxModule, DxButtonModule, DxDataGridModule, DxFormModule, DxListModule, DxPopupModule, DxScrollViewModule, DxSelectBoxModule, DxTemplateHost, DxTemplateModule, DxTextAreaModule, DxTextBoxModule, DxToolbarModule, DxTooltipModule} from "devextreme-angular";
-import {DxiColumnModule, DxiItemModule, DxiRangeModule, DxoPagerModule, DxoPagingModule, DxoScrollingModule} from "devextreme-angular/ui/nested";
+import { DxBoxModule, DxButtonModule, DxDataGridModule, DxFileUploaderModule, DxFormModule, DxHtmlEditorModule, DxListModule, DxLoadPanelModule, DxPopoverModule, DxPopupModule, DxScrollViewModule, DxSelectBoxModule, DxTemplateHost, DxTemplateModule, DxTextAreaModule, DxTextBoxModule, DxToastModule, DxToolbarModule, DxTooltipModule } from 'devextreme-angular';
+import {DxiColumnModule, DxiItemModule, DxiRangeModule, DxoImageUploadModule, DxoPagerModule, DxoPagingModule, DxoScrollingModule} from "devextreme-angular/ui/nested";
 import { AddDemandeAchatComponent } from './pages/Achat/demande-achat/add-demande-achat/add-demande-achat.component';
 import { GridDemandeAchatComponent } from './pages/Achat/demande-achat/grid-demande-achat/grid-demande-achat.component';
 import { WorkflowDecisionComponent } from './pages/Global/workflow-components/decision-component/workflow-decision.component';
@@ -70,6 +70,23 @@ import { GridProduitDemandeeComponent } from './pages/Achat/produit/grid-produit
 import { MatDialogModule } from '@angular/material/dialog';
 import { HoverOffreComponent } from './pages/Achat/offre/hover-offre/hover-offre.component';
 import { StatistiqueComponent } from './pages/Achat/statistique/statistique.component';
+import { HoverDemandeDevisComponent } from './pages/Achat/demande-devis/hover-demande-devis/hover-demande-devis.component';
+import { GetDdByIdComponent } from './pages/Achat/demande-devis/get-dd-by-id/get-dd-by-id.component';
+import { DemandeDevisOffreComponent } from './pages/Achat/demande-devis/demande-devis-offre/demande-devis-offre.component';
+import { AddOffreComponent } from './pages/Achat/offre/add-offre/add-offre.component';
+import { HoverAddOffreComponent } from './pages/Achat/offre/hover-add-offre/hover-add-offre.component';
+import { AddDemandeDevisOffreComponent } from './pages/Achat/demande-devis/add-demande-devis-offre/add-demande-devis-offre.component';
+import { DemandeAchatRejeteeComponent } from './pages/Achat/demande-achat/demande-achat-rejetee/demande-achat-rejetee.component';
+import { loadMessages } from 'devextreme/localization';
+
+import frMessages from 'devextreme/localization/messages/fr.json';
+import dxPopover from 'devextreme/ui/popover';
+import { GetFournisseurByIdComponent } from './pages/Achat/fournisseurs/get-fournisseur-by-id/get-fournisseur-by-id.component';
+import { GridProduitCommandeeComponent } from './pages/Achat/produit/grid-produit-commandee/grid-produit-commandee.component';
+import { GridProduitOffertComponent } from './pages/Achat/produit/grid-produit-offert/grid-produit-offert.component';
+import { GetProduitDemandeeByIdComponent } from './pages/Achat/produit/get-produit-demandee-by-id/get-produit-demandee-by-id.component';
+import { GetProduitCommandeeByIdComponent } from './pages/Achat/produit/get-produit-commandee-by-id/get-produit-commandee-by-id.component';
+import { GetProduitOffertByIdComponent } from './pages/Achat/produit/get-produit-offert-by-id/get-produit-offert-by-id.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -79,6 +96,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -127,7 +145,16 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         MatButtonModule ,
         MatCardModule,
         DxiItemModule,
-        MatDialogModule
+        MatDialogModule,
+        DxLoadPanelModule,
+        DxHtmlEditorModule,
+        DxoImageUploadModule,
+        DxFileUploaderModule,
+        DxScrollViewModule,
+        DxPopoverModule,
+        DxBoxModule,
+        DxToastModule
+        
         
         
 
@@ -181,7 +208,28 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         HoverDaComponent,
         GridProduitDemandeeComponent,
         HoverOffreComponent,
-        StatistiqueComponent
+        StatistiqueComponent,
+        HoverDemandeDevisComponent,
+        GetDdByIdComponent,
+        DemandeDevisOffreComponent,
+        AddOffreComponent,
+        HoverAddOffreComponent,
+        AddDemandeDevisOffreComponent,
+        DemandeAchatRejeteeComponent,
+        GetFournisseurByIdComponent,
+        GridProduitCommandeeComponent, 
+        GridProduitOffertComponent,
+        GetProduitDemandeeByIdComponent,
+        GetProduitCommandeeByIdComponent,
+        GetProduitOffertByIdComponent
+
+
+
+
+
+
+
+
 
 
 
@@ -207,4 +255,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 })
 export class AppModule {
+    constructor() {
+        // Charger les messages en français
+        loadMessages(frMessages);
+    } 
 }

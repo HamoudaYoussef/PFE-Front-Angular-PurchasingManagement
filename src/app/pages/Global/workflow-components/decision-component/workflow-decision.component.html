@@ -17,21 +17,64 @@
         </mdb-form-control>
     </div>
 
-
-    <div  class="md-form row" style="margin-top: 10px;">
+    <div class="md-form row" style="margin-top: 10px;">
         <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <div *ngFor="let decision of decisions" class="ml-auto" [hidden]="access">
-                <button (click)="onClickDecision(object, decision, Commentaire.value)" [disabled]="clicked"
-                        class="btn btn-primary btn-rounded mb-1 mr-1 butttons-style"
-                        mdbRipple
-                        style="background-color: green; font-weight: bold; color: white;"
+            <!-- Bouton rouge "retour" à gauche -->
+            <div class="d-flex">
+                <button (click)="Return()" *ngIf="!showInmodal" 
+                        class="btn btn-primary btn-rounded" 
+                        mdbRipple 
+                        style="color: white; background-color:#b60808; font-weight: bold;" 
                         type="button">
-                    {{decision}}
+                    retour
                 </button>
             </div>
-        
-            <button (click)="Return()" *ngIf="!showInmodal" class="btn btn-primary btn-rounded" mdbRipple style="color: white; background-color:#b60808;" type="button">retour </button>
+    
+            <!-- Autres boutons de décision alignés à droite -->
+            <div class="d-flex ml-auto">
+                <div class="d-flex" *ngIf="decisions.length === 1">
+                    <div *ngFor="let decision of decisions" [hidden]="access">
+                        <button 
+                                (click)="onClickDecision(object, decision, Commentaire.value)" 
+                                [disabled]="clicked"
+                                class="btn btn-primary btn-rounded"
+                                mdbRipple
+                                [ngStyle]="{
+                                  'background-color': '#008000', 
+                                  'font-weight': 'bold', 
+                                  'color': 'white',
+                                  'margin-left': '1060px'  
+                                }"
+                                type="button">
+                            {{decision}}
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex" *ngIf="decisions.length > 1">
+                    <div *ngFor="let decision of decisions" [hidden]="access">
+                        <button 
+                                (click)="onClickDecision(object, decision, Commentaire.value)" 
+                                [disabled]="clicked"
+                                class="btn btn-primary btn-rounded"
+                                mdbRipple
+                                [ngStyle]="{
+                                  'background-color': '#008000', 
+                                  'font-weight': 'bold', 
+                                  'color': 'white',
+                                  'margin-left': '10px'  
+                                }"
+                                type="button">
+                            {{decision}}
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        
     </div>
+    
+
+    
+    
+    
+    
 </div>

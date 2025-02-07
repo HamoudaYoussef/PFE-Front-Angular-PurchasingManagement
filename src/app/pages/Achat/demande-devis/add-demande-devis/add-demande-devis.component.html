@@ -1,95 +1,344 @@
-<div>
-  <div class="card-header text-center bg-secondary text-white" style="background-color: #0096a6 !important;">
-    <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
-      <h5> Process demande achat ({{objectData.id}})</h5>
-    </div>
-    <div>
-      <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
-        <div class="icon-container" title="{{'show-event.Voir la liste des événements' | translate}}">
-          <i class="fas fa-project-diagram"></i>
+<div  class="demande-details mt-5" *ngIf="demandeAchat">
+  <h2 class="demande-titre ">Détails de la demande d'achat:</h2>
+      <div class="detail-item">
+          <div class="detail-label ">Date de la demande:</div>
+          <div class="detail-value">{{ demandeAchat.datedemande }}</div>
+      </div>
+     
+      <div class="detail-item">
+          <div class="detail-label ">Description:</div>
+          <div class="detail-value">{{ demandeAchat.description }}</div>
+      </div>
+      <div class="detail-item">
+          <div class="detail-label ">Statut:</div>
+          <div class="detail-value">{{ demandeAchat.statut }}</div>
+      </div>
+      <!-- Autres détails à afficher -->
+  
+</div>
+<div class="demande-details">
+<h2 class="demande-titre">Les produits de cette demande:</h2>
+
+
+<div *ngIf="produits.length > 0" class="hovered-product-details">
+  <dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="produits"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  (onRowPrepared)="handleRowPrepared($event)">
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    
+    <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="description" dataType="string"></dxi-column>
+    <dxi-column dataField="quantite" dataType="number"></dxi-column>
+    <dxi-column 
+    caption="État du stock"
+    [calculateCellValue]="calculateStockStatus"
+    [cellTemplate]="etatStockCellTemplate">
+  </dxi-column>
+
+    <dxi-column caption="Image" [width]="100" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+      <!-- Template pour afficher l'image -->
+      <div *dxTemplate="let data of 'imageTemplate'">
+        <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+      </div>
+    <dxo-pager
+      [allowedPageSizes]="allowedPageSizes"
+      [showInfo]="true"
+      [showPageSizeSelector]="true"
+      [visible]="true"
+      displayMode="full"
+      [showNavigationButtons]="true"
+    ></dxo-pager>
+  </dx-data-grid>
+</div>
+</div>
+
+
+<div class="demande-details">
+  <h2 (click)="openAddPage()"  type="button" class="demande-titre-bt">Ajouter une demande de devis: <i class="fa fa-plus"></i></h2>
+  <div *ngIf="demandesDevis">
+    <div class="demande-details-petit mt-5" *ngFor="let demande of demandesDevis">
+      <h2 class="demande-titre-petit">Demande {{demande.nom}}</h2>
+       
+          <div class="detail-item"  style="margin-right: 20px;">
+            <div class="detail-label bordeaux">Date de la demande:</div>
+            <div class="detail-value">{{ demande.datedemande | date }}</div>
+          </div>
+          <div class="detail-item"  style="margin-right: 20px;">
+            <div class="detail-label bordeaux">Description:</div>
+            <div class="detail-value">{{ demande.description }}</div>
+          </div>
+          <div class="detail-item"  style="margin-right: 20px;">
+            <div class="detail-label bordeaux">Fournisseur:</div>
+            <div class="detail-value">{{ demande.fournisseur.nom }}</div>
+          </div>
+        
+        <!-- Grid des produits commandés -->
+        <dx-data-grid
+          id="gridContainer"
+          [dataSource]="produitCommandeeMap[demande.id]"
+          keyExpr="id"
+          [showBorders]="true"
+          class="produit-grid">
+          <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+          <dxi-column dataField="description" caption="Description"></dxi-column>
+          <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+          <dxi-column caption="Image" [width]="100" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+          <!-- Template pour afficher l'image -->
+          <div *dxTemplate="let data of 'imageTemplate'">
+            <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+          </div>
+        </dx-data-grid>
         </div>
-      </a>
+  </div>
+  
+  
+  <div *ngIf="!demandesDevis">
+    <p>Aucune demande de devis trouvée pour cette demande d'achat.</p>
+  </div>
+
+</div>
+<dx-popup
+  [(visible)]="popupAdd"
+  [width]="'60%'"
+  [height]="'100%'"
+  [dragEnabled]="true"
+  [closeOnOutsideClick]="true"
+  [showCloseButton]="true"
+  [showTitle]="true"
+  [titleTemplate]="'customTitleTemplate'"
+  >
+  <div *dxTemplate="let data of 'customTitleTemplate'">
+    <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+      <h3 class="popup-title-text roman-text">Demande devis ({{codeDemandeDevis }})</h3>
     </div>
   </div>
-</div>
-<div id="form-container" class="container mt-5">
-  <form [formGroup]="demandeForm">
-    <div formArrayName="produits">
-      <div *ngFor="let produit of produitsForms.controls; let i = index" [formGroupName]="i" class="row mb-4">
-        <div class="col-md-4">
+  <dx-scroll-view width="100%" height="100%">
+<div style="width: 98%">
+  <dx-form [formGroup]="demandeDevisForm">
+    <dxi-item itemType="group">
+      <div class="row mb-4">
+        <!-- Colonne pour Nom de la demande -->
+        <div class="col-md-6 mb-3">
           <div class="form-group">
-            <label for="nom-{{i}}">Nom d'article:</label>
-            <input type="text" id="nom-{{i}}" formControlName="nom" class="form-control">
-            <div *ngIf="produit.get('nom').invalid && (produit.get('nom').dirty || produit.get('nom').touched)" class="text-danger">
-              <div *ngIf="produit.get('nom').errors.required">Nom is required.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="description-{{i}}">Description :</label>
-            <input type="text" id="description-{{i}}" formControlName="description" class="form-control">
-            <div *ngIf="produit.get('description').invalid && (produit.get('description').dirty || produit.get('description').touched)" class="text-danger">
-              <div *ngIf="produit.get('description').errors.required">Description is required.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-2">
-          <div class="form-group">
-            <label for="quantite-{{i}}">Quantité :</label>
-            <input type="number" id="quantite-{{i}}" formControlName="quantite" class="form-control">
-            <div *ngIf="produit.get('quantite').invalid && (produit.get('quantite').dirty || produit.get('quantite').touched)" class="text-danger">
-              <div *ngIf="produit.get('quantite').errors.required">Quantité is required.</div>
-              <div *ngIf="produit.get('quantite').errors.min">Quantité must be at least 1.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-2">
-          <div class="form-group">
-            <label for="fournisseur-{{i}}">Fournisseur :</label>
-            <select id="fournisseur-{{i}}" formControlName="fournisseur" class="form-control">
-              <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.id">{{ fournisseur.nom }}</option>
-            </select>
-            <div *ngIf="produit.get('fournisseur').invalid && (produit.get('fournisseur').dirty || produit.get('fournisseur').touched)" class="text-danger">
-              <div *ngIf="produit.get('fournisseur').errors.required">Fournisseur is required.</div>
+            <label for="nomDemandeDevis">Nom de la demande :</label>
+            <input type="text" id="nomDemandeDevis" formControlName="nom" class="form-control">
+            <div *ngIf="demandeDevisForm.get('nom').invalid && (demandeDevisForm.get('nom').dirty || demandeDevisForm.get('nom').touched)" class="text-danger">
+              <div *ngIf="demandeDevisForm.get('nom').errors.required">Nom est requis.</div>
             </div>
           </div>
         </div>
         
+        <!-- Colonne pour Fournisseur -->
+        <div class="col-md-6 mb-3">
+          <label for="fournisseur">Fournisseur :</label>
+          <dx-select-box id="fournisseur" formControlName="fournisseurId" 
+            [dataSource]="fournisseurs" displayExpr="nom" valueExpr="id">
+          </dx-select-box>
+        </div>
       </div>
-    </div>
-  </form>
-</div>
+      
+      <!-- Deuxième ligne avec Description -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="descriptionDemandeDevis">Description :</label>
+            <textarea id="descriptionDemandeDevis" formControlName="description" class="form-control"></textarea>
+            <div *ngIf="demandeDevisForm.get('description').invalid && (demandeDevisForm.get('description').dirty || demandeDevisForm.get('description').touched)" class="text-danger">
+              <div *ngIf="demandeDevisForm.get('description').errors.required">Description est requise.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dxi-item>
+  </dx-form>
 
-<app-workflow-decision
-  *ngIf="demandeForm && (demandeForm['workflow'] != undefined || !(this.demandeForm.userPermission == 'WRITE'))"
-  (decisionEvent)="Confirmation($event)"
-  (RetournEvent)="Return()"
-  [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-  [decisions]="decissionWF"
-  [object]="demandeForm"
-  [SaveObject]="demandeForm">
-</app-workflow-decision>
+  <!--div class="d-flex justify-content-end mt-3">
+    <button (click)="saveDemandeDevis()" type="button" class="btn btn-primary">Enregistrer</button>
+    <button (click)="isPopupVisible = false" type="button" class="btn btn-secondary ms-2">Annuler</button>
+  </div-->
 
-<dx-popup
-  [showCloseButton]="true"
-  [maxWidth]="'auto'"
-  [width]="popupWidth"
-  [height]="popupHeight"
-  [showTitle]="false"
-  title="Workflow Viewer"
-  [dragEnabled]="false"
-  [closeOnOutsideClick]="true"
-  [(visible)]="popupViewerVisible">
-  <div *dxTemplate="let data of 'content'">
-    <app-journal
-      [viewerUrl]="objectData.workflow.wfProcessID"
-      [historicsWF]="objectData.workflow.historicWF"
-      [historicsEvt]="objectData.events"
-      [historicsAcces]="objectData.userActivity">
-    </app-journal>
+  <div id="form-container" class="container mt-5">
+    <dx-data-grid
+      id="gridContainer"
+      [dataSource]="produitCommandeeList"
+      keyExpr="id"
+      (onToolbarPreparing)="onToolbarPreparing($event)"
+      [showBorders]="true"
+      #dataGrid>
+      
+
+      <dxi-column dataField="nom"></dxi-column>
+      <dxi-column dataField="description"></dxi-column>
+      <dxi-column dataField="quantite" dataType="number"></dxi-column>
+      <dxi-column caption="Image" [width]="100" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+      <!-- Template pour afficher l'image -->
+      <div *dxTemplate="let data of 'imageTemplate'">
+        <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+      </div>
+  
+      <dxi-column type="buttons">
+        <ng-template let-row="row">
+          <dxi-button name="delete" >Delete</dxi-button>
+          <dxi-button name="update" >Update</dxi-button>
+        </ng-template>
+      </dxi-column>
+    </dx-data-grid>
   </div>
+  <div class="row mt-5">
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+        <button type="button" class="btn btn-outline-secondary me-md-2" style="width: 400px;" (click)="closePopUp()">Annuler</button>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+        <button type="submit" class="btn btn-success me-md-2" style="width: 400px;" (click)="addDemandeDevis()">Ajouter</button>
+    </div>
+</div>
+</div>
+  </dx-scroll-view>
 </dx-popup>
+
+
+<dx-popup 
+    [maxWidth]="940"
+    [width]="'60%'"
+    [height]="'auto'"
+    [showTitle]="true"
+    title="Ajouter un nouvel article"
+    [dragEnabled]="false"
+    [closeOnOutsideClick]="true"
+    [(visible)]="popupAddVisible">
+    <div>
+        <dx-form #form [formData]="formDataP">
+            <dxi-item 
+            dataField="categorie" 
+            [editorType]="'dxSelectBox'" 
+            [editorOptions]="categoryOptions">
+            <dxi-validation-rule type="required" message="La catégorie est obligatoire"></dxi-validation-rule>
+          </dxi-item>
+          
+ 
+          <dxi-item 
+          dataField="produit" 
+          [editorType]="'dxSelectBox'" 
+          [editorOptions]="{
+            items: filteredProducts,
+            displayExpr: 'nom',      
+            valueExpr: getSelectedItem,
+            placeholder: 'Sélectionner un produit',
+            fieldTemplate: 'fieldTemplate',  
+            itemTemplate: 'itemTemplate',
+            onValueChanged: 'onProduitChange($event)'  
+          }">
+          <dxi-validation-rule type="required" message="Le produit est requis"></dxi-validation-rule>
+        </dxi-item>
+        <!-- Template personnalisé pour le champ produit -->
+        <div *dxTemplate="let data of 'fieldTemplate'">
+          <div class="custom-item" style="display: flex; align-items: center;">
+            <img src="assets/img/{{ data?.img }}" class="product-image" />
+            <dx-text-box
+              class="product-name"
+              [value]="data?.nom"
+              [inputAttr]="{ 'aria-label': 'Nom du produit' }"
+              [readOnly]="true"
+              style="margin-left: 10px;">
+            </dx-text-box>
+          </div>
+        </div>
+      
+        <!-- Template personnalisé pour les items de la liste déroulante -->
+        <div *dxTemplate="let data of 'itemTemplate'">
+          <div class="custom-item" style="display: flex; align-items: center; padding: 10px;">
+            <img alt="Product image" src="assets/img/{{ data?.img }}" class="product-image" />
+            <div class="product-info" style="margin-left: 10px; flex-grow: 1;">
+              <div class="product-name" style="font-weight: bold; color: #333;">
+                {{ data?.nom }}
+              </div>
+              <div class="product-description" style="font-size: 12px; color: #666; margin-top: 2px;">
+                {{ data?.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+            <dxi-item 
+                dataField="quantite" 
+                [editorType]="'dxNumberBox'" 
+                [editorOptions]="{placeholder: 'Quantité',
+                validationRules: [{ type: 'required', message: 'La quantité est requise.' }]
+
+                }">
+                    <dxi-validation-rule type="required" message="La description est obligatoire"></dxi-validation-rule>
+
+            </dxi-item>
+        
+            <dxi-item 
+                dataField="description" 
+                [editorType]="'dxTextArea'" 
+                [editorOptions]="{height: 100, placeholder: 'Description',
+                validationRules: [{ type: 'required', message: 'La description est requise.' }]
+
+                }">
+
+            </dxi-item>
+
+        </dx-form>
+        
+        <div class="row">
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2" style="width: 400px;" (click)="closeAddPopup()">Annuler</button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button type="submit" class="btn btn-success me-md-2" style="width: 400px;" (click)="saveProduitCommandeeInDataGrid()">
+                {{  'Ajouter' }} <!-- Changer le texte du bouton ici -->
+            </button>
+        </div>
+    </div>
+    </div>
+</dx-popup>
+<dx-load-panel
+  #loadPanel
+  shadingColor="rgba(0,0,0,0.4)"
+  [(visible)]="showloader"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  [hideOnOutsideClick]="false"
+></dx-load-panel>
+<dx-popover 
+  #etatStockPopover
+  [target]="popoverTarget"
+  [visible]="isPopoverVisible"
+  position="top"
+  width="300"
+  cssClass="custom-popover"
+>
+  <div class="popover-content">
+    <div class="popover-header">
+      <i class="dx-icon dx-icon-info" aria-hidden="true"></i>
+      <span class="stock-title">État du Stock</span>
+    </div>
+    <div class="popover-body">
+      <!-- Vérifiez si la quantité est supérieure à 0 -->
+      <ng-container *ngIf="quantitedifference >= 0; else stockEmpty">
+        <span class="stock-status-vert">🟢 {{quantiteCalculee}} : quantité disponible dans le stock</span>
+      </ng-container>
+      <!-- Modèle alternatif pour les quantités <= 0 -->
+      <ng-template #stockEmpty>
+        <span class="stock-status-rouge">🔴 {{quantiteCalculee}} : quantité disponible dans le stock</span>
+      </ng-template>
+    </div>
+  </div>
+</dx-popover>

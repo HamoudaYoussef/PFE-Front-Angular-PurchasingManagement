@@ -14,39 +14,23 @@
  
   keyExpr="id"
 >
+<dxo-filter-row [visible]="true"></dxo-filter-row>
+<dxo-header-filter [visible]="true"></dxo-header-filter>
+<dxo-group-panel [visible]="true"></dxo-group-panel>
+<dxo-scrolling mode="virtual"></dxo-scrolling>
   <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
   <!--dxo-paging [pageSize]="pageSize" [pageIndex]="pageIndex"></dxo-paging-->
+  <dxi-column dataField="reference" [width]="150" dataType="string" caption="Réference" ></dxi-column>
+  <dxi-column dataField="datedemande" [width]="150" dataType="string" caption="Date de Demande" ></dxi-column>
+  <dxi-column dataField="statut" [width]="150" caption="Statut" ></dxi-column>
+  <dxi-column dataField="description" dataType="string" caption="Description">
+    
+  </dxi-column>
 
-  <dxi-column dataField="id" dataType="number" caption="ID"></dxi-column>
-  <dxi-column dataField="statut" dataType="string" caption="Statut"></dxi-column>
-  <dxi-column dataField="nom" dataType="string" caption="Nom"></dxi-column>
-  <dxi-column dataField="datedemande" dataType="string" caption="Date de Demande" ></dxi-column>
-  
   <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
   <div *dxTemplate="let demandeachat of 'detail'">
-    <div class="master-detail-caption">{{
-     "voici la demande achat" + demandeachat.data.nom + "de la date " + demandeachat.data.datedemande + "'s Tasks:"
-    }}</div>
     <app-hover-da [demandeAchatId]="demandeachat.data.id"></app-hover-da>
   </div>
-
-  <dxi-column
-    [allowResizing]="false"
-    [fixed]="false"
-    caption="{{ '' | translate }}"
-    cellTemplate="cellTemplateActions"
-  ></dxi-column>
-
-  <div *dxTemplate="let data of 'cellTemplateActions'" class="action-buttons">
-    <a (click)="showbordereaux(data.data.id)" target="_blank" title="Consulter demande">
-      <i class="fa fa-edit eyeIconStyle"></i>
-    </a>
-    &nbsp;
-    <a (click)="popupDelete(data.data.id)" target="_blank" title="Supprimer demande">
-      <i class="fa fa-trash" style="color:#a63a3a;"></i>
-    </a>
-  </div>
-
   <dxo-pager
     [allowedPageSizes]="allowedPageSizes"
     [showInfo]="true"

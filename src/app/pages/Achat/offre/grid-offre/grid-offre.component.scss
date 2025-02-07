@@ -784,3 +784,78 @@ body {
   background-color: #343a40;
   color: white;
 }
+.demande-details {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.demande-titre {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5;
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}
+
+.produit-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 15px; /* Plus d'espace autour du produit */
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s; /* Animation pour l'effet de survol */
+}
+
+.produit-item:hover {
+  transform: translateY(-2px); /* Léger déplacement au survol */
+}
+
+.produit-image {
+  width: 80px; /* Ajustez la largeur selon vos besoins */
+  height: 80px; /* Hauteur fixe pour uniformité */
+  object-fit: cover; /* Gérer le recadrage de l'image */
+  margin-right: 15px;
+  border-radius: 4px; /* Bords arrondis de l'image */
+}
+
+.produit-info {
+  flex-grow: 1; /* Permet à l'info de prendre tout l'espace disponible */
+}
+
+.produit-info h4 {
+  margin: 0;
+  font-size: 20px; /* Augmentation de la taille du texte */
+  color: #333;
+}
+
+.produit-description {
+  font-size: 14px; /* Taille de police pour la description */
+  color: #777; /* Couleur pour une meilleure lisibilité */
+  margin: 5px 0; /* Espacement vertical */
+}
+
+.produit-pricing {
+  display: flex;
+  justify-content: space-between; /* Espace entre les informations de prix */
+  margin-top: 10px; /* Espacement au-dessus */
+}
+
+.produit-prix,
+.produit-quantite,
+.produit-total {
+  font-weight: bold; /* Mettre le texte en gras */
+  color: #333;
+}
+html, body {
+  height: 100%;
+  overflow: auto;
+}

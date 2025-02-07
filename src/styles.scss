@@ -17,6 +17,8 @@ $icon-font-path: "../node_modules/bootstrap-sass/assets/fonts/bootstrap";
 //@import "src/app/theme/styles/courrierStyle/courrierArrive";
 // MDB SCSS
 @import "~mdb-angular-ui-kit/assets/scss/mdb.scss";
+@import "~leaflet/dist/leaflet.css";
+@import '~leaflet-control-geocoder/dist/Control.Geocoder.css';
 //@import 'material-icons/iconfont/material-icons.css';
 //
 //@import '../node_modules/ngx-guided-tour/scss/guided-tour-base-theme';

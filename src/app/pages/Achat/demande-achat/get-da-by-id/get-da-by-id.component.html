@@ -3,38 +3,29 @@
     <!--            <h5> {{'caseRequest.TitleRqEdit'|translate}} ({{demandeForm.requestCaseNumber}})</h5>-->
     <!--        </div>-->
     <div>
-        <div class="card-header text-center bg-secondary  text-white" style="background-color: #0096a6  !important;">
-            <div class="col-md-12" style="text-align: center;" *ngIf="demandeForm!=undefined">
-                <h5>Demande achat({{objectData.id}})</h5>
-
-
+        <div class="card-header text-center bg-secondary text-white" style="background-color: #0096a6 !important; display: flex; justify-content: center; align-items: center;">
+            <div style="text-align: center; margin-right: 10px;" *ngIf="demandeForm != undefined">
+          <h5>Demande achat ({{demandeAchat.reference}})</h5>
             </div>
-            <div  >
-                <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
-                    <div class="icon-container"  title="{{'show-event.Voir la liste des événements' | translate}}">
-                       <i class="fas fa-project-diagram"></i>
-                    </div>
-                </a>
+            <div>
+              <a (click)="showPopupWF()" rel="noopener" target="_blank" title="">
+                <div class="icon-container" title="{{'show-event.Voir la liste des événements' | translate}}">
+                  <i class="fas fa-project-diagram"></i>
+                </div>
+              </a>
             </div>
-
-
-
-
-        </div>
+          </div>
+          
     </div>
 </div>
 <br>
 <div class="demande-details" *ngIf="demandeAchat">
     <h2 class="demande-titre ">Détails de la demande d'achat:</h2>
-    <div class="details-info">
         <div class="detail-item">
             <div class="detail-label bordeaux">Date de la demande:</div>
             <div class="detail-value">{{ demandeAchat.datedemande }}</div>
         </div>
-        <div class="detail-item">
-            <div class="detail-label bordeaux">Date besoin:</div>
-            <div class="detail-value">{{ demandeAchat.datebesoin }}</div>
-        </div>
+       
         <div class="detail-item">
             <div class="detail-label bordeaux">Description:</div>
             <div class="detail-value">{{ demandeAchat.description }}</div>
@@ -44,56 +35,232 @@
             <div class="detail-value">{{ demandeAchat.statut }}</div>
         </div>
         <!-- Autres détails à afficher -->
-    </div>
     
 </div>
 <div class="demande-details">
 <h2 class="demande-titre">Les produits de cette demande:</h2>
 
 
-<div *ngIf="produits.length > 0" class="hovered-product-details">
-    <dx-data-grid
-    #dataGridDemande
-    [showBorders]="true"
-    [allowColumnResizing]="true"
-    [columnAutoWidth]="true"
-    [dataSource]="produits"
-    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-    [rowAlternationEnabled]="true"
-    [showColumnLines]="true"
-    keyExpr="id"
-    (onRowPrepared)="onRowPrepared($event)"
-  >
-      <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
-      <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-      <dxi-column dataField="nom" dataType="string"></dxi-column>
-      <dxi-column dataField="description" dataType="string"></dxi-column>
-      <dxi-column dataField="quantite" dataType="number"></dxi-column>
-      <dxo-pager
-        [allowedPageSizes]="allowedPageSizes"
-        [showInfo]="true"
-        [showPageSizeSelector]="true"
-        [visible]="true"
-        displayMode="full"
-        [showNavigationButtons]="true"
-      ></dxo-pager>
-    </dx-data-grid>
+<div *ngIf="produitDemandees.length > 0" class="hovered-product-details">
+  <dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="produitDemandees"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  (onRowPrepared)="handleRowPrepared($event)">
+  
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  
+  <!-- Colonnes existantes -->
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="quantite" dataType="number"></dxi-column>
+  <dxi-column *ngIf="displayname === 'Youssef Hamouda DA'"
+  caption="État du stock"
+  [calculateCellValue]="calculateStockStatus"
+  [cellTemplate]="etatStockCellTemplate">
+</dxi-column>
+  <dxo-pager
+      [allowedPageSizes]="allowedPageSizes"
+      [showInfo]="true"
+      [showPageSizeSelector]="true"
+      [visible]="true"
+      displayMode="full"
+      [showNavigationButtons]="true">
+  </dxo-pager>
+</dx-data-grid>
+
   </div>
 
-  <div *ngIf="produits.length === 0">
+  <div *ngIf="produitDemandees.length === 0">
     <p>Aucun produit trouvé pour cette demande d'achat.</p>
   </div>
 </div>
 
-  <app-workflow-decision
-    *ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) "
-    (decisionEvent)="Confirmation($event)"
-    (RetournEvent)="Return()"
-    [access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
-    [decisions]="decissionWF"
-    [object]="demandeForm"
-    [SaveObject]="demandeForm">
-</app-workflow-decision>
+
+<div class="demande-details" *ngIf="demandesDevis?.length > 0; else noDemandes">
+  <h2 class="demande-titre">Informations sur les demandes de devis: </h2>
+<div  *ngFor="let demande of demandesDevis">
+ 
+<div class="demande-details-petit mt-3">
+  <h2 class="demande-titre-petit">Demande de devis ({{demande.reference}})</h2>
+  <h5>{{demande.description}}</h5>
+  <div class="detail-item">
+    <span class="detail-label">Date de la demande:</span>
+    <span class="detail-value">{{ demande.datedemande | date }}</span>
+  </div>
+ 
+  <div *ngIf="fournisseurs[demande.id]">
+    <div class="demande-details-petit mt-3">
+      <h2 class="demande-titre-petit">Fournisseur </h2>
+    <div class="detail-item">
+      <div class="detail-label bordeaux">Nom:</div>
+      <div class="detail-value">{{ fournisseurs[demande.id]?.nom }} </div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label bordeaux">Adresse email:</div>
+    <div class="detail-value">{{ fournisseurs[demande.id]?.email }} </div>
+</div><div class="detail-item">
+  <div class="detail-label bordeaux">Téléphone:</div>
+  <div class="detail-value">+216 {{ fournisseurs[demande.id]?.tel }} </div>
+</div><div class="detail-item">
+  <div class="detail-label bordeaux">Adresse:</div>
+  <div class="detail-value">{{ fournisseurs[demande.id]?.adresse }} </div>
+</div>
+</div>
+    <!-- Ajoutez d'autres champs du fournisseur si nécessaire -->
+</div>
+  <div *ngIf="demandesDevis">
+    <ul class="demande-list mt-3">
+        <!-- Grid des produits commandés -->
+        <dx-data-grid
+          id="gridContainer"
+          [dataSource]="produitCommandeeMap[demande.id]"
+          keyExpr="id"
+          [showBorders]="true"
+          class="produit-grid mt-3">
+          <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+          <dxi-column dataField="description" caption="Description"></dxi-column>
+          <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+          <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+          <!-- Template pour afficher l'image -->
+          <div *dxTemplate="let data of 'imageTemplate'">
+            <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+          </div>
+        </dx-data-grid>
+    </ul>
+  </div>
+  
+  <div *ngIf="offreMap[demande.id]" class="demande-details-plus-petit mt-5">
+    <h2 class="demande-titre-plus-petit">Offre: </h2>
+    <h5>{{offreMap[demande.id].description}} </h5>
+    <div class="detail-item">
+      <div class="detail-label bordeaux">Nom de la demande:</div>
+      <div class="detail-value">{{ offreMap[demande.id].nom }} </div>
+    </div>
+ 
+    <div class="detail-item">
+      <div class="detail-label bordeaux">Date de l'offre:</div>
+      <div class="detail-value">{{ offreMap[demande.id].dateoffre }} </div>
+    </div>
+  
+    <div class="detail-item">
+      <div class="detail-label bordeaux">Référence de l'offre:</div>
+      <div class="detail-value">{{ offreMap[demande.id].referenceoffre }} </div>
+    </div>
+  
+    <div class="detail-item">
+      <div class="detail-label bordeaux">Prix de l'offre:</div>
+      <div class="detail-value">{{ offreMap[demande.id].prix }} DT</div>
+    </div>
+  
+    <dx-data-grid
+      id="gridContainer"
+      [dataSource]="produitOffertMap[offreMap[demande.id].id]"
+      keyExpr="id"
+      [showBorders]="true"
+      class="custom-grid mt-3">
+      <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+      <dxi-column dataField="description" caption="Description"></dxi-column>
+      <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+      <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+  
+      <div *dxTemplate="let data of 'imageTemplate'">
+        <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+      </div>
+    </dx-data-grid>
+    <div *ngFor="let entry of produitsGroupedByOffre.get(offreMap[demande.id].id)  | keyvalue" class="demande-details-boncommande mt-5">
+      <h2 class="demande-titre-boncommande">Bon de Commande ({{ entry.key }})</h2>
+      <div class="bon-commande-group">
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Numéro:</div>
+          <div class="detail-value">{{ entry.value[0]?.bonCommande?.numero }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Date:</div>
+          <div class="detail-value">{{ entry.value[0]?.bonCommande?.dateboncommande}} </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Adresse livraison:</div>
+          <div class="detail-value">{{entry.value[0]?.bonCommande.adresselivraison}} 
+            <a href="https://www.google.com/maps/search/?api=1&query={{entry.value[0]?.bonCommande?.adresselivraison}}" target="_blank" rel="noopener noreferrer">Voir map</a>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Délai livraison:</div>
+          <div class="detail-value">{{entry.value[0]?.bonCommande?.delailivraison}} </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label bordeaux">Type livraison:</div>
+          <div class="detail-value">{{entry.value[0]?.bonCommande?.typelivraison}} </div>
+        </div>
+        
+        <dx-data-grid
+          [dataSource]="entry.value"
+          keyExpr="id"
+          [showBorders]="true"
+          class="custom-grid-blue mt-3">
+          <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+          <dxi-column dataField="description" caption="Description"></dxi-column>
+          <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+          <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+          
+          <div *dxTemplate="let data of 'imageTemplate'">
+            <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+          </div>
+        </dx-data-grid>
+      </div>
+  </div>
+  <div *ngIf="!produitsGroupedByOffre.get(offreMap[demande.id].id)?.size">
+    <p style="color: red;">Aucun bon de commande pour cet offre.</p>
+  </div>
+  
+</div>
+<div *ngIf="!offreMap[demande.id]" class="no-offer-message mt-5">
+  <p style="color: red;">Aucune offre pour cette demande.</p>
+</div>
+</div>
+</div>
+</div>
+<ng-template #noDemandes>
+  <p style="color: red; font-weight: bold; text-align: center; margin-top: 20px;">
+    Aucune demande de devis pour cette demande d'achat.
+  </p>
+</ng-template>
+
+<dx-popover *ngIf="displayname === 'Youssef Hamouda DA'"
+  #etatStockPopover
+  [target]="popoverTarget"
+  [visible]="isPopoverVisible"
+  position="top"
+  width="300"
+  cssClass="custom-popover"
+>
+  <div class="popover-content">
+    <div class="popover-header">
+      <i class="dx-icon dx-icon-info" aria-hidden="true"></i>
+      <span class="stock-title">État du Stock</span>
+    </div>
+    <div class="popover-body">
+      <!-- Vérifiez si la quantité est supérieure à 0 -->
+      <ng-container *ngIf="quantitedifference >= 0; else stockEmpty">
+        <span class="stock-status-vert">🟢 {{quantiteCalculee}} : quantité disponible dans le stock</span>
+      </ng-container>
+      <!-- Modèle alternatif pour les quantités <= 0 -->
+      <ng-template #stockEmpty>
+        <span class="stock-status-rouge">🔴 {{quantiteCalculee}} : quantité disponible dans le stock</span>
+      </ng-template>
+    </div>
+  </div>
+</dx-popover>
+
   <dx-popup
   [showCloseButton]="true"
   [maxWidth]="'auto'"
@@ -109,6 +276,15 @@
                [historicsAcces]="objectData.userActivity"></app-journal>
 </div>
 </dx-popup>
+<app-workflow-decision
+*ngIf="demandeForm &&(demandeForm['workflow']!=undefined ||!(this.demandeForm.userPermission == 'WRITE')) && demandeAchat.statut ==='en_attente' "
+(decisionEvent)="Confirmation($event)"
+(RetournEvent)="Return()"
+[access]="demandeForm['userPermission'] === 'READ' || demandeForm['userPermission'] === 'NONE'"
+[decisions]="decissionWF"
+[object]="demandeForm"
+[SaveObject]="demandeForm">
+</app-workflow-decision>
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
     const maxTitleLength = 20; // Adjust these values as needed
@@ -133,4 +309,4 @@
     insertLineBreaks(productQuantity, maxQuantityLength);
 });
 
-</script>
+</script>  

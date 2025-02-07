@@ -46,4 +46,10 @@ export class HoverAddOffreComponent implements OnInit {
     // Mettre à jour dataSourceElement après suppression
     this.dataSourceElement = this.produitsOfferts.value; // Mettre à jour avec les produitsOfferts
   }
+  scrollToProductDetails() {
+    const targetElement = document.getElementById('produit-details');
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 }

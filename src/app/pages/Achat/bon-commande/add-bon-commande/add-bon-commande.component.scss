@@ -1,0 +1,164 @@
+.demande-details {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  .demande-titre {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background-color: #f5f5f5; /* Fond noir totalement transparent */
+    padding: 0 10px;
+    font-size: 24px;
+    color: #8B0000;
+  }
+  .demande-titre-p {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background-color: #f5f5f5; /* Fond noir totalement transparent */
+    padding: 0 10px;
+    font-size: 24px;
+    color: black;
+  }
+
+.custom-modal {
+  width: 900px !important; /* Utilisez !important pour forcer la largeur */
+  margin: auto; /* Centre le modal */
+}
+  .produit-container {
+    background: #ffffff; /* Fond blanc */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    padding: 20px; /* Espacement intérieur */
+    margin-bottom: 20px; /* Espacement entre les produits */
+    transition: transform 0.3s, box-shadow 0.3s; /* Animation au survol */
+  }
+  
+  .produit-container:hover {
+    transform: translateY(-2px); /* Légère élévation au survol */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Ombre plus marquée au survol */
+  }
+  
+  .produit-row {
+    display: flex;
+    align-items: center; /* Alignement vertical */
+    margin-bottom: 15px; /* Espace entre les lignes de produit */
+  }
+  
+  .produit-image {
+    margin-right: 15px; /* Espacement entre l'image et les détails du produit */
+  }
+  
+  .image-preview {
+    width: 80px; /* Largeur de l'image */
+    height: 80px; /* Hauteur de l'image */
+    border-radius: 5px; /* Coins arrondis pour l'image */
+    object-fit: cover; /* Ajustement de l'image */
+    border: 1px solid #e0e0e0; /* Bordure légère autour de l'image */
+  }
+  
+  .produit-details {
+    flex: 1; /* Prendre tout l'espace disponible */
+  }
+  
+  .produit-title {
+    font-size: 1.5em; /* Taille du titre du produit */
+    margin: 0;
+    color: #2980b9; /* Couleur verte pour le titre */
+  }
+  
+  .produit-description {
+    color: #7f8c8d; /* Couleur grise pour la description */
+    margin: 5px 0;
+  }
+  
+  .produit-quantite-prix {
+    display: flex;
+    flex-direction: column; /* Alignement en colonne pour quantité et prix */
+    margin-top: 10px; /* Espacement au-dessus */
+  }
+  
+  .produit-quantite-prix p {
+    margin: 3px 0; /* Réduire l'espacement vertical entre les éléments */
+    color: #2c3e50; /* Couleur sombre pour le texte */
+  }
+  
+  .fournisseur-details {
+    margin-top: 15px; /* Espacement du fournisseur */
+    padding: 15px; /* Espacement intérieur */
+    background-color: #8e3a3a; /* Couleur bordeaux */
+    color: #ffffff; /* Couleur du texte en blanc */
+    border-radius: 8px; /* Coins arrondis */
+  }
+  
+  .fournisseur-details h4 {
+    color: #ffffff; /* Couleur blanche pour le titre du fournisseur */
+    margin: 0 0 10px 0; /* Espacement vertical */
+  }
+  
+  .separator {
+    margin: 20px 0; /* Espacement du séparateur */
+    border: none; /* Pas de bordure par défaut */
+    border-top: 1px solid #e0e0e0; /* Ligne de séparation */
+  }
+  .details-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #b03a32; /* Bordeaux */
+  }
+ 
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0; /* Ligne de séparation */
+}
+
+.detail-item:last-child {
+  border-bottom: none; /* Supprime la bordure pour le dernier élément */
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-value {
+  color: #555;
+}
+
+
+  .detail-container {
+    display: flex; /* Utiliser flexbox pour aligner les éléments */
+    flex-direction: column; /* Aligner les éléments en colonne */
+  }
+  .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90%; /* Assurez-vous que le modal ne dépasse pas la largeur de l'écran */
+    margin: auto; /* Centre le modal horizontalement */
+  }
+  
+  #map {
+    height: 400px; /* Ajustez la hauteur selon vos besoins */
+    width: 100%; /* Assurez-vous que la carte occupe toute la largeur du modal */
+  }
+  

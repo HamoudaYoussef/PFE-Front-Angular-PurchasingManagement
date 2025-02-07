@@ -6,29 +6,34 @@
   [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
   [rowAlternationEnabled]="true"
   [showColumnLines]="true"
-  (onRowDblClick)="Editdemande($event)"
+  (onRowDblClick)="Editdemande($event.data.id)"
   keyExpr="id"
-  class="dataGridDemande"
->
+  class="dataGridDemande">
+
   <dxo-filter-row [visible]="true"></dxo-filter-row>
   <dxo-header-filter [visible]="true"></dxo-header-filter>
   <dxo-group-panel [visible]="true"></dxo-group-panel>
   <dxo-scrolling mode="virtual"></dxo-scrolling>
   <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
-  
   <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-  
-  <dxi-column dataField="id" dataType="number"></dxi-column>
+
+  <dxi-column dataField="reference" dataType="string"></dxi-column>
   <dxi-column dataField="nom" dataType="string"></dxi-column>
   <dxi-column dataField="description" dataType="string"></dxi-column>
-  <dxi-column dataField="fournisseur" caption="Fournisseur">
-    <dxo-lookup
-      [dataSource]="fournisseurs"
-      valueExpr="ID"
-      displayExpr="Name"
-    >
-    </dxo-lookup>
-  </dxi-column> 
+  <dxi-column dataField="datedemande"></dxi-column>
+  <dxi-column caption="fournisseur" dataField="fournisseur.email"></dxi-column>
+  <dxi-column [caption]="''" [cellTemplate]="'cellTemplateActions'"></dxi-column>
+
+  <!-- Template personnalisé pour afficher le lien dans la colonne sans titre -->
+  <div *dxTemplate="let data of 'cellTemplateActions'"
+  style="display: flex; justify-content: center; align-items: center;">
+<a
+ href="javascript:void(0)"
+ (click)="goToAddOffre(data.data.id)"
+ class="offer-link">
+ Offrir
+</a>
+</div>
   <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
   <div *dxTemplate="let demandeDevis of 'detail'">
     <div class="master-detail-caption">{{
@@ -36,18 +41,8 @@
     }}</div>
     <app-hover-demande-devis [demandeDevisId]="demandeDevis.data.id"></app-hover-demande-devis>
   </div>
-  <dxi-column [allowResizing]="false"
-              [fixed]="false" caption="{{'' | translate}}"
-              cellTemplate="cellTemplateActions">
-  </dxi-column>
+ 
 
-  <div *dxTemplate="let data of 'cellTemplateActions'"
-       style="display: flex; justify-content: center; align-items: center;">
-       <a (click)="popupDelete(data.data.id)" target="_blank" title="" class="affecter-fournisseur" style="margin-left: 10px;">
-        <i class="fa fa-plus"></i> Affecter fournisseur
-    </a>    <a (click)="popupDelete(data.data.id)" target="_blank" title=""     style="margin-left: 10px;">
-      <i class="fa fa-trash" style="color:#a63a3a;"></i></a>
-  </div>
 
   <dxo-pager
     [allowedPageSizes]="allowedPageSizes"

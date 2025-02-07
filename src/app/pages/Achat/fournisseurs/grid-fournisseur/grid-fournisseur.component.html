@@ -1,35 +1,36 @@
 <dx-data-grid
-  #dataGridDemande
-  [showBorders]="true"
-  [allowColumnResizing]="true"
-  [columnAutoWidth]="true"
-  [dataSource]="dataSourceElement"
-  [remoteOperations]="{ filtering: false, grouping: false, sorting: false, paging: true }"
-  [rowAlternationEnabled]="true"
-  [showColumnLines]="true"
-  (onToolbarPreparing)="onToolbarPreparing($event)"
-  (onRowDblClick)="getdemande($event)"
-  (onRowUpdating)="onRowUpdating($event)"
-  keyExpr="id"
-  class="dataGridDemande"
-  [editing]="{ mode: 'cell', allowUpdating: true }"
+#dataGridDemande
+id="dataGridDemande"
+class="dataGridDemande"
+[showBorders]="true"
+[allowColumnResizing]="true"
+[columnAutoWidth]="true"
+[dataSource]="dataSourceElement"
+[remoteOperations]="{ filtering: false, grouping: false, sorting: true, paging: true }"
+[rowAlternationEnabled]="true"
+[showColumnLines]="true"
+(onToolbarPreparing)="onToolbarPreparing($event)"
+keyExpr="id"
+(onRowRemoving)="onRowRemoving($event)"
+(onRowUpdating)="onRowUpdating($event)"
+(onRowDblClick)="getFournisseur($event.data.id)"
+
 >
+    <dxo-editing
+    mode="row"
+    allowUpdating="true"
+    allowDeleting="true">
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+<dxo-header-filter [visible]="true"></dxo-header-filter>
+<dxo-group-panel [visible]="true"></dxo-group-panel>
+<dxo-scrolling mode="virtual"></dxo-scrolling>
+</dxo-editing>
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-    
     <dxi-column dataField="nom" dataType="string" [allowEditing]="true"></dxi-column>
-    <dxi-column dataField="adresse" dataType="string" [allowEditing]="true"></dxi-column>
+    <dxi-column dataField="email" dataType="string" [allowEditing]="true"></dxi-column>
     <dxi-column dataField="tel" dataType="string" [allowEditing]="true"></dxi-column>
-
-    <dxi-column [allowResizing]="false" [fixed]="false" caption="{{ '' | translate }}" cellTemplate="cellTemplateActions">
-    </dxi-column>
-
-    <div *dxTemplate="let data of 'cellTemplateActions'" style="display: flex; justify-content: center; align-items: center;">
-        <a (click)="popupDelete(data.data.id)" title="Supprimer">
-            <i class="fa fa-trash" style="color:#a63a3a;"></i>
-        </a>
-    </div>
-
+    <dxi-column dataField="adresse" dataType="string" [allowEditing]="true"></dxi-column>
     <dxo-pager
         [allowedPageSizes]="allowedPageSizes"
         [showInfo]="true"
@@ -43,7 +44,7 @@
 
 <dx-popup
     [maxWidth]="940"
-    [width]="500"
+    [width]="'500'"
     [height]="'auto'"
     [showTitle]="true"
     title="Confirmation de la suppression"
@@ -58,24 +59,99 @@
         <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
             <button type="button" class="btn btn-outline-secondary me-md-2" (click)="fermerPopup()">Annuler</button>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
-            <button type="button" class="btn btn-success me-md-2" >Confirmer</button>
-        </div>
     </div>
 </dx-popup>
 
 <dx-popup
-    [maxWidth]="940"
-    [width]="500"
-    [height]="'auto'"
-    [showTitle]="true"
-    title="Ajouter Fournisseur"
-    [dragEnabled]="false"
-    [closeOnOutsideClick]="true"
-    [(visible)]="popupAdd"
+  [maxWidth]="940"
+  [width]="'60%'"
+  [height]="'auto'"
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="true"
+  [(visible)]="popupAdd"
+  title="Ajouter un fournisseur"
 >
-    <app-add-demande (add)="add($event)"></app-add-demande>
+  <div *dxTemplate="let data of 'content'">
+    <dx-form
+      #formRef 
+      [formData]="newFournisseur"
+    >
+      <dxi-item dataField="nom" editorType="dxTextBox"  [editorOptions]="{
+        placeholder: 'Entrez le nom ' }">
+        <dxo-label text="Nom du fournisseur"></dxo-label>
+        <dxi-validation-rule type="required" message="Le nom est obligatoire"></dxi-validation-rule>
+      </dxi-item>
+      <dxi-item dataField="email" editorType="dxTextBox" [editorOptions]="{
+       placeholder: 'Entrez l\'adresse email',
+      hint: 'Entrez l\'adresse email au format exemple@domaine.com' }"
+       >
+        <dxo-label text="Email du fournisseur"></dxo-label>
+        <dxi-validation-rule type="required" message="L'adresse email est obligatoire"></dxi-validation-rule>
+        <dxi-validation-rule 
+        type="email" 
+        message="Entrez une adresse email valide au format : exemple@domaine.com">
+      </dxi-validation-rule>
+      </dxi-item>
+    
+      <dxi-item 
+      dataField="tel" 
+      editorType="dxTextBox"
+      [editorOptions]="{ mask: '(00) 000-000', placeholder: 'Entrez le numéro de téléphone '
+       }"
+    >
+      <dxo-label text="Téléphone"></dxo-label>
+      <dxi-validation-rule type="required" message="Le n° du téléphone est obligatoire"></dxi-validation-rule>
+    </dxi-item>
+    <dxi-item>
+      <div class="help-text">
+        Entrez le numéro au format : (XX) XXX-XXX
+      </div>
+    </dxi-item>
+    </dx-form>
+    <form [formGroup]="myForm" class="form-row mt-3">
+      <div class="form-group col-md-12">
+        <label for="adresse" class="form-label">Adresse :</label>
+        <div class="d-flex align-items-center">
+          <input type="text" style="width: 1000px;" class="form-control mr-2" id="adresse" formControlName="adresse" placeholder="Adresse" readonly>
+          <button class="btn btn-rounded" style="font-weight: bold; background-color: #8B0000; color: white;" (click)="ouvrirCarte()">Choisir l'adresse</button>
+        </div>
+    
+        <!-- Modal for Address Selection -->
+        <div *ngIf="afficherCarte" class="modal fade show" style="display: block;" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 90%; margin: auto;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Sélectionnez l'adresse</h5>
+                <button type="button" class="close" (click)="fermerCarte()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p style="margin: 0;">Coordonnées : {{ latitude }},{{ longitude }}</p>
+                <div id="map" style="height: 400px; width: 100%; margin-top: 10px;"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-rounded" style="font-weight: bold; background-color: #8B0000; color: white;" (click)="confirmerAdresse()">Confirmer l'adresse</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row mt-5">
+      <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+        <button type="button" class="btn btn-outline-secondary me-md-2" style="width: 400px;"  (click)="closeAddPopup()">Annuler</button>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+        <button type="button" class="btn btn-success me-md-2" style="width: 400px;" (click)="validateAndSubmit()">Ajouter</button>
+      </div>
+    </div>
+  </div>
+
 </dx-popup>
+
+
 
 <dx-popup
     [maxWidth]="940"
@@ -87,5 +163,14 @@
     [closeOnOutsideClick]="true"
     [(visible)]="popupEdit"
 >
-    <app-add-demande [id]="id" (add)="add($event)"></app-add-demande>
+    <!--app-add-demande [id]="id" (add)="add($event)"></app-add-demande-->
 </dx-popup>
+<dx-load-panel
+  #loadPanel
+  shadingColor="rgba(0,0,0,0.4)"
+  [(visible)]="showloader"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  [hideOnOutsideClick]="false"
+></dx-load-panel>

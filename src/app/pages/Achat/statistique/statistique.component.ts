@@ -110,9 +110,6 @@ export class StatistiqueComponent implements OnInit {
       this.createPieChart('canvasOffresParMois', Object.keys(stats), Object.values(stats));
     });
 
-    this.statistiqueService.getDemandesAchatParRegion().subscribe(stats => {
-      this.createPieChart('canvasDemandesAchatParRegion', Object.keys(stats), Object.values(stats));
-    });
     this.statistiqueService.getDemandesAchatParStatut().subscribe(stats => {
       this.createPieChart('canvasDemandesAchatParStatut', Object.keys(stats), Object.values(stats));
     });

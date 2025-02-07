@@ -1,0 +1,38 @@
+<dx-data-grid
+  #dataGridCommandee
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  id="gridContainer"
+  (onToolbarPreparing)="onToolbarPreparing($event)"
+  [columnAutoWidth]="true"
+  [dataSource]="dataSourceElement"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  id="dataGridCommandee"
+  class="dataGridCommandee"
+  (onRowDblClick)="Editdemande($event)"
+>
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="quantite" dataType="number"></dxi-column>
+  <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+  <!-- Template pour afficher l'image -->
+  <div *dxTemplate="let data of 'imageTemplate'">
+    <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+  </div>
+
+
+  <dxo-pager
+    [allowedPageSizes]="allowedPageSizes"
+    [showInfo]="true"
+    [showPageSizeSelector]="true"
+    [visible]="true"
+    displayMode="full"
+    [showNavigationButtons]="true"
+  ></dxo-pager>
+</dx-data-grid>

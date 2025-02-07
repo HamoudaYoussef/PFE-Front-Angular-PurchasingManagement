@@ -88,7 +88,7 @@
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": true,
-            "namedChunks": true,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -149,9 +149,12 @@
             "styles": [
               "src/styles.scss",
               "node_modules/devextreme/dist/css/dx.common.css",
-              "node_modules/devextreme/dist/css/dx.light.css"
+              "node_modules/devextreme/dist/css/dx.light.css",
+              "node_modules/leaflet-control-geocoder/dist/Control.Geocoder.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/leaflet/dist/leaflet.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",

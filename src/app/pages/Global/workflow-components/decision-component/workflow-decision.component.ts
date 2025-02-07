@@ -24,6 +24,7 @@ export class WorkflowDecisionComponent implements OnInit, OnChanges {
     @Output() decisionEvent = new EventEmitter<any>();
     @Output() saveEvent = new EventEmitter<any>();
     @Output() RetournEvent = new EventEmitter<any>();
+    @Input() shouldHideValiderButton: boolean;
 
     @Input() object: any;
     @Input() SaveObject: any;

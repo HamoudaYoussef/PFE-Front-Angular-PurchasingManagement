@@ -1,33 +1,63 @@
 .demande-details {
-    background-color: #f5f5f5;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
-
-.details-title {
-    font-size: 24px;
-    color: #8B0000; /* bordeaux */
-    margin-bottom: 15px;
+.demande-titre {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5; /* Fond noir totalement transparent */
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
 }
-
+.demande-details-petit {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.demande-titre-petit {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5; /* Fond noir totalement transparent */
+  padding: 0 10px;
+  font-size: 16px;
+  color: #1b5e0c;
+}
+.demande-details-plus-petit {
+  background-color: #ffffff; /* Légèrement plus clair pour plus de douceur */
+  border: 1px solid #fafafa; /* Couleur de bordure plus claire et plus douce */
+  border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+  position: relative;
+}
+.demande-titre-plus-petit {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background: linear-gradient(to bottom, #fafafa, #ffffff);
+  padding: 0 10px;
+  font-size: 16px;
+  color: #1b5e0c;
+}
 .details-info .detail-item {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.details-info .detail-label {
-    color: #8B0000; /* bordeaux */
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.details-info .detail-value {
-    color: #333;
-}
 
 .bordeaux {
     color: #8B0000; /* bordeaux */
@@ -82,5 +112,78 @@
     height: 20px;
     margin-right: 10px;
     border: 1px solid #ccc; /* Bordure optionnelle */
+  }
+
+/* Ajout de styles responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .detail-item {
+        width: 100%; /* Passe à 100% de largeur sur les petits écrans */
+    }
+}
+.detail-item {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px; /* Ajoutez un petit espace si nécessaire */
+}
+.detail {
+  display: inline-flex;
+}
+
+.detail-value-adresse {
+  display: inline-flex;
+  align-items: center;
+}
+
+.detail-value-adresse p {
+  margin: 0;
+}
+
+.detail-value-adresse a {
+  margin-left: 5px;
+  text-decoration: none;
+  color: #007bff; /* Couleur pour le lien */
+}
+.detail-value {
+  color: #555;
+  flex-grow: 1; /* Pour que la valeur occupe l'espace restant */
+}
+
+.details-info .detail-value {
+    color: #333;
+}
+
+ .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90%; /* Assurez-vous que le modal ne dépasse pas la largeur de l'écran */
+    margin: auto; /* Centre le modal horizontalement */
+  }
+  
+  #map {
+    height: 400px; /* Ajustez la hauteur selon vos besoins */
+    width: 100%; /* Assurez-vous que la carte occupe toute la largeur du modal */
   }
   

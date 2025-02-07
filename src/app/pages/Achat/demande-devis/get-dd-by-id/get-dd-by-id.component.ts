@@ -1,17 +1,21 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import CustomStore from 'devextreme/data/custom_store';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { IDemandeDevis, NewDemandeDevis } from 'src/app/Models/demande-devis.model';
 import { NewProduitDemandee } from 'src/app/Models/produit-demandee.model';
 import { NewProduit } from 'src/app/Models/produit.model';
-import { DemandeDevisService } from 'src/app/Service/demande-devis.service';
 import { ProduitDemandeeService } from 'src/app/Service/produit-demandee.service';
-import { ProduitService } from 'src/app/Service/produit.service';
 import { EnvService } from 'src/env.service';
 import { FournisseurService } from '../../../../Service/fournisseur.service';
 import { NewFournisseur } from '../../../../Models/fournisseur.model';
+import { NewProduitCommandee } from 'src/app/Models/produit-commandee.model';
+import { ProduitCommandeeService } from '../../../../Service/produit-commandee.service';
+import { NewBonCommande } from 'src/app/Models/bon-commande.model';
+import { NewProduitOffert } from 'src/app/Models/produit-offert.model';
+import { IOffre, NewOffre } from 'src/app/Models/offre.model';
+import { OffreService } from 'src/app/Service/offre.service';
+import { ProduitOffertService } from '../../../../Service/produit-offert.service';
+import { DemandeDevisService } from 'src/app/Service/demande-devis.service';
 
 @Component({
   selector: 'app-get-dd-by-id',
@@ -19,119 +23,151 @@ import { NewFournisseur } from '../../../../Models/fournisseur.model';
   styleUrls: ['./get-dd-by-id.component.scss']
 })
 export class GetDdByIdComponent implements OnInit {
-  constructor(private route: ActivatedRoute,private demandeDevisService:DemandeDevisService,private fournisseurService: FournisseurService,
-    private produitDemandeeService:ProduitDemandeeService, private toastr: ToastrService, private env: EnvService,private router:Router) { }
-    @Output() add = new EventEmitter<boolean>();
-    produitsDemandesStatus: { [key: string]: string } = {};
-    fournisseurNom: string; // Pour stocker le nom du fournisseur
+  @Output() add = new EventEmitter<boolean>();
 
-    produitDemandeeList: NewProduitDemandee[] = [];
-    products : NewProduit[] = [];
-  demandeDevis: IDemandeDevis;
-  demandeDevisObject: any = {};  // Initialisez ou obtenez cet objet d'une source appropriée
+  fournisseurNom: string; // Pour stocker le nom du fournisseur
+  demandeDevis: NewDemandeDevis; // Objet unique pour la demande de devis
+  offres: NewOffre[] = []; // Liste des offres
+  offre: IOffre; // Offre courante
+
+  fournisseurs: { [key: number]: NewFournisseur } = {}; // Stocker les fournisseurs par ID de demande de devis
+  produitCommandeeMap: { [key: number]: NewProduitCommandee[] } = {};
+  produitOffertMap: { [key: number]: NewProduitOffert[] } = {};
+  offreMap: { [key: number]: NewOffre } = {}; 
+  BonCommandes: { [key: number]: NewBonCommande } = {}; 
+  produitCommandeeList: NewProduitCommandee[] = [];
+  products: NewProduit[] = [];
+  
   pageSize = this.env.pageSize;
-    allowedPageSizes = this.env.allowedPageSizes;
-  produits: NewProduitDemandee[] = [];
-  demandeForm: any = {};  // Initialisez ou obtenez cet objet d'une source appropriée
-  decissionWF: any;  // Initialisez ou obtenez cet objet d'une source appropriée
-  objectData:any;
-  envoyer : boolean=false ;
-  valider : boolean=false;
-  currentdate : Date;
-  dataSourceElement: any;
-  produitDemandees: NewProduitDemandee[] = [];
-produit : NewProduit;
-  showButton:any;
+  allowedPageSizes = this.env.allowedPageSizes;
+  produits: NewProduitCommandee[] = [];
+  currentdate: Date;
+  
+  constructor(
+    private route: ActivatedRoute,
+    private demandeDevisService: DemandeDevisService,
+    private fournisseurService: FournisseurService,
+    private produitDemandeeService: ProduitDemandeeService,
+    private toastr: ToastrService,
+    private env: EnvService,
+    private router: Router,
+    private produitCommandeService: ProduitCommandeeService,
+    private offreService: OffreService,
+    private produitOffertService: ProduitOffertService
+  ) {}
 
   ngOnInit(): void {
     this.currentdate = new Date(); // Initialiser currentdate ici
- 
     const id = +this.route.snapshot.paramMap.get('id');
     this.getDemandeDevisById(id);
-    this.loadProduitsByDemandeDevisId();
   }
+
   getDemandeDevisById(id: number): void {
     this.demandeDevisService.getDemandeDevisById(id).subscribe(
-      (response: NewDemandeDevis) => {
-        this.demandeDevis = response;
-        console.log('Demande de devis récupérée :', this.demandeDevis);
-        this.loadFournisseurById(this.demandeDevis.fournisseurId);
+      (demande: NewDemandeDevis) => {
+        this.demandeDevis = demande; // Stocker l'objet unique
+        this.getFournisseurByDemandeDevis(); // Récupérer les fournisseurs après avoir chargé la demande
 
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération de la demande de devis', error);
-      }
-    );
-  }
-  
-  loadProduitsByDemandeDevisId(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.produitDemandeeService.getProduitDemandeByDemandeDevisId(id).subscribe(
-      produits => {
-        this.produits = produits;
-        console.log('Produits chargés:', this.produits); // Vérifiez les données
+        this.offres = []; // Initialiser les offres
+        this.offreMap = {}; // Initialiser l'offreMap
 
-        this.dataSourceElement = new CustomStore({
-          load: (loadOptions: any) => {
-            loadOptions.requireTotalCount = true;
-            const size = loadOptions.take || this.pageSize;
-            const startIndex = loadOptions.skip || 0;
-            const endIndex = startIndex + size;
-            const paginatedData = this.produits.slice(startIndex, endIndex);
-  
-            return Promise.resolve({
-              data: paginatedData,
-              totalCount: this.produits.length,
-            });
+        // Charger les produits commandés et récupérer les offres
+        this.loadProduitCommandeeData(demande.id);
+        this.offreService.getOffreByDemandeDevis(demande.id).subscribe(
+          (offre: NewOffre) => {
+            this.offreMap[demande.id] = offre; // Stocker l'offre par ID de DemandeDevis
+            this.offres.push(offre); // Ajouter l'offre à la liste des offres
+            this.offre = offre; // Mettre à jour l'offre courante
+            this.loadProduitOffertData(offre.id); // Charger les produits offerts pour l'offre courante
           },
-        });
-  
-        // Load produitDemandee data as well
-        this.loadProduitDemandeeData(id);
-  
-        // Appelez la méthode compareQuantites après que les données aient été chargées
+          error => {
+            console.error(`Erreur lors de la récupération de l'offre pour la demande de devis ID ${demande.id}:`, error);
+          }
+        );
       },
       error => {
-        console.log('Une erreur s\'est produite lors du chargement des produits : ', error);
+        console.error('Erreur lors de la récupération de la demande de devis :', error);
       }
     );
   }
 
-  
-  loadProduitDemandeeData(id: number): void {
-    this.produitDemandeeService.getProduitDemandeByDemandeDevisId(id).subscribe(
-      produitDemandeeList => {
-        this.produitDemandeeList = produitDemandeeList;
-        console.log('Produits demandés chargés:', this.produitDemandeeList); // Vérifiez les données
+  getFournisseurByDemandeDevis(): void {
+    this.demandeDevisService.getFournisseurByDemandeDevisId(this.demandeDevis.id).subscribe(
+      (fournisseur: NewFournisseur) => {
+        this.fournisseurs[this.demandeDevis.id] = fournisseur; 
+        console.log(`Fournisseur pour la demande de devis ID ${this.demandeDevis.id} :`, fournisseur);
       },
       error => {
-        console.log('Une erreur s\'est produite lors du chargement des produits demandés : ', error);
+        console.error(`Erreur lors de la récupération du fournisseur pour la demande de devis ID ${this.demandeDevis.id}:`, error);
       }
     );
   }
-  getFournisseurName(demandeDevisId: number): Observable<string> {
-    return this.demandeDevisService.getFournisseurName(demandeDevisId);
+  goToAddOffre(): void {
+    // Naviguer vers le composant addOffre avec l'ID du demande de devis en tant que paramètre
+    this.router.navigate(['/Offre/addOffre', this.demandeDevis.id]);
   }
-  loadFournisseurById(fournisseurId: number): void {
-    this.fournisseurService.getFournisseur(fournisseurId).subscribe(
-      (fournisseur: NewFournisseur) => {
-        this.fournisseurNom = fournisseur.nom; // Stocker le nom du fournisseur
+  loadProduitCommandeeData(demandeId: number): void {
+    this.produitCommandeService.getProduitCommandeeByDemandeDevisId(demandeId).subscribe(
+      produitCommandeeList => {
+        // Stocker la liste des produits dans la map
+        this.produitCommandeeMap[demandeId] = produitCommandeeList;
+        console.log(`Produits demandés pour la demande ${demandeId} :`, produitCommandeeList);
       },
-      (error) => {
-        console.error('Erreur lors de la récupération du fournisseur', error);
+      error => {
+        console.log(`Erreur lors du chargement des produits demandés pour la demande ${demandeId} :`, error);
       }
     );
   }
+
+  loadProduitOffertData(offreId: number): void {
+    this.produitOffertService.getProduitOffertsByOffreId(offreId).subscribe(
+      produitOffertList => {
+        this.produitOffertMap[offreId] = produitOffertList;
+  
+        produitOffertList.forEach(produit => {
+          if (produit.id) {
+            this.getProduitsGroupedByBonCommande(offreId);
+
+          } else {
+            console.log(`Aucun bon de commande disponible pour le produit ${produit.id}`);
+          }
+        });
+        console.log(`Produits offert par offre ${offreId} :`, produitOffertList);
+      },
+      error => {
+        console.error(`Erreur lors du chargement des produits offert pour l'offre ${offreId}`, error);
+      }
+    );
+  }
+  
+
   Return() {
-    this.add.emit(false)
+    this.add.emit(false);
     this.router.navigate(['DemandeAchat/allDemandes']);
   }
 
-  popupViewerVisible: any = false;
+  popupViewerVisible: boolean = false;
+
   showPopupWF() {
     this.popupViewerVisible = true;
   }
-  popupHeight = window.innerHeight-50;
-  popupWidth = window.innerWidth - window.innerWidth / 3;
 
+  produitsGroupedByBonCommande: Map<number, any[]> = new Map();
+
+  getProduitsGroupedByBonCommande(offreId: number): void {
+    this.produitOffertService.getProduitsGroupedByBonCommande(offreId)
+      .subscribe(
+        (data: Map<number, any[]>) => {
+          this.produitsGroupedByBonCommande = data;
+          console.log('Group', this.produitsGroupedByBonCommande)
+        },
+        (error) => {
+          console.error('Error fetching grouped products:', error);
+        }
+      );
+  }
+
+
+  popupHeight = window.innerHeight - 50;
+  popupWidth = window.innerWidth - window.innerWidth / 3;
 }

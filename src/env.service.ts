@@ -12,6 +12,8 @@ export class EnvService {
   // API url
   public apiUrlMetiers = '';
   public apiUrlkernel = 'http://localhost.picosoft.biz:4203';
+  public apifournisseur = 'http://localhost:8888/achat/api/fournisseurs/';
+
   public apiUrlpostal = '';
   public apiUrlBack= 'https://psdev.picosoft.biz/kernel-v1/';
   public versionBack;
@@ -22,7 +24,9 @@ export class EnvService {
   public stylingMode;
   public labelMode;
   public activityNameenCoursPreparation;
+  public demandeDevis ='http://localhost:8888/achat/api/demande-devis/';
 public piOpp='http://localhost:8888/achat/api/demande-achats/';
+public urlProject='http://localhost:8888/achat/api/';
 public piOppBC='http://localhost:8888/achat/api/bon-commandes/';
 
 

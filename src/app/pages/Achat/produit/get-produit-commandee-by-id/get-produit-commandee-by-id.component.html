@@ -1,0 +1,121 @@
+<div class="demande-details">
+    <h2 class="demande-titre">Produit commandee:</h2>
+    
+    <div class="details-content">
+      <div class="details-info">
+        <h5>{{ produitCommandee.description }}</h5>
+        <div class="detail-item">
+          <div class="detail-label">Nom :</div>
+          <div class="detail-value">{{ produitCommandee.nom }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Quantité :</div>
+          <div class="detail-value">{{ produitCommandee.quantite }}</div>
+        </div>
+      </div>
+      <div class="product-image-container">
+        <img src="assets/img/{{produitCommandee.img}}" class="product-image">
+      </div>
+    </div>
+  </div>
+  <div class="demande-details">
+  <h2 class="demande-titre">Demande devis ({{demandeDevis.reference}})</h2>
+  <h5>{{ demandeDevis.description }}</h5>
+  <div class="detail-item">
+    <div class="detail-label">Date demande:</div>
+    <div class="detail-value">{{ demandeDevis.datedemande }}</div>
+  </div>
+  <dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="produitCommandees"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  (onToolbarPreparing)="onToolbarPreparing($event)">
+  
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  
+  <!-- Colonnes existantes -->
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="quantite" dataType="number"></dxi-column>
+  <dxo-pager
+      [allowedPageSizes]="allowedPageSizes"
+      [showInfo]="true"
+      [showPageSizeSelector]="true"
+      [visible]="true"
+      displayMode="full"
+      [showNavigationButtons]="true">
+  </dxo-pager>
+</dx-data-grid>
+  </div>
+  <div class="demande-details">
+    <h2 class="demande-titre">Produits offerts associés:</h2>
+  <dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="produitOfferts"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  (onRowDblClick)="EditdemandePO($event)">
+  
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  
+  <!-- Colonnes existantes -->
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="quantite" dataType="number"></dxi-column>
+
+  <dxo-pager
+      [allowedPageSizes]="allowedPageSizes"
+      [showInfo]="true"
+      [showPageSizeSelector]="true"
+      [visible]="true"
+      displayMode="full"
+      [showNavigationButtons]="true">
+  </dxo-pager>
+</dx-data-grid>
+</div>
+
+<div class="demande-details">
+  <h2 class="demande-titre">Produits demandées associés:</h2>
+<dx-data-grid
+#dataGridDemande
+[showBorders]="true"
+[allowColumnResizing]="true"
+[columnAutoWidth]="true"
+[dataSource]="produitsDemandes"
+[remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+[rowAlternationEnabled]="true"
+[showColumnLines]="true"
+keyExpr="id"
+(onRowDblClick)="EditdemandePD($event)">
+
+<dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+<dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+
+<!-- Colonnes existantes -->
+<dxi-column dataField="nom" dataType="string"></dxi-column>
+<dxi-column dataField="description" dataType="string"></dxi-column>
+<dxi-column dataField="quantite" dataType="number"></dxi-column>
+
+<dxo-pager
+    [allowedPageSizes]="allowedPageSizes"
+    [showInfo]="true"
+    [showPageSizeSelector]="true"
+    [visible]="true"
+    displayMode="full"
+    [showNavigationButtons]="true">
+</dxo-pager>
+</dx-data-grid>
+</div>

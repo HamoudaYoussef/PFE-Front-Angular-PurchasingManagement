@@ -1,25 +1,4 @@
 <div class="card-list">
-  <div class="card-sort-bar">
-    <div class="card-sort-buttons">
-      <label for="triOptions">Trier par:</label>
-      <select id="triOptions" name="triOptions"  (change)="onSelectChange($event.target.value)">
-          <option value="fournisseur">Fournisseur</option>
-          <option value="demandeAchat">Demande achat</option>
-      </select>
-      
-      <script>
-          document.addEventListener('DOMContentLoaded', (event) => {
-              const selectElement = document.getElementById('triOptions');
-              
-              const options = selectElement.options;
-              options[0].text = '📅 Date';
-              options[1].text = '🏢 Fournisseur';
-              options[2].text = '🛒 Demande achat';
-          });
-      </script>
-
-    </div>
-  </div>
   <dx-data-grid
   #dataGridDemande
       [showBorders]="true"
@@ -36,44 +15,29 @@
   id="dataGridDemande"
   class="dataGridDemande"
 >
+<dxo-filter-row [visible]="true"></dxo-filter-row>
+<dxo-header-filter [visible]="true"></dxo-header-filter>
+<dxo-group-panel [visible]="true"></dxo-group-panel>
+<dxo-scrolling mode="virtual"></dxo-scrolling>
   <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
   <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-  <dxi-column dataField="id" dataType="number"></dxi-column>
   <dxi-column dataField="nom" dataType="string"></dxi-column>
   <dxi-column dataField="referenceoffre" dataType="string"></dxi-column>
   <dxi-column dataField="description" dataType="string"></dxi-column>
   <dxi-column dataField="dateoffre" dataType="date"></dxi-column>
-  <dxi-column dataField="prix" dataType="number"></dxi-column>
-  <dxi-column dataField="fournisseurName" dataType="string" caption="Fournisseur"></dxi-column>
+  <dxi-column dataField="prix" dataType="number" [customizeText]="customizeTotalText" ></dxi-column>
+  <dxi-column dataField="fournisseur.nom"  caption="Fournisseur"></dxi-column>
 
-  <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+  <dxo-master-detail     [enabled]="true"
+  [enabled]="true" template="detail"></dxo-master-detail>
   <div *dxTemplate="let offre of 'detail'">
     <div class="master-detail-caption">{{
      "voici l'offre " + offre.data.nom + " du réference " + offre.data.referenceoffre + " avec le prix du " + offre.data.prix +" dt"
     }}</div>
-    <app-hover-offre [offreId]="offre.data.id"></app-hover-offre>
+    <app-hover-offre (scrollToDetails)="scrollToProductDetails()" [offreId]="offre.data.id"   (produitDejaSelectionne)="onProduitDejaSelectionne($event)"
+    (produitOffertSelected)="onProduitOffertSelected($event)"></app-hover-offre>
   </div>
 
-  <dxi-column [allowResizing]="false"
-              [fixed]="false" caption="{{'' | translate}}"
-              cellTemplate="cellTemplateActions"
-  >
-  </dxi-column>
-  <div *dxTemplate="let data of 'cellTemplateActions'"
-       style="display: flex; justify-content: center; align-items: center;">
-       <button class="btn btn-success btn-rounded mb-1 mr-1"
-       mdbRipple
-       style="font-weight: bold; color: white;"
-       type="button"
-       (click)="goBC(data.data.id)">bon de commande</button>
-      <a (click)="showbordereaux(data.data.id)" target="_blank"
-         title="Consulter demande"><i
-              class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
-
-      <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
-          <i class="fa fa-trash" style="color:#a63a3a;">
-          </i></a>
-  </div>
   <!--div *dxTemplate="let data of 'ExportPDF'">
       <dx-button (onClick)="exportGrid()" hint="{{ 'exportPDF' | translate }}" icon="exportpdf"
                  id="exportButton"></dx-button>
@@ -86,10 +50,41 @@
           displayMode="full"
           [showNavigationButtons]="true"
   ></dxo-pager>
-
-
-
 </dx-data-grid>
+<div  *ngIf="produitOffertSelectionne.length > 0" class="demande-details mt-5">
+  <h3 class="demande-titre">Produits offerts sélectionnés</h3>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let produit of produitOffertSelectionne">
+      <div class="card mb-4">
+      
+        <div class="d-flex justify-content-center"> <!-- Centrer l'image -->
+          <img class="card-img-top" src="assets/img/{{produit.img}}" style="width: 290px; height: 200px;" alt="Card image cap">
+        </div>        
+        <div class="card-body">
+          <h5 class="card-title">{{ produit.nom }} de l'offre {{produit.offre.nom}}</h5>
+          <p class="card-text">{{ produit.description }}</p>
+          <p>Prix: {{ produit.prix }} dt</p>
+          <div class="d-flex justify-content-between align-items-center"> <!-- Flex pour la quantité et la poubelle -->
+            <span>Quantité: {{ produit.quantite }}</span>
+            <a title="Supprimer" (click)="removeProduitOffert(produit)">
+              <i class="fa fa-trash" style="color:#a63a3a;"></i>
+            </a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <button
+  (click)="goBC()"
+  class="btn btn-success btn-rounded mb-1 mr-1"
+    mdbRipple
+    style="font-weight: bold; color: white; margin-left: 945px;"
+    type="button">
+   Créer un bon de commande
+    </button>
+</div>
+
 <dx-popup
       [maxWidth]="940"
       [width]="500"
@@ -116,68 +111,5 @@
   </div>
 </dx-popup>
 
-  <!-- new section for offres grouped by fournisseur -->
-  <div class="offres-par-fournisseur" *ngIf="selectedOption === 'fournisseur'">
-    <h2 class="text-center my-4">Offres par fournisseur</h2>
-<div class="row">
-  <div *ngFor="let fournisseur of offresParFournisseur | keyvalue" class="col-md-4 mb-4">
-    <div class="card h-100 shadow-sm">
-      <div class="card-body">
-        <h5 class="card-title">{{ fournisseur.value[0]?.fournisseur?.nom }}</h5> <!-- Affiche le nom du fournisseur -->
-
-        <ul class="list-unstyled">
-          <div *ngFor="let offre of fournisseur.value" class="mb-2">
-            <p class="card-text">{{ offre.description }} <span class="badge badge-primary">{{ offre.prix | currency }}</span></p>
-          </div>
-        </ul>
-      </div>
-    </div>
-  </div>
 </div>
-
-  </div>
-  <div class="offres-par-fournisseur" *ngIf="selectedOption === 'demandeAchat'">
-    <h2 class="text-center my-4">Offres par Demande d'Achat</h2>
-    <div class="row">
-      <div class="col-12">
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Demande d'achat</th>
-                <th scope="col">Description</th>
-                <th scope="col">Prix</th>
-                <th scope="col">Date</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let demandeachat of offresParDemandeAchat | keyvalue">
-                <tr class="table-primary">
-                  <td colspan="5">{{ extractDescription(demandeachat.key) }}</td>
-                </tr>
-                <ng-container *ngFor="let offre of demandeachat.value">
-                  <tr>
-                    <td></td>
-                    <td>{{ offre.description }}</td>
-                    <td>{{ offre.prix | currency }}</td>
-                    <td>{{ offre.dateoffre }}</td>
-                    <td>
-                      <button class="btn btn-success btn-sm" (click)="goBC(offre)">Envoyer un bon de commande</button>
-                    </td>
-                  </tr>
-                </ng-container>
-              </ng-container>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    
-    
-    
-    
-  </div>
-  
-  
-</div>
+<div class="produit-details"></div>

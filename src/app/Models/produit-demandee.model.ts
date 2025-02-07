@@ -1,15 +1,19 @@
+import { NewDemandeAchat } from "./demande-achat.model";
 import { IOffre } from "./offre.model";
-import { IProduit } from './produit.model';
+import { IProduit, NewProduit } from './produit.model';
 
 export interface IProduitDemandee {
   id: number | null;
-  demandeAchatId: number;
+  demandeAchat: NewDemandeAchat;
   nom: string;
   description: string;
   quantite: number;
-  
+  img:string;
+  produit:NewProduit
   isMatch?: boolean;
-  enStock?: boolean; // Champ pour indiquer la correspondance
+  enStock?: boolean; 
+  categorie:number,
+  // Champ pour indiquer la correspondance
 
 }
 

@@ -10,6 +10,7 @@ import {ToastrService} from 'ngx-toastr';
 import {DOCUMENT} from '@angular/common';
 import {environment} from '../environments/environment.prod';
 import {LocalizationService} from "./pages/Global/shared-service/localization.service";
+import { WebSocketService } from './Service/web-socket.service';
 
 @Component({
     selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent {
     show: any=false;
     constructor(@Inject(DOCUMENT) private document: Document ,private env:EnvService,public appSettings: AppSettings, public router: Router,
                 public translate: TranslateService,private Toster:ToastrService,private cookieService: CookieService,private loginService:LoginService,
-                private localizationService: LocalizationService) {
+                private localizationService: LocalizationService,private webSocketService:WebSocketService) {
         this.settings = this.appSettings.settings;
         translate.addLangs(['en','de','fr','ru','tr']);
         // translate.setDefaultLang('en');
@@ -89,7 +90,17 @@ export class AppComponent {
     ngOnit(){
         console.log('Application environment is set to:', environment.buildTimestamp);
         console.log('Last release timestamp is set to:', environment.buildTimestamp);
-    }
+        this.sendNotification()    }
+    username:any
+    sendNotification() {
+        const message = `Nouveau offre recu:` ;
+        const url = `/DemandeDevis/demandeDevis/`;
+        this.username = this.cookieService.get('displayname');
+        const createdBy=this.username;
+        const username="directeurAchat";
+        this.webSocketService.sendNotification({ message, url, createdBy, username });
+      }
+
 
     retouner() {
         var URL = [this.env.apiUrlkernel+"#/Accueil"].join('?');

@@ -17,3 +17,8 @@
   color: white;
   background-color: #b60808;
 }
+.align-right {
+  margin-left: auto; /* Pousse le contenu à droite */
+  display: flex; /* Utilise flexbox pour l'alignement */
+  align-items: center; /* Centre verticalement */
+}

@@ -14,6 +14,8 @@ import { NewProduitDemandee } from 'src/app/Models/produit-demandee.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FournisseurService } from 'src/app/Service/fournisseur.service';
 import { IFournisseur } from 'src/app/Models/fournisseur.model';
+import { EditorPreparingEvent } from 'devextreme/ui/data_grid';
+import { NewFournisseur } from '../../../../Models/fournisseur.model';
 
 @Component({
   selector: 'app-demande-devis-offre',
@@ -66,17 +68,13 @@ export class DemandeDevisOffreComponent implements OnInit {
   @Input() demandeDevisId: number;
 
   ngOnInit(): void {
+    this.demandeDevisId = +this.route.snapshot.paramMap.get('demandeDevisId');
     this.getRequestCaseLazy();
-    this.fournisseurService.getFournisseurs().subscribe((data: IFournisseur[]) => {
-      this.fournisseurs = data;
-      console.log("fournisseurs",   data)
-    });
+
+  //  this.getFournisseurs();
  }
- /*onEditorPreparing(e: DxDataGridTypes.EditorPreparingEvent<NewDemandeDevis>) {
-  if (e.parentType === 'dataRow' && e.dataField === 'fournissuerID') {
-    e.editorOptions.disabled = e.row.data.StateID === undefined;
-  }
-}*/
+ 
+
   openAddPopup(id: number): void {
       this.demandeDevisId = id;
 
@@ -134,8 +132,8 @@ export class DemandeDevisOffreComponent implements OnInit {
     this.popupDeleteVisible = false;
   }
 
-  Editdemande(id: number): void {
-    this.router.navigate(['DemandeDevis/demandeDevis', id]);
+  Editdemande(demandeDevisId: number): void {
+    this.router.navigate(['DemandeDevis/demandeDevis', demandeDevisId]);
   }
 
   getAllDemandes(): void {
@@ -366,5 +364,13 @@ export class DemandeDevisOffreComponent implements OnInit {
         console.log('Une erreur s\'est produite lors du chargement des produits : ', error);
       }
     );
+  }
+  goToAddOffre(demandeDevisId: number): void {
+    // Naviguer vers le composant addOffre avec l'ID du demande de devis en tant que paramètre
+    this.router.navigate(['/Offre/addOffre', demandeDevisId]);
+  }
+
+  addDemandeOffre(id: number){
+    this.router.navigate(['DemandeDevis/addDemandeDevisOffre/'+ id]);
   }
 }

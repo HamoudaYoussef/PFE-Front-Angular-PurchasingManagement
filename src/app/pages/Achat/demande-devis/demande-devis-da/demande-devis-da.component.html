@@ -1,64 +1,33 @@
-<dx-data-grid
-  [dataSource]="dataSourceElement"
-  [remoteOperations]="false"
-  [width]="'100%'"
-  [height]="600"
-  [showBorders]="true"
-  (onToolbarPreparing)="onToolbarPreparing($event)"
-  (onSelectionChanged)="onSelectionChanged($event)"
-  [groupPanel]="{ visible: true }"
-  [sorting]="{ mode: 'multiple' }"
-  [rowAlternationEnabled]="true"
->
-  <!-- Autres configurations de la grille -->
-  
-  <!-- Activer la sélection avec des cases à cocher -->
-  <dxo-selection mode="multiple"></dxo-selection>
-
-  <!-- Colonne de sélection avec des cases à cocher -->
-  <dxi-column type="selection" width="50"></dxi-column>
-
-  <!-- Définition des colonnes -->
-  <dxi-column dataField="nom" caption="Nom" dataType="string">
-    <dxi-validation-rule type="required" message="Le champ Nom est obligatoire."></dxi-validation-rule>
-  </dxi-column>
-
-  <dxi-column dataField="description" caption="Description" dataType="string"></dxi-column>
-
-  <dxi-column dataField="quantite" caption="Quantité" dataType="number">
-    <dxo-header-filter groupInterval="100"></dxo-header-filter>
-    <dxi-validation-rule type="range" [min]="0" [max]="2000" message="La quantité doit être entre 0 et 2000."></dxi-validation-rule>
-  </dxi-column>
-
-  <dxi-column dataField="datedemande" caption="Date de demande" dataType="date">
-    <dxo-header-filter [dataSource]="dateHeaderFilter"></dxo-header-filter>
-  </dxi-column>
-
-  <!-- Détail des lignes si nécessaire -->
-  <div *dxTemplate="let data of 'detail'">
-    <detail-grid [key]="data.key"></detail-grid>
-  </div>
-</dx-data-grid>
-
-
-<!-- Cartes pour afficher les détails des produits sélectionnés -->
-<!-- Conteneur pour les cartes de produits -->
-<div class="demande-details" *ngIf="selectedProducts.length > 0" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-  <!-- Liste des produits sélectionnés -->
-  <div>
-    <h3  class="demande-titre">Produits sélectionnés</h3>
-    <ul>
-      <li *ngFor="let product of selectedProducts">
-        Nom: {{ product.nom }}, Quantité: {{ product.quantite }}
-      </li>
-    </ul>
+  <div class="row mb-4">
+    <!-- Colonne pour Nom de la demande -->
+    <div class="col-md-6 mb-3">
+      <div class="form-group">
+        <label for="nomDemandeDevis">Nom de la demande :</label>
+        <input type="text" id="nomDemandeDevis" formControlName="nom" class="form-control">
+        <div *ngIf="demandeDevisForm.get('nom').invalid && (demandeDevisForm.get('nom').dirty || demandeDevisForm.get('nom').touched)" class="text-danger">
+          <div *ngIf="demandeDevisForm.get('nom').errors.required">Nom est requis.</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Colonne pour Fournisseur -->
+    <div class="col-md-6 mb-3">
+      <label for="fournisseur">Fournisseur :</label>
+      <dx-select-box id="fournisseur" formControlName="fournisseurId" 
+        [dataSource]="fournisseurs" displayExpr="nom" valueExpr="id">
+      </dx-select-box>
+    </div>
   </div>
   
-  <!-- Bouton pour envoyer la demande de devis -->
-  <button (click)="retrieveSelectedData()"
-    class="btn btn-primary btn-rounded mb-1 mr-1 butttons-style"
-    style="background-color: green; font-weight: bold; color: white;"
-    type="button">
-    Envoyer demande devis
-  </button>
-</div>
+  <!-- Deuxième ligne avec Description -->
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="descriptionDemandeDevis">Description :</label>
+        <textarea id="descriptionDemandeDevis" formControlName="description" class="form-control"></textarea>
+        <div *ngIf="demandeDevisForm.get('description').invalid && (demandeDevisForm.get('description').dirty || demandeDevisForm.get('description').touched)" class="text-danger">
+          <div *ngIf="demandeDevisForm.get('description').errors.required">Description est requise.</div>
+        </div>
+      </div>
+    </div>
+  </div>

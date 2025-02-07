@@ -12,7 +12,6 @@ export const routes: Routes  = [
 
 @NgModule({
   declarations: [
-    GetFournisseurByIdComponent
   ],
   imports: [
     CommonModule,

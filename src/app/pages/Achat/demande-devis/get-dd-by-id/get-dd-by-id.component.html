@@ -1,67 +1,162 @@
-<div class="demande-details" *ngIf="demandeDevis">
-    <h2 class="demande-titre">Détails de la demande de devis:</h2>
-    <div class="details-info">
-        <div class="detail-row-container">
-            <div class="detail-row">
-                <div class="detail-item">
-                    <div class="detail-label bordeaux">Nom de la demande:</div>
-                    <div class="detail-value">{{ demandeDevis.nom }}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label bordeaux">Nom du fournisseur:</div>
-                    <div class="detail-value">{{ fournisseurNom }}</div>
-                </div>
-            </div>
-            <div class="detail-row">
-                <div class="detail-item">
-                    <div class="detail-label bordeaux">Description:</div>
-                    <div class="detail-value">{{ demandeDevis.description }}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label bordeaux">Date de la demande:</div>
-                    <div class="detail-value">{{ demandeDevis.datedemande }}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="demande-details">
-<h2 class="demande-titre">Les produits de cette demande:</h2>
-
-
-<div *ngIf="produits.length > 0" class="hovered-product-details">
-    <dx-data-grid
-    #dataGridDemande
-    [showBorders]="true"
-    [allowColumnResizing]="true"
-    [columnAutoWidth]="true"
-    [dataSource]="produits"
-    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-    [rowAlternationEnabled]="true"
-    [showColumnLines]="true"
-    keyExpr="id"
-  >
-      <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
-      <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-      <dxi-column dataField="nom" dataType="string"></dxi-column>
-      <dxi-column dataField="description" dataType="string"></dxi-column>
-      <dxi-column dataField="quantite" dataType="number"></dxi-column>
-      <dxo-pager
-        [allowedPageSizes]="allowedPageSizes"
-        [showInfo]="true"
-        [showPageSizeSelector]="true"
-        [visible]="true"
-        displayMode="full"
-        [showNavigationButtons]="true"
-      ></dxo-pager>
-    </dx-data-grid>
+    <h2 class="demande-titre">Informations sur les demandes de devis: </h2>
+    <div *ngIf="fournisseurs[demandeDevis.id]">
+      <div class="demande-details-petit mt-3">
+        <h3 class="demande-titre-petit">Fournisseur:</h3>
+      <div class="detail-item">
+        <div class="detail-label ">Nom:</div>
+        <div class="detail-value">{{ fournisseurs[demandeDevis.id]?.nom }} </div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label ">Adresse email:</div>
+      <div class="detail-value">{{ fournisseurs[demandeDevis.id]?.email }} </div>
+  </div><div class="detail-item">
+    <div class="detail-label ">Téléphone:</div>
+    <div class="detail-value">{{ fournisseurs[demandeDevis.id]?.tel }} </div>
+  </div><div class="detail-item">
+    <div class="detail-label ">Adresse:</div>
+    <div class="detail-value">{{ fournisseurs[demandeDevis.id]?.adresse }} </div>
   </div>
-
-  <div *ngIf="produits.length === 0">
-    <p>Aucun produit trouvé pour cette demande d'achat.</p>
   </div>
-</div>
+      <!-- Ajoutez d'autres champs du fournisseur si nécessaire -->
+  </div>
+  <div class="demande-details-petit mt-5">
+    <h3 class="demande-titre-petit">Demande devis ({{demandeDevis.reference}}):</h3>
+    <div *ngIf="demandeDevis">
+      <h5>{{ demandeDevis.description }}</h5>
+      <ul class="demande-list mt-3">
+            <div class="detail-item">
+              <span class="detail-label">Date de la demande:</span>
+              <span class="detail-value">{{ demandeDevis.datedemande | date }}</span>
+            </div>
+            
+           
+          <!-- Grid des produits commandés -->
+          <dx-data-grid
+            id="gridContainer"
+            [dataSource]="produitCommandeeMap[demandeDevis.id]"
+            keyExpr="id"
+            [showBorders]="true"
+            class="produit-grid mt-3">
+            <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+            <dxi-column dataField="description" caption="Description"></dxi-column>
+            <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+            <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+  
+            <!-- Template pour afficher l'image -->
+            <div *dxTemplate="let data of 'imageTemplate'">
+              <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+            </div>
+          </dx-data-grid>
+      </ul>
+    </div>
+    
+    <div *ngIf="offre" class="demande-details-plus-petit mt-5">
+      <h2 class="demande-titre-plus-petit">Offre: </h2>
+      <h5>{{offreMap[demandeDevis.id].description}}</h5>
+      <div class="detail-item">
+        <div class="detail-label ">Nom de la demande:</div>
+        <div class="detail-value">{{ offreMap[demandeDevis.id].nom }} </div>
+    </div>
+   
+    <div class="detail-item">
+        <div class="detail-label ">Description:</div>
+        <div class="detail-value"> </div>
+    </div>
+    <div class="detail-item">
+        <div class="detail-label ">Date de l'offre:</div>
+        <div class="detail-value">{{ offreMap[demandeDevis.id].dateoffre }} </div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label ">Réference de l'offre:</div>
+      <div class="detail-value">{{ offreMap[demandeDevis.id].referenceoffre }} </div>
+    </div>
+  <div class="detail-item">
+    <div class="detail-label ">Prix de l'offre:</div>
+    <div class="detail-value">{{ offreMap[demandeDevis.id].prix }} DT</div>
+  </div>
+  <dx-data-grid
+            id="gridContainer"
+            [dataSource]="produitOffertMap[offreMap[demandeDevis.id].id]"
+            keyExpr="id"
+            [showBorders]="true"
+            class="custom-grid mt-3"
+            >
+            <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+            <dxi-column dataField="description" caption="Description"></dxi-column>
+            <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+            <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+  
+            <!-- Template pour afficher l'image -->
+            <div *dxTemplate="let data of 'imageTemplate'">
+              <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+            </div>
+        
+          </dx-data-grid>
+          <div class="demande-details-boncommande mt-3">
+            <h2 class="demande-titre-boncommande">Bon de Commande :</h2>
+            <div *ngFor="let produit of produitsGroupedByBonCommande | keyvalue"  class="demande-details-boncommande mt-3">
+              <h2 class="demande-titre-boncommande">Bon de Commande ({{ produit.value[0].bonCommande.reference }})</h2>
+              
+                <div class="bon-commande-group">
+                  <div class="detail-item">
+                    <div class="detail-label bordeaux">Numéro:</div>
+                    <div class="detail-value">{{ produit.value[0].bonCommande.numero }}</div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="detail-label bordeaux">Date:</div>
+                    <div class="detail-value">{{ produit.value[0].bonCommande.dateboncommande}} </div>
+                  </div>
+                  <div class="detail-item">
+                    <div class="detail-label bordeaux">Adresse livraison:</div>
+                    <div class="detail-value">{{produit.value[0].bonCommande.adresselivraison}} <a 
+                      href="https://www.google.com/maps/search/?api=1&query={{produit.value[0].bonCommande.adresselivraison}}" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                   >Voir map</a></div>
+                </div>
+                  <div class="detail-item">
+                    <div class="detail-label bordeaux">Délai livraison:</div>
+                    <div class="detail-value">{{produit.value[0].bonCommande.delailivraison}} </div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label bordeaux">Type livraison:</div>
+                  <div class="detail-value">{{produit.value[0].bonCommande.typelivraison}} </div>
+              </div>
+                
+                  <dx-data-grid
+                    [dataSource]="produit.value"
+                    keyExpr="id"
+                    [showBorders]="true"
+                    class="custom-grid-blue mt-3">
+                    <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+                    <dxi-column dataField="description" caption="Description"></dxi-column>
+                    <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+                    <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+              
+                    <!-- Template to display the product image -->
+                    <div *dxTemplate="let data of 'imageTemplate'">
+                      <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+                    </div>
+                  </dx-data-grid>
+                </div>
+              
+          </div>
+        </div>
+        
+  </div>
+  </div>
+  </div>
+  <button *ngIf="!offre"
+      class="btn btn-success btn-rounded mb-1 mr-1 float-right"
+      mdbRipple
+      style="background-color: green; font-weight: bold; color: white;"
+      type="button"
+      (click)="goToAddOffre()">
+      Offrir
+    </button>
+    
+  
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
     const maxTitleLength = 20; // Adjust these values as needed

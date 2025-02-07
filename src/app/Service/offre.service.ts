@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EnvService } from 'src/env.service';
 import { TokenStorageService } from '../pages/Global/shared-service/token-storage.service';
 import { NewOffre } from '../Models/offre.model';
+import { NewFournisseur } from '../Models/fournisseur.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class OffreService {
   private BASE_URLGeFournisseur = 'http://localhost:8888/achat/api/offres/offres-par-fournisseur';
   private BASE_URLGeDA = 'http://localhost:8888/achat/api/offres/offres-par-demandeachat';
 
-
+  private BASE_URLAddWithoutDD =  'http://localhost:8888/achat/api/offres/withoutdd'
 
   constructor(private http: HttpClient,public env: EnvService,private tokenStorage: TokenStorageService) { }
 
@@ -31,6 +32,9 @@ export class OffreService {
   getOffresParDemandeAchat(): Observable<any> {
     return this.http.get(`${this.BASE_URLGeDA}`);
   }
+  getOffreByDemandeDevis(id: number): Observable<NewOffre> {
+    return this.http.get<NewOffre>(`${this.BASE}/getByDemandeDevis/${id}`);
+  }
   getOnlyOffresByDemandeAchat(demandeachatId: number): Observable<NewOffre[]> {
     return this.http.get<NewOffre[]>(`${this.BASE}/demandeachat/${demandeachatId}`);
   }
@@ -40,8 +44,20 @@ export class OffreService {
   getFournisseurName(id: number): Observable<string> {
     return this.http.get(`${this.BASE}/${id}/fournisseur-name`, { responseType: 'text' });
   }
-
+  ajouterOffre(offreData: NewOffre): Observable<NewOffre> {
+    return this.http.post<NewOffre>(`${this.BASE}`, offreData);
+  }
+   
+  getFournisseurByOffreId(offreId: number): Observable<NewFournisseur> {
+    const url = `${this.BASE}/${offreId}/fournisseur`;
+    return this.http.get<NewFournisseur>(url);
+  }
+  findOffreByFournisseur(fournisseurId: number): Observable<NewOffre[]> {
+    const url = `${this.BASE}/fournisseur/${fournisseurId}`;
+    return this.http.get<NewOffre[]>(url);
+  }
 }
+
 
 
 

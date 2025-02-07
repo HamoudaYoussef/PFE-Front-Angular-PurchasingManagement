@@ -1,13 +1,17 @@
+import { ICategorie } from './categorie.model';
 import { IOffre } from './offre.model';
 
 
 export interface IProduit {
-  idproduit: number ;
+  id: number ;
   quantite?: number | null;
-  quantitedemandeur?: number | null;
   nom?: string | null;
+  description?: string | null;
+categorie?: ICategorie;
   couleur?: string | null;
-  offres?: Pick<IOffre, 'idoffre'>[] | null;
+  offres?: Pick<IOffre, 'id'>[] | null;
+  img?:string;
+
 }
 
-export type NewProduit = Omit<IProduit, 'idproduit'> & { idproduit: number };
+export type NewProduit = Omit<IProduit, 'id'> & { id: number };

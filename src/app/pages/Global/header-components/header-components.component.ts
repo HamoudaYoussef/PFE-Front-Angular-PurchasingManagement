@@ -16,6 +16,7 @@ import {CommunFuncService} from '../attachment/Commun/commun-func.service';
 export class HeaderComponentsComponent implements OnInit {
 
 
+
   configjson = this.formcontrol.group({
     scannerName: [null, Validators.required],
     scannerProfil:['', Validators.required],
@@ -149,8 +150,8 @@ export class HeaderComponentsComponent implements OnInit {
 
 
       this.fileservice.GetListScanner(this.authorizationTokenScan, 'GetListScanner').subscribe((res: any) => {
-            if (res.result != null && res.result != undefined || res.result != []) {
-              for (let i = 0; i < res.result.length; i++) {
+        if (res.result != null && res.result != undefined && res.result.length > 0) {
+          for (let i = 0; i < res.result.length; i++) {
                 this.ListeScanner[i] = res.result[i];
               }
             }

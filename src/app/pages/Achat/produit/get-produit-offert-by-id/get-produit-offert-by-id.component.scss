@@ -1,0 +1,76 @@
+.demande-details {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .demande-titre {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background-color: #f5f5f5;
+    padding: 0 10px;
+    font-size: 24px;
+    color: #8B0000;
+  }
+  
+  .details-content {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .details-info {
+    flex: 1;
+  }
+  
+  .detail-item {
+    display: flex;
+    padding: 10px 0;
+    /* Suppression de la ligne de séparation */
+  }
+  
+  .detail-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px;
+  }
+  
+  .detail-value {
+    color: #555;
+    flex-grow: 1;
+  }
+  
+  .product-image-container {
+    max-width: 200px;
+    margin-left: 20px; /* Espace entre les détails et l'image */
+  }
+  
+  .product-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  .demande-details-petit {
+    background-color: #fafafa; /* Légèrement plus clair pour plus de douceur */
+    border: 1px solid #ececec; /* Couleur de bordure plus claire et plus douce */
+    border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+    position: relative;
+  }
+  .demande-titre-petit {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background: linear-gradient(to bottom, #f5f5f5, #fafafa);
+    padding: 0 10px;
+    font-size: 24px;
+    color: #8B0000;
+  }
+  

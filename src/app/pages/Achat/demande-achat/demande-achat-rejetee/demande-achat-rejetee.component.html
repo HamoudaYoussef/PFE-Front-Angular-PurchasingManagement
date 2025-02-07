@@ -1,0 +1,76 @@
+<dx-data-grid
+  #dataGridDemande
+  id="dataGridDemande"
+  class="dataGridDemande"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="dataSourceElement"
+  [remoteOperations]="{ filtering: false, grouping: false, sorting: true, paging: true }"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  (onRowDblClick)="Editdemande($event)"
+ 
+  keyExpr="id"
+>
+<dxo-filter-row [visible]="true"></dxo-filter-row>
+<dxo-header-filter [visible]="true"></dxo-header-filter>
+<dxo-group-panel [visible]="true"></dxo-group-panel>
+<dxo-scrolling mode="virtual"></dxo-scrolling>
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <!--dxo-paging [pageSize]="pageSize" [pageIndex]="pageIndex"></dxo-paging-->
+  <dxi-column dataField="reference" [width]="150" dataType="string" caption="Réference" ></dxi-column>
+  <dxi-column dataField="datedemande" [width]="150" dataType="string" caption="Date de Demande" ></dxi-column>
+  <dxi-column dataField="description" dataType="string" caption="Description"></dxi-column>
+
+  
+
+  <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+  <div *dxTemplate="let demandeachat of 'detail'">
+    <div class="master-detail-caption">{{
+     "voici la demande achat" + demandeachat.data.nom + "de la date " + demandeachat.data.datedemande + "'s Tasks:"
+    }}</div>
+    <app-hover-da [demandeAchatId]="demandeachat.data.id"></app-hover-da>
+  </div>
+
+ 
+
+  <div *dxTemplate="let data of 'cellTemplateActions'" class="action-buttons">
+  
+  </div>
+
+  <dxo-pager
+    [allowedPageSizes]="allowedPageSizes"
+    [showInfo]="true"
+    [showPageSizeSelector]="true"
+    [visible]="true"
+    displayMode="full"
+    [showNavigationButtons]="true"
+  ></dxo-pager>
+</dx-data-grid>
+
+<div *ngIf="hoveredRow" class="hovered-product-details" [ngStyle]="hoverPosition">
+  <app-hover-da [demandeAchatId]="hoveredRow.id"></app-hover-da>
+</div>
+<dx-popup
+  [maxWidth]="940"
+  [width]="500"
+  [height]="'auto'"
+  [showTitle]="true"
+  title="Confirmation de la suppression"
+  [dragEnabled]="false"
+  [closeOnOutsideClick]="true"
+  [(visible)]="popupDeleteVisible"
+>
+  <div class="confirmation-popup">
+    <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+        <button type="button" class="btn btn-outline-secondary me-md-2" (click)="fermerPopup()">Annuler</button>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 text-right">
+        <button type="submit" class="btn btn-success me-md-2" (click)="deletedemande()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

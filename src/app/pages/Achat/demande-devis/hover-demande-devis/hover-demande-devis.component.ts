@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import CustomStore from 'devextreme/data/custom_store';
 import DataSource from 'devextreme/data/data_source';
 import { NewProduitDemandee } from 'src/app/Models/produit-demandee.model';
-import { ProduitDemandeeService } from 'src/app/Service/produit-demandee.service';
 import { EnvService } from 'src/env.service';
+import { ProduitCommandeeService } from '../../../../Service/produit-commandee.service';
+import { NewProduitCommandee } from 'src/app/Models/produit-commandee.model';
 
 @Component({
   selector: 'app-hover-demande-devis',
@@ -22,7 +23,7 @@ export class HoverDemandeDevisComponent implements OnInit {
   @Input() key: number;
 
  @Input() demandeDevisId: number;
-  produits: NewProduitDemandee[] = [];
+  produits: NewProduitCommandee[] = [];
   ngAfterViewInit() {
    // this.loadProduitsByDemandeDevis() ;
   }
@@ -32,7 +33,7 @@ export class HoverDemandeDevisComponent implements OnInit {
   }
 
 
-  constructor(private produitDemandeeService: ProduitDemandeeService, private env: EnvService) { }
+  constructor(private ProduitCommandeeService: ProduitCommandeeService, private env: EnvService) { }
 
 /*  ngOnChanges(changes: SimpleChanges): void {
     if (changes.demandeAchatId && this.demandeAchatId) {
@@ -41,7 +42,7 @@ export class HoverDemandeDevisComponent implements OnInit {
   }*/
 
    loadProduitsByDemandeDevis(): void {
-    this.produitDemandeeService.getProduitDemandeByDemandeDevisId(this.demandeDevisId).subscribe(
+    this.ProduitCommandeeService.getProduitCommandeeByDemandeDevisId(this.demandeDevisId).subscribe(
       produits => {
         this.produits = produits;
         this.dataSourceElement = new CustomStore({

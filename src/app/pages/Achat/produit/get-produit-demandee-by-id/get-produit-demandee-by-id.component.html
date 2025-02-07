@@ -1,0 +1,167 @@
+<div class="demande-details">
+    <h2 class="demande-titre">Produit demandé:</h2>
+    
+    <div class="details-content">
+      <div class="details-info">
+        <h5>{{ produitDemandee.description }}</h5>
+        <div class="detail-item">
+          <div class="detail-label">Nom :</div>
+          <div class="detail-value">{{ produitDemandee.nom }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Quantité :</div>
+          <div class="detail-value">{{ produitDemandee.quantite }}</div>
+        </div>
+      </div>
+      <div class="product-image-container">
+        <img src="assets/img/{{produitDemandee.img}}" class="product-image">
+      </div>
+    </div>
+  </div>
+  <div class="demande-details">
+  <h2 class="demande-titre">Demande achat ({{demandeAchat.reference}})</h2>
+  <h5>{{ demandeAchat.description }}</h5>
+  <div class="detail-item">
+    <div class="detail-label">Date demande:</div>
+    <div class="detail-value">{{ demandeAchat.datedemande }}</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Statut :</div>
+    <div class="detail-value">{{ demandeAchat.statut }}</div>
+  </div>
+  <dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="produitDemandees"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  (onToolbarPreparing)="onToolbarPreparing($event)"
+  (onRowPrepared)="handleRowPrepared($event)">
+  
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  
+  <!-- Colonnes existantes -->
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="quantite" dataType="number"></dxi-column>
+  <dxi-column *ngIf="displayname === 'Youssef Hamouda DA'"
+  caption="État du stock"
+  [calculateCellValue]="calculateStockStatus"
+  [cellTemplate]="etatStockCellTemplate">
+</dxi-column>
+  <dxo-pager
+      [allowedPageSizes]="allowedPageSizes"
+      [showInfo]="true"
+      [showPageSizeSelector]="true"
+      [visible]="true"
+      displayMode="full"
+      [showNavigationButtons]="true">
+  </dxo-pager>
+</dx-data-grid>
+  </div>
+  <div class="demande-details">
+    <h2 class="demande-titre">Produit commandés associés:</h2>
+    
+    <dx-data-grid
+    #dataGridDemande
+    [showBorders]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [dataSource]="produitCommandees"
+    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+    keyExpr="id"
+    (onRowPrepared)="handleRowPrepared($event)"
+    (onRowDblClick)="EditdemandePC($event)">
+    
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    
+    <!-- Colonnes existantes -->
+    <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="description" dataType="string"></dxi-column>
+    <dxi-column dataField="quantite" dataType="number"></dxi-column>
+    <dxi-column *ngIf="displayname === 'Youssef Hamouda DA'"
+    caption="État du stock"
+    [calculateCellValue]="calculateStockStatus"
+    [cellTemplate]="etatStockCellTemplate">
+  </dxi-column>
+    <dxo-pager
+        [allowedPageSizes]="allowedPageSizes"
+        [showInfo]="true"
+        [showPageSizeSelector]="true"
+        [visible]="true"
+        displayMode="full"
+        [showNavigationButtons]="true">
+    </dxo-pager>
+  </dx-data-grid>
+  </div>
+  <div class="demande-details">
+    <h2 class="demande-titre">Produit offerts associés:</h2>
+    
+    <dx-data-grid
+    #dataGridDemande
+    [showBorders]="true"
+    [allowColumnResizing]="true"
+    [columnAutoWidth]="true"
+    [dataSource]="produitOfferts"
+    [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+    [rowAlternationEnabled]="true"
+    [showColumnLines]="true"
+    keyExpr="id"
+    (onRowPrepared)="handleRowPrepared($event)"
+    (onRowDblClick)="EditdemandePO($event)">
+    
+    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+    
+    <!-- Colonnes existantes -->
+    <dxi-column dataField="nom" dataType="string"></dxi-column>
+    <dxi-column dataField="description" dataType="string"></dxi-column>
+    <dxi-column dataField="quantite" dataType="number"></dxi-column>
+    <dxi-column *ngIf="displayname === 'Youssef Hamouda DA'"
+    caption="État du stock"
+    [calculateCellValue]="calculateStockStatus"
+    [cellTemplate]="etatStockCellTemplate">
+  </dxi-column>
+    <dxo-pager
+        [allowedPageSizes]="allowedPageSizes"
+        [showInfo]="true"
+        [showPageSizeSelector]="true"
+        [visible]="true"
+        displayMode="full"
+        [showNavigationButtons]="true">
+    </dxo-pager>
+  </dx-data-grid>
+  </div>
+  <dx-popover *ngIf="displayname === 'Youssef Hamouda DA'"
+  #etatStockPopover
+  [target]="popoverTarget"
+  [visible]="isPopoverVisible"
+  position="top"
+  width="300"
+  cssClass="custom-popover"
+>
+  <div class="popover-content">
+    <div class="popover-header">
+      <i class="dx-icon dx-icon-info" aria-hidden="true"></i>
+      <span class="stock-title">État du Stock</span>
+    </div>
+    <div class="popover-body">
+      <!-- Vérifiez si la quantité est supérieure à 0 -->
+      <ng-container *ngIf="quantitedifference >= 0; else stockEmpty">
+        <span class="stock-status-vert">🟢 {{quantiteCalculee}} : quantité disponible dans le stock</span>
+      </ng-container>
+      <!-- Modèle alternatif pour les quantités <= 0 -->
+      <ng-template #stockEmpty>
+        <span class="stock-status-rouge">🔴 {{quantiteCalculee}} : quantité disponible dans le stock</span>
+      </ng-template>
+    </div>
+  </div>
+</dx-popover>

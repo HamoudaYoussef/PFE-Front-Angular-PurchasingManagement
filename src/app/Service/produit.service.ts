@@ -4,8 +4,8 @@ import { EnvService } from 'src/env.service';
 import { WsService } from 'src/ws.service';
 import { TokenStorageService } from '../pages/Global/shared-service/token-storage.service';
 import { Observable } from 'rxjs';
-import { NewProduit } from '../Models/produit.model';
 import { NewFournisseur } from '../Models/fournisseur.model';
+import { NewProduit } from 'src/app/Models/produit.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class ProduitService {
 
  private BASE_URL_PDA = 'http://localhost:8888/achat/api/produits/demande-achat/';
  private BASE_URL_F = 'http://localhost:8888/achat/api/produits/demande-achat/';
- private ADD_BASE_URL = 'ttp://localhost:8888/achat/api/produits';
+ private ADD_BASE_URL = 'http://localhost:8888/achat/api/produits';
 
 
 
@@ -49,6 +49,10 @@ export class ProduitService {
     const url = `${this.env.piOpp}produitDTO/${id}`;
     return this.http.get<NewProduit>(url);
   }
+  updateProduit(id: number, produit: any): Observable<any> {
+    const url = `${this.ADD_BASE_URL}/update/${id}`;
+    return this.http.put(url, produit);
+  }
 
   getProduits(): Observable<any> {
     return this.http.get(`${this.BASE_URL}`);
@@ -61,5 +65,12 @@ export class ProduitService {
   }
   deleteProduit(id: number): Observable<any> {
     return this.http.delete(`${this.ADD_BASE_URL}/${id}`, { responseType: 'text' });
+  }
+  addProduitWithImage(formData: FormData) {
+    return this.http.post(`${this.ADD_BASE_URL}/add-produit-with-image`, formData);
+  }
+
+  getProduitsByCategorie(categorieId: number): Observable<NewProduit[]> {
+    return this.http.get<NewProduit[]>(`${this.ADD_BASE_URL}/byCategorie/${categorieId}`);
   }
 }

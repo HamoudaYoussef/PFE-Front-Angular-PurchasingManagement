@@ -1,21 +1,22 @@
 import dayjs from 'dayjs/esm';
 import { IFournisseur } from './fournisseur.model';
 import { IDemandeAchat } from './demande-achat.model';
+import { NewProduitOffert } from './produit-offert.model';
+import { IDemandeDevis } from './demande-devis.model';
 
 
 export interface IOffre {
-  idoffre?: number;
+  id?: number;
   prix?: number | null;
-  dateoffre?: dayjs.Dayjs | null;
+  dateoffre?: string;
   description?: string | null;
   nom?: string | null;
   referenceoffre?: string | null;
- // fournisseur_id?: Pick<IFournisseur, 'fournisseur_id'> | null;
- fournisseur: IFournisseur;
- demandeachat: IDemandeAchat;
+  fournisseur: IFournisseur;
+  demandeDevis:IDemandeDevis;
 }
 
 
-export type NewOffre = Omit<IOffre, 'idoffre'> & { idoffre: number };
+export type NewOffre = Omit<IOffre, 'id'> & { id: number };
 
 

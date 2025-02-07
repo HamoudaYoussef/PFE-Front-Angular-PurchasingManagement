@@ -1,0 +1,135 @@
+.demande-details {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  .demande-titre {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background-color: #f5f5f5;
+    padding: 0 10px;
+    font-size: 24px;
+    color: #8B0000;
+  }
+  .detail-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .detail-item:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px; /* Ajoutez un petit espace si nécessaire */
+  }
+  
+  .detail-value {
+    color: #555;
+    flex-grow: 1; /* Pour que la valeur occupe l'espace restant */
+  }
+  
+  .details-info .detail-value {
+      color: #333;
+  }
+  
+  .bordeaux {
+      color: #8B0000; /* bordeaux */
+  }
+  .custom-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #0078d4; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    padding: 10px 20px; /* Espacement autour du texte */
+    border-radius: 4px; /* Coins arrondis */
+    margin-bottom: 10px; /* Espacement sous le titre */
+  }
+  
+  .custom-title h2 {
+    font-size: 24px; /* Taille de police du titre */
+    font-weight: bold; /* Gras */
+    margin: 0; /* Supprime les marges par défaut */
+  }
+  
+.product-image {
+  width: 50px; /* Ajuster la taille de l'image */
+  height: 50px;
+  border-radius: 5px; /* Bords arrondis */
+  object-fit: cover; /* Couvrir l'espace sans déformation */
+}
+
+.product-info {
+  margin-left: 10px; /* Espacement entre l'image et le texte */
+  flex-grow: 1; /* Permet au texte de prendre l'espace restant */
+}
+
+.product-name {
+  font-weight: bold; /* Nom en gras */
+  font-size: 14px; /* Taille de la police pour le nom */
+}
+
+.product-description {
+  font-size: 12px; /* Taille de la police pour la description */
+  color: #666; /* Couleur plus claire pour la description */
+  margin-top: 2px; /* Espacement au-dessus de la description */
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0; /* Ligne de séparation */
+}
+
+.detail-item:last-child {
+  border-bottom: none; /* Supprime la bordure pour le dernier élément */
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-value {
+  color: #555;
+}
+.details-info .detail-value {
+    color: #333;
+}
+
+.demande-details-petit {
+  background-color: #fafafa; /* Légèrement plus clair pour plus de douceur */
+  border: 1px solid #ececec; /* Couleur de bordure plus claire et plus douce */
+  border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+  position: relative;
+}
+
+.demande-titre-petit {
+  position: absolute;
+  top: -10px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background: linear-gradient(to bottom, #f5f5f5, #fafafa);
+  padding: 0 10px;
+  font-size: 16px;
+  color: #8B0000;
+}
+::ng-deep .dx-toast-content {
+  margin: 0 auto;
+  text-align: center;
+}
+:host ::ng-deep .custom-grid .dx-datagrid-headers.dx-datagrid-nowrap {
+  color: #1b5e0c; /* Couleur souhaitée */
+}

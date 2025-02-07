@@ -11,32 +11,106 @@
   position: absolute;
   top: -15px; /* Ajustez cette valeur selon vos besoins */
   left: 20px; /* Ajustez cette valeur selon vos besoins */
-  background-color: #f5f5f5;
+  background-color: #f5f5f5; /* Fond noir totalement transparent */
   padding: 0 10px;
   font-size: 24px;
   color: #8B0000;
 }
-.details-title {
-    font-size: 24px;
-    color: #8B0000; /* bordeaux */
-    margin-bottom: 15px;
+.demande-details-petit {
+  background-color: #fafafa; /* Légèrement plus clair pour plus de douceur */
+  border: 1px solid #ececec; /* Couleur de bordure plus claire et plus douce */
+  border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+  position: relative;
+}
+.demande-titre-petit {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background: linear-gradient(to bottom, #f5f5f5, #fafafa);
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}
+.demande-details-boncommande {
+  background-color: #fafafa; /* Légèrement plus clair pour plus de douceur */
+  border: 1px solid #ececec; /* Couleur de bordure plus claire et plus douce */
+  border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+  position: relative;
+}
+.demande-titre-boncommande {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background: linear-gradient(to bottom, #ffffff, #fafafa);
+  padding: 0 10px;
+  font-size: 24px;
+  color: #0096a6;
+}
+.custom-popover {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  color: #555;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
-.details-info .detail-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+.popover-content {
+  text-align: center;
 }
 
-.details-info .detail-label {
-    color: #8B0000; /* bordeaux */
-    font-weight: bold;
-    margin-right: 10px;
+.popover-header {
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
 }
 
-.details-info .detail-value {
-    color: #333;
+.popover-body {
+  display: flex;
+  justify-content: center;
 }
+
+.stock-status-vert {
+  font-size: 14px;
+  color: #4CAF50; /* Couleur verte pour le statut */
+  margin-left: 5px;
+}
+.stock-status-rouge {
+  font-size: 14px;
+  color: #fa1111; /* Couleur verte pour le statut */
+  margin-left: 5px;
+}
+/* Pour le texte spécifique à l'état du stock */
+.demande-details-plus-petit {
+  background-color: #ffffff; /* Légèrement plus clair pour plus de douceur */
+  border: 1px solid #fafafa; /* Couleur de bordure plus claire et plus douce */
+  border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+  position: relative;
+}
+.demande-titre-plus-petit {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background: linear-gradient(to bottom, #fafafa, #ffffff);
+  padding: 0 10px;
+  font-size: 24px;
+  color: #1b5e0c;
+}
+
+
 
 .bordeaux {
     color: #8B0000; /* bordeaux */
@@ -217,4 +291,60 @@
     position: absolute;
     z-index: 1000;
     font-size: 14px;
+  }
+
+  
+  .produit-grid .dx-datagrid-header-cell {
+    background-color: #4caf50; /* Couleur de fond verte */
+    color: white; /* Couleur du texte en blanc */
+    font-weight: bold; /* Met le texte en gras */
+  }
+  :host ::ng-deep .custom-grid .dx-datagrid-headers.dx-datagrid-nowrap {
+    color: #1b5e0c; /* Couleur souhaitée */
+  }
+  :host ::ng-deep .custom-grid-blue .dx-datagrid-headers.dx-datagrid-nowrap {
+    color: #0096a6; /* Couleur souhaitée */
+  }
+  .label {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .label-in-stock {
+    background-color: #dff0d8;
+    color: #3c763d;
+    border: 1px solid #3c763d;
+  }
+  
+  .label-out-of-stock {
+    background-color: #f2dede;
+    color: #a94442;
+    border: 1px solid #a94442;
+  }
+  .detail-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .detail-item:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px; /* Ajoutez un petit espace si nécessaire */
+  }
+  
+  .detail-value {
+    color: #555;
+    flex-grow: 1; /* Pour que la valeur occupe l'espace restant */
+  }
+  
+  .details-info .detail-value {
+      color: #333;
   }

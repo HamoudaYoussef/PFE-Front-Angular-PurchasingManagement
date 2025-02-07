@@ -2,10 +2,12 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BonCommandeService } from 'src/app/Service/bon-commande.service';
 import { IBonCommande, NewBonCommande } from '../../../../Models/bon-commande.model';
-import { StatutBonCommande } from 'src/app/Models/enumerations/statut-bc.model';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup,FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { EnvService } from 'src/env.service';
+import { NewProduitOffert } from 'src/app/Models/produit-offert.model';
+import { ProduitOffertService } from 'src/app/Service/produit-offert.service';
+import { GeneratePdfService } from 'src/app/Service/generate-pdf.service';
 
 @Component({
   selector: 'app-get-bon-commande-by-id',
@@ -14,10 +16,11 @@ import { EnvService } from 'src/env.service';
 })
 export class GetBonCommandeByIdComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,private bonCommandeService:BonCommandeService,
-     private toastr: ToastrService, private env: EnvService,private router:Router) { }
+  constructor(private route: ActivatedRoute,private bonCommandeService:BonCommandeService,private produitOffertService:ProduitOffertService,
+     private toastr:ToastrService, private env:EnvService,private router:Router,private fb: FormBuilder,private pdfGeneratorService:GeneratePdfService) { }
 
   @Output() add = new EventEmitter<boolean>();
+  produitsOfferts: NewProduitOffert[] = [];
 
   bcForm: any = {}; 
   objectData:any;
@@ -25,142 +28,72 @@ export class GetBonCommandeByIdComponent implements OnInit {
   envoyer:boolean;
   demandeForm: any = {};  // Initialisez ou obtenez cet objet d'une source appropriée
   bcadd: any;
-  idoffre=  +this.route.snapshot.paramMap.get('id');
+ // idoffre=  +this.route.snapshot.paramMap.get('id');
   bcObject: any = {};  // Initialisez ou obtenez cet objet d'une source appropriée
   bonCommande: IBonCommande;
+  offreId?: number;
 
 
-  demandeF= new FormGroup({
-    id: new FormControl(this.route.snapshot.paramMap.get('id')),
-  });
+  demandeF: FormGroup; // FormGroup pour le formulaire
+
 
   ngOnInit(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.bonCommandeService.getBonCommandetById(id).toPromise().then(
-      data => {
-      this.bcObject = data
-      console.log("this.demandeAchatObject : {}", this.bcObject)
+    const id = +this.route.snapshot.paramMap.get('id');   
+    this.getProduitsOfferts();      
 
-      this.bonCommande = data;
-      this.objectData=data
-            
-            console.log("Fetched Successfully :", data);
-            this.decissionWF = data.workflow && data.workflow.decisionsWF ? data.workflow.decisionsWF : null;
+    this.demandeF = this.fb.group({
+      numero: [''],
+      reference: [''],
+      delailivraison: [''],
+      typelivraison: ['']
+    });
 
-            console.log("DECICIONS WK ::: "+ this.decissionWF);
-          
-            this.decissionWF = data['workflow']['decisionsWF'];
-            if(this.decissionWF=="pour validation"){
-              this.envoyer=true;
-              console.log("envoyer",this.envoyer)
-            }else {
-              this.envoyer=false;
-            }
-          },
-          error => {
-            console.log("Error :", error);
-          });
+    // Récupère les données du bon de commande et injecte-les dans le formulaire
+    this.getBonCommande();
   }
 
-  Confirmation(evt) {
-    const formData = this.demandeF.value;
-    formData['decision'] = evt.decision.trim();
-    formData['wfCurrentComment'] = evt.wfCurrentComment;
-    console.log("this.demanade CONFIRMATION", formData);
-  
-    if (evt.decision.trim()  === 'valider') {
-      this.validerDemande(evt);
-    } else if (evt.decision.trim()  === 'envoyer') {
-      this.envoyerDemande(evt);
-    }
+  generatePDF() {
+    this.pdfGeneratorService.generatePDF(this.bonCommande, this.produitsOfferts);
   }
 
-validerDemande(evt) {
-  const nouveauStatut: StatutBonCommande = StatutBonCommande.VALIDE;
-  const id = +this.route.snapshot.paramMap.get('id');
-  const formData = this.demandeF.value;
-  formData['decision'] = evt.decision.trim();
-  formData['wfCurrentComment'] = evt.wfCurrentComment;
-  console.log("this.demanade CONFIRMATION", formData);
-  // Mettre à jour le statut
-  this.bonCommandeService.updateStatutBC(id, nouveauStatut).subscribe(
-    statutData => {
-      console.log("Statut mis à jour avec succès");
-
-      // Valider la demande après la mise à jour du statut
-      this.bonCommandeService.BonCommande_process_Submit(formData).subscribe(
-        data => {
-          this.toastr.success("Demande validée avec succès", "", {
-            closeButton: true,
-            positionClass: 'toast-top-right',
-            extendedTimeOut: this.env.extendedTimeOutToastr,
-            progressBar: true,
-            disableTimeOut: false,
-            timeOut: this.env.timeOutToastr
-          });
-          // Rediriger vers la liste des demandes
-       //   this.router.navigate(['DemandeAchat/allDemandes']);
+  getProduitsOfferts(): void {
+    this.produitOffertService.getProduitOffertsByBonCommandeId(+this.route.snapshot.paramMap.get('id'))
+      .subscribe(
+        (data: NewProduitOffert[]) => {
+          this.produitsOfferts = data;
+          console.log('Produits offerts:', this.produitsOfferts);
         },
-        error => {
-          this.toastr.error("Échec de la validation", "", {
-            closeButton: true,
-            positionClass: 'toast-top-right',
-            extendedTimeOut: this.env.extendedTimeOutToastr,
-            progressBar: true,
-            disableTimeOut: false,
-            timeOut: this.env.timeOutToastr
-          });
-          console.log("error", error);
+        (error) => {
+          console.error('Erreur lors de la récupération des produits offerts', error);
         }
       );
-    },
-    error => {
-      this.toastr.error("Échec de la mise à jour du statut", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      });
-      console.log("error", error);
-    }
-  );
-}
+  }
 
-envoyerDemande(evt) {
-    // Logique spécifique pour l'envoi
-    const formData = this.demandeF.value;
-    formData['decision'] = evt.decision.trim();
-    formData['wfCurrentComment'] = evt.wfCurrentComment;
-    console.log("this.demanade CONFIRMATION", formData);
-    this.bonCommandeService.BonCommande_process_Submit(formData).subscribe(data => {
-      this.toastr.success(" added successfully", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      });
-
-      // Appel de onAddPRD avec l'ID de la demande d'achat après soumission réussie
-      const demandeAchatId = this.route.snapshot.paramMap.get('id'); // Supposons que l'ID est renvoyé dans la réponse
-      // Redirection vers la liste des demandes
-      this.router.navigate(['DemandeDevis/add/'+ demandeAchatId]);
-    }, error => {
-      this.toastr.error("failed to add ", "", {
-        closeButton: true,
-        positionClass: 'toast-top-right',
-        extendedTimeOut: this.env.extendedTimeOutToastr,
-        progressBar: true,
-        disableTimeOut: false,
-        timeOut: this.env.timeOutToastr
-      });
-      console.log("error", error);
-    });
-    // this.closepopupMeeting();
-}
+  getBonCommande(): void {
+    this.bonCommandeService.getBonCommande(+this.route.snapshot.paramMap.get('id')).subscribe(
+      (data: NewBonCommande) => {
+        this.bonCommande = data;
+        // Mettez à jour les champs du formulaire avec les données récupérées
+        this.demandeF.patchValue({
+          numero: data.numero, // Numéro de commande
+          reference: data.reference, // Référence du bon de commande
+          delailivraison: data.delailivraison, // Délai de livraison, à ajuster selon votre modèle
+          typelivraison: data.typelivraison // Modalité de livraison, à ajuster selon votre modèle
+        });
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des données du bon de commande', error);
+      }
+    );
+  }
+  calculateTotalPrice(rowData: NewProduitOffert): number {
+    const quantite = rowData.quantite || 0; // Gérer les valeurs nulles ou indéfinies
+    const prix = rowData.prix || 0;         // Gérer les valeurs nulles ou indéfinies
+    return quantite * prix;
+  } 
+  customizeTotalText(options: any): string {
+    return `${options.value} DT`; // Ajoute 'DT' après la valeur
+  }
 Return() {
   this.add.emit(false)
   this.router.navigate(['DemandeAchat/allDemandes']);
@@ -169,6 +102,8 @@ popupViewerVisible: any = false;
 showPopupWF() {
   this.popupViewerVisible = true;
 }
+
+
 popupHeight = window.innerHeight-50;
 popupWidth = window.innerWidth - window.innerWidth / 3;
 }

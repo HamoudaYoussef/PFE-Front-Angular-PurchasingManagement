@@ -1,0 +1,102 @@
+<div id="form-container" class="container mt-5">
+  <div class="demande-details" *ngIf="demandeDevis">
+  <h2 class="demande-titre ">Les détails du demande de devis:</h2>
+  <div class="details-info">
+    <div class="detail-item">
+        <div class="detail-label bordeaux">Nom de la demande:</div>
+        <div class="detail-value">{{ demandeDevis.nom }}</div>
+    </div>
+    <div class="detail-item">
+        <div class="detail-label bordeaux">Nom du fournisseur:</div>
+        <div class="detail-value">{{ demandeDevis.description }}</div>
+    </div>
+</div>  
+<dx-data-grid
+id="gridContainer"
+[dataSource]="produitCommandeeMap[demandeDevis.id]"
+keyExpr="id"
+[showBorders]="true"
+class="produit-grid">
+<dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+<dxi-column dataField="description" caption="Description"></dxi-column>
+<dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+</dx-data-grid>
+</div>
+  <form [formGroup]="demandeF">
+    
+    <div class="form-container">
+      <h2>Ajouter Offre</h2>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="nom" class="form-label">nom:</label>
+                  <input type="text" class="form-control" formControlName="nom" id="nom" >
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="referenceoffre" class="form-label">Reference :</label>
+                  <input type="text" class="form-control" id="referenceoffre" formControlName="referenceoffre" disabled>
+              </div>
+            
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-12">
+                  <label for="description" class="form-label">description :</label>
+                  <textarea type="text" class="form-control" id="description"  formControlName="description" ></textarea>
+              </div>
+              <!--div class="form-group col-md-6">
+                  <label for="adresseentreprise" class="form-label">fournisseur :</label>
+                  <input type="text" class="form-control" id="adresseentreprise" formControlName="adresseentreprise">
+              </div-->
+          </div>
+          
+          
+  </div>
+    <!-- Liste des produits -->
+    <div formArrayName="produitOfferts">
+      <div *ngFor="let produit of produitOfferts.controls; let i = index" [formGroupName]="i" class="row mb-4">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="nom-{{i}}">Nom d'article:</label>
+            <input type="text" id="nom-{{i}}" formControlName="nom" class="form-control">
+            <div *ngIf="produit.get('nom').invalid && (produit.get('nom').dirty || produit.get('nom').touched)" class="text-danger">
+              <div *ngIf="produit.get('nom').errors.required">Nom est requis.</div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="description-{{i}}">Description :</label>
+            <input type="text" id="description-{{i}}" formControlName="description" class="form-control">
+            <div *ngIf="produit.get('description').invalid && (produit.get('description').dirty || produit.get('description').touched)" class="text-danger">
+              <div *ngIf="produit.get('description').errors.required">Description est requise.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="quantite-{{i}}">Quantité :</label>
+            <input type="number" id="quantite-{{i}}" formControlName="quantite" class="form-control">
+            <div *ngIf="produit.get('quantite').invalid && (produit.get('quantite').dirty || produit.get('quantite').touched)" class="text-danger">
+              <div *ngIf="produit.get('quantite').errors.required">Quantité est requise.</div>
+              <div *ngIf="produit.get('quantite').errors.min">Quantité doit être au moins 1.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bouton Supprimer -->
+        <div class="col-md-2 d-flex align-items-end">
+          <a (click)="supprimerProduit(i)" class="text-danger" title="Supprimer">
+            <i class="fa fa-trash"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton pour rafraîchir la liste des produits -->
+    <div class="d-flex justify-content-end mt-3">
+      <!--button (click)="loadProduitsByDemandeDevisId()" type="button" class="btn btn-secondary">Rafraîchir la liste</button-->
+    </div>
+    
+  </form>
+</div>

@@ -4,6 +4,8 @@ import { DemandeDevisService } from 'src/app/Service/demande-devis.service';
 import { DxDataGridComponent } from 'devextreme-angular';
 import { DevisDaSharedService } from '../../../../Service/devis-da-shared.service';
 import { Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
+import { FournisseurService } from 'src/app/Service/fournisseur.service';
 
 @Component({
   selector: 'app-demande-devis-da',
@@ -11,6 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./demande-devis-da.component.scss']
 })
 export class DemandeDevisDaComponent implements OnInit {
+
+  fournisseurs: any[] = []; // Array to store the list of fournisseurs
 
   dataSourceElement: NewProduitDemandee[] = [];
   selectedRowsData: NewProduitDemandee[];
@@ -24,20 +28,28 @@ export class DemandeDevisDaComponent implements OnInit {
 
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid: DxDataGridComponent;
 
-  constructor(private demandeDevisService: DemandeDevisService,private router: Router,private devisDaSharedService :DevisDaSharedService) { }
+  constructor(private demandeDevisService: DemandeDevisService,private fb:FormBuilder,
+    private router: Router,private devisDaSharedService :DevisDaSharedService,private fournisseurService:FournisseurService) { }
 
   ngOnInit(): void {
-    this.demandeDevisService.getRecentProduitDemandees().subscribe(
-      produits => {
-        this.dataSourceElement = produits;
-        console.log('Recent Produits:', this.dataSourceElement);
+    this.loadFournisseurs()
+  }
+  loadFournisseurs(): void {
+    this.fournisseurService.getFournisseursSimple().toPromise().then(
+      data => {
+        this.fournisseurs = data; // Assign the list of fournisseurs to the component property
       },
       error => {
-        console.error('Error fetching recent produits:', error);
+        console.error("Error fetching fournisseurs:", error);
       }
     );
   }
   
+  demandeDevisForm = this.fb.group({
+    nom: ['', Validators.required],
+    description: ['', Validators.required],
+    fournisseurId: ['', Validators.required]
+  });
   onToolbarPreparing(e) {
 
 

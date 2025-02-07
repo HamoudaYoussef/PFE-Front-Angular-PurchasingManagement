@@ -1,18 +1,52 @@
 .demande-details {
-    background-color: #f5f5f5;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
-
+.demande-titre {
+  position: absolute;
+  top: -15px; /* Ajustez cette valeur selon vos besoins */
+  left: 20px; /* Ajustez cette valeur selon vos besoins */
+  background-color: #f5f5f5; /* Fond noir totalement transparent */
+  padding: 0 10px;
+  font-size: 24px;
+  color: #8B0000;
+}
 .details-title {
-    font-size: 24px;
-    color: #8B0000; /* bordeaux */
-    margin-bottom: 15px;
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #b03a32; /* Bordeaux */
 }
 
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0; /* Ligne de séparation */
+}
+
+.detail-item:last-child {
+  border-bottom: none; /* Supprime la bordure pour le dernier élément */
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-value {
+  color: #555;
+}
+
+
+.detail-container {
+  display: flex; /* Utiliser flexbox pour aligner les éléments */
+  flex-direction: column; /* Aligner les éléments en colonne */
+}
 .details-info .detail-item {
     display: flex;
     align-items: center;
@@ -24,34 +58,53 @@
     font-weight: bold;
     margin-right: 10px;
 }
+.small-btn {
+  font-size: 12px; /* Réduit la taille du texte */
+  padding: 5px 10px; /* Réduit les espaces internes */
+  border: none; /* Supprime la bordure */
+  background-color: #007bff; /* Couleur de fond du bouton */
+  color: white; /* Couleur du texte */
+  display: flex;
+  align-items: center;
+}
 
-.details-info .detail-value {
-    color: #333;
+.small-btn i {
+  font-size: 16px; /* Taille réduite pour l'icône */
+  margin-right: 5px; /* Espace entre l'icône et le texte */
+}
+
+.small-btn:hover {
+  background-color: #0056b3; /* Changement de couleur au survol */
 }
 
 .bordeaux {
     color: #8B0000; /* bordeaux */
 }
-.details-info {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .detail-item {
-    margin-bottom: 15px;
-  }
-  
-  .detail-label {
-    font-weight: bold;
-    color: #6c757d;
-  }
-  
-  .detail-value {
+.detail-item {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px; /* Ajoutez un petit espace si nécessaire */
+}
+
+.detail-value {
+  color: #555;
+  flex-grow: 1; /* Pour que la valeur occupe l'espace restant */
+}
+
+.details-info .detail-value {
     color: #333;
-  }
+}
+
   
   .button-container {
     text-align: right;
@@ -73,4 +126,21 @@
   
   .mr-1 {
     margin-right: 10px;
+  }
+  .button-container {
+    text-align: right;
+    margin-top: 10px;
+  }
+  
+  .button-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Couleur de fond */
+    color: white;              /* Couleur du texte */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button-container button:hover {
+    background-color: #45a049; /* Couleur au survol */
   }

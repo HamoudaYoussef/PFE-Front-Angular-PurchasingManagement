@@ -1,3 +1,4 @@
+
 <dx-data-grid
     #dataGridDemande
     [showBorders]="true"
@@ -8,29 +9,31 @@
     [rowAlternationEnabled]="true"
     [showColumnLines]="true"
     (onToolbarPreparing)="onToolbarPreparing($event)"
-    (onRowDblClick)="Editdemande($event)"
+    (onRowUpdating)="onRowUpdating($event)"
+    (onRowRemoving)="onRowRemoving($event)"
+
     keyExpr="id"
     class="dataGridDemande"
->
+>   
+<dxo-filter-row [visible]="true"></dxo-filter-row>
+<dxo-header-filter [visible]="true"></dxo-header-filter>
+<dxo-group-panel [visible]="true"></dxo-group-panel>
+<dxo-scrolling mode="virtual"></dxo-scrolling>
+ <dxo-editing
+mode="row"
+allowUpdating="true"
+allowDeleting="true">
+</dxo-editing>
     <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-    <dxi-column dataField="id" dataType="number"></dxi-column>
     <dxi-column dataField="nom" dataType="string"></dxi-column>
     <dxi-column dataField="description" dataType="string"></dxi-column>
     <dxi-column dataField="quantite" dataType="number"></dxi-column>
+    <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
 
-    <dxi-column [allowResizing]="false"
-                [fixed]="false" caption="{{'' | translate}}"
-                cellTemplate="cellTemplateActions">
-    </dxi-column>
-    <div *dxTemplate="let data of 'cellTemplateActions'"
-         style="display: flex; justify-content: center; align-items: center;">
-        <a (click)="showbordereaux(data.data.id)" target="_blank" title="Consulter demande">
-            <i class="fa fa-edit eyeIconStyle"></i>
-        </a>&nbsp;
-        <a (click)="popupDelete(data.data.id)" target="_blank" title="">
-            <i class="fa fa-trash" style="color:#a63a3a;"></i>
-        </a>
+    <!-- Template pour afficher l'image -->
+    <div *dxTemplate="let data of 'imageTemplate'">
+      <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
     </div>
     <dxo-pager
         [allowedPageSizes]="allowedPageSizes"
@@ -44,13 +47,14 @@
 
 <dx-popup
     [maxWidth]="940"
-    [width]="500"
+    [width]="'500'"
     [height]="'auto'"
     [showTitle]="true"
     title="Confirmation de la suppression"
     [dragEnabled]="false"
     [closeOnOutsideClick]="true"
-    [(visible)]="popupDeleteVisible">
+    [(visible)]="popupDeleteVisible"
+>
     <div>
         <p> Êtes-vous sûr de vouloir supprimer cet élément ? </p>
     </div>
@@ -58,15 +62,11 @@
         <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
             <button type="button" class="btn btn-outline-secondary me-md-2" (click)="fermerPopup()">Annuler</button>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
-            <button type="submit" class="btn btn-success me-md-2" (click)="deletedemande()">Confirmer</button>
-        </div>
     </div>
 </dx-popup>
 
 <dx-popup
-    [maxWidth]="940"
-    [width]="500"
+    [width]="'60%'"
     [height]="'auto'"
     [showTitle]="true"
     title="Ajouter un nouvel article"
@@ -74,18 +74,81 @@
     [closeOnOutsideClick]="true"
     [(visible)]="popupAddVisible">
     <div>
-        <dx-form [formData]="formData">
-            <dxi-item dataField="article" [editorType]="'dxTextBox'" [editorOptions]="{placeholder: 'Article'}"></dxi-item>
-            <dxi-item dataField="quantite" [editorType]="'dxNumberBox'" [editorOptions]="{placeholder: 'Quantité'}"></dxi-item>
-            <dxi-item dataField="description" [editorType]="'dxTextArea'" [editorOptions]="{height: 100, placeholder: 'Description'}">
-            </dxi-item>        </dx-form>
+        <dx-form #formref [formData]="formDataP">
+          <dxi-item 
+          dataField="categorie" 
+          [editorType]="'dxSelectBox'" 
+          [editorOptions]="categoryOptions"
+          (onValueChanged)="onCategorieChange($event)">
+          <dxi-validation-rule type="required" message="La catégorie est obligatoire"></dxi-validation-rule>
+        </dxi-item>
+            <dxi-item dataField="nom" [editorType]="'dxTextBox'"
+            [editorOptions]="{
+              placeholder: 'Entrez le nom du produit', 
+              maxLength: 50, 
+              showClearButton: true
+            }">
+    <dxi-validation-rule type="required" message="Le nom est obligatoire"></dxi-validation-rule>
+  </dxi-item>
+  <dxi-item>
+    <dx-file-uploader
+    selectButtonText="télécharger l'image"
+    labelText="ou déposez ici"
+    accept="*"
+    uploadMode="useForm"
+    [allowCanceling]="true"
+    (change)="onFileChange($event)"
+  ></dx-file-uploader>
+  <dxi-validation-rule type="required" message="L'image est obligatoire"></dxi-validation-rule>
+
+  </dxi-item>
+  
+
+  <!-- Champ Quantité avec validation de valeurs min/max -->
+  <dxi-item dataField="quantite" [editorType]="'dxNumberBox'"
+            [editorOptions]="{
+              placeholder: 'Entrez la quantité', 
+              min: 1, 
+              max: 1000, 
+              showSpinButtons: true, 
+              step: 1
+            }">
+    <dxi-validation-rule type="required" message="La quantité est obligatoire"></dxi-validation-rule>
+    <dxi-validation-rule type="range" 
+                         [min]="1" [max]="1000" 
+                         message="La quantité doit être comprise entre 1 et 1000"></dxi-validation-rule>
+  </dxi-item>
+
+  <dxi-item dataField="description" [editorType]="'dxTextArea'"
+  [editorOptions]="{
+    placeholder: 'Entrez une description',
+    height: 120,
+    maxLength: 500
+  }"
+  (onValueChanged)="onDescriptionChanged($event)">
+<dxi-validation-rule type="required" message="La description est obligatoire"></dxi-validation-rule>
+<dxi-validation-rule type="stringLength" max="223 " message="La description ne peut pas dépasser 500 caractères"></dxi-validation-rule>
+</dxi-item>
+
+
+        </dx-form>
     </div>
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
-            <button type="button" class="btn btn-outline-secondary me-md-2" (click)="closeAddPopup()">Annuler</button>
+            <button type="button" class="btn btn-outline-secondary me-md-2" style="width: 400px;" (click)="closeAddPopup()">Annuler</button>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
-            <button type="submit" class="btn btn-success me-md-2" (click)="saveNewItem()">Ajouter</button>
+            <button type="submit" class="btn btn-success me-md-2" style="width: 400px;" (click)="onSubmit()">Ajouter</button>
         </div>
     </div>
 </dx-popup>
+
+<dx-load-panel
+  #loadPanel
+  shadingColor="rgba(0,0,0,0.4)"
+  [(visible)]="showloader"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  [hideOnOutsideClick]="false"
+></dx-load-panel>

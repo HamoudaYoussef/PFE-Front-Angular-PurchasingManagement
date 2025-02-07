@@ -1,13 +1,17 @@
 import dayjs from 'dayjs/esm';
-import { IProduit } from './produit.model';
+import { IProduit, NewProduit } from './produit.model';
+import { NewDemandeDevis } from './demande-devis.model';
 
 export interface IProduitCommandee {
-  idproduitcommandee: number ;
-  idproduit?: number | null;
-  idboncommande?: number | null;
-  dateboncommande?: dayjs.Dayjs | null;
-  quantitecommandee?: number | null;
-  produit?: Pick<IProduit, 'idproduit'> | null;
+  id: number | null;
+  nom: string ;
+  description?: string ;
+  quantite: number ;
+  produit: NewProduit;
+  demandeDevis: NewDemandeDevis;
+  img:string;
+  categorie:number,
+
 }
 
-export type NewProduitCommandee = Omit<IProduitCommandee, 'idproduitcommandee'> & { idproduitcommandee: null };
+export type NewProduitCommandee = Omit<IProduitCommandee, 'id'> & { id: number };

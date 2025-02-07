@@ -7,6 +7,35 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
   }
+  .bon-commande {
+    display: flex;
+    justify-content: space-between; /* Pour espacer les éléments */
+    align-items: flex-start; /* Aligner en haut */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 15px; /* Rembourrage interne */
+    margin-bottom: 15px; /* Espacement entre les sections */
+    background-color: #f9f9f9; /* Couleur de fond douce */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    position: relative; /* Pour le positionnement de l'image */
+}
+
+.bon-commande-details {
+    flex: 1; /* Prendre le reste de l'espace */
+    margin-right: 15px; /* Espacement entre les détails et l'image */
+}
+
+.product-image-container {
+    position: absolute; /* Positionner en haut à droite */
+    top: 7px; /* Ajuster la distance du haut */
+    right: 10px; /* Ajuster la distance de la droite */
+
+}
+
+
+.bon-commande-details {
+    flex-grow: 1; /* Permet au conteneur de tex-te de prendre l'espace restant */
+}
   .demande-titre {
     position: absolute;
     top: -15px; /* Ajustez cette valeur selon vos besoins */
@@ -21,7 +50,78 @@
       color: #8B0000; /* bordeaux */
       margin-bottom: 15px;
   }
-  
+  .demande-details {
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  .demande-titre {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background-color: #f5f5f5; /* Fond noir totalement transparent */
+    padding: 0 10px;
+    font-size: 24px;
+    color: #8B0000;
+  }
+  .demande-details-petit {
+    background-color: #fafafa; /* Légèrement plus clair pour plus de douceur */
+    border: 1px solid #ececec; /* Couleur de bordure plus claire et plus douce */
+    border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+    position: relative;
+  }
+  .demande-details-plus-petit {
+    background-color: #ffffff; /* Légèrement plus clair pour plus de douceur */
+    border: 1px solid #fafafa; /* Couleur de bordure plus claire et plus douce */
+    border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+    position: relative;
+  }
+  .demande-titre-plus-petit {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background: linear-gradient(to bottom, #fafafa, #ffffff);
+    padding: 0 10px;
+    font-size: 24px;
+    color: #1b5e0c;
+  }
+  .demande-titre-petit {
+    position: absolute;
+    top: -10px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background: linear-gradient(to bottom, #f5f5f5, #fafafa);
+    padding: 0 10px;
+    font-size: 16px;
+    color: #8B0000;
+  }
+  .demande-details-boncommande {
+    background-color: #fafafa; /* Légèrement plus clair pour plus de douceur */
+    border: 1px solid #ececec; /* Couleur de bordure plus claire et plus douce */
+    border-radius: 10px; /* Arrondis légèrement plus marqués pour un effet plus doux */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère et subtile */
+    position: relative;
+  }
+  .demande-titre-boncommande {
+    position: absolute;
+    top: -15px; /* Ajustez cette valeur selon vos besoins */
+    left: 20px; /* Ajustez cette valeur selon vos besoins */
+    background: linear-gradient(to bottom, #ffffff, #fafafa);
+    padding: 0 10px;
+    font-size: 24px;
+    color: #0096a6;
+  }
   .details-info .detail-item {
       display: flex;
       align-items: center;
@@ -32,6 +132,39 @@
       color: #8B0000; /* bordeaux */
       font-weight: bold;
       margin-right: 10px;
+  }
+  .details-info {
+    padding: 20px;
+    background-color: #f9f9f9; /* Couleur d'arrière-plan douce */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .details-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #b03a32; /* Bordeaux */
+  }
+  .detail-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .detail-item:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px; /* Ajoutez un petit espace si nécessaire */
+  }
+  
+  .detail-value {
+    color: #555;
+    flex-grow: 1; /* Pour que la valeur occupe l'espace restant */
   }
   
   .details-info .detail-value {
@@ -218,4 +351,9 @@
       z-index: 1000;
       font-size: 14px;
     }
+    
+    :host ::ng-deep .custom-grid .dx-datagrid-headers.dx-datagrid-nowrap {
+      color: #1b5e0c; /* Couleur souhaitée */
+    }
+
     

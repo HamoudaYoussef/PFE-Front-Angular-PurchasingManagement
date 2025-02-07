@@ -1,0 +1,157 @@
+
+<div class="demande-details">
+    <h2 class="demande-titre">Produit offert:</h2>
+    
+    <div class="details-content">
+      <div class="details-info">
+        <h5>{{ produitOffert.description }}</h5>
+        <div class="detail-item">
+          <div class="detail-label">Nom :</div>
+          <div class="detail-value">{{ produitOffert.nom }}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Quantité :</div>
+          <div class="detail-value">{{ produitOffert.quantite }}</div>
+        </div>
+        <div class="detail-item">
+            <div class="detail-label">Prix :</div>
+            <div class="detail-value">{{ produitOffert.prix }}</div>
+          </div>
+      </div>
+      <div class="product-image-container">
+        <img src="assets/img/{{produitOffert.img}}" class="product-image">
+      </div>
+    </div>
+  </div>
+  <div *ngIf="offre && produitOfferts.length > 0" class="demande-details">
+  <h2 class="demande-titre">Offre ({{offre.referenceoffre}})</h2>
+  <h5>{{ offre.description }}</h5>
+
+    <!-- Ajoutez d'autres champs du fournisseur si nécessaire -->
+  <div class="detail-item">
+    <div class="detail-label">Nom:</div>
+    <div class="detail-value">{{ offre.nom }}</div>
+  </div>     
+  <div class="detail-item">
+    <div class="detail-label">Date offre:</div>
+    <div class="detail-value">{{ offre.dateoffre }}</div>
+  </div>     
+  <div class="detail-item">
+    <div class="detail-label">Prix:</div>
+    <div class="detail-value">{{ offre.prix }}</div>
+  </div>
+  <div class="detail-item">
+    <div class="detail-label">Date offre:</div>
+    <div class="detail-value">{{ offre.dateoffre }}</div>
+  </div>
+
+  <dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="produitOfferts"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  (onToolbarPreparing)="onToolbarPreparing($event)">
+  
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  
+  <!-- Colonnes existantes -->
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="quantite" dataType="number"></dxi-column>
+  <dxo-pager
+      [allowedPageSizes]="allowedPageSizes"
+      [showInfo]="true"
+      [showPageSizeSelector]="true"
+      [visible]="true"
+      displayMode="full"
+      [showNavigationButtons]="true">
+  </dxo-pager>
+</dx-data-grid>
+  </div>
+  <div class="demande-details mt-3" *ngIf="fournisseur">
+    <h2 class="demande-titre">Fournisseur </h2>
+  <div class="detail-item">
+    <div class="detail-label bordeaux">Nom:</div>
+    <div class="detail-value">{{ fournisseur.nom }} </div>
+  </div>
+  <div class="detail-item">
+  <div class="detail-label bordeaux">Adresse email:</div>
+  <div class="detail-value">{{ fournisseur.email }} </div>
+  </div><div class="detail-item">
+  <div class="detail-label bordeaux">Téléphone:</div>
+  <div class="detail-value">+216 {{ fournisseur.tel }} </div>
+  </div><div class="detail-item">
+  <div class="detail-label bordeaux">Adresse:</div>
+  <div class="detail-value">{{ fournisseur.adresse }} </div>
+  </div>
+  </div>
+  
+<div class="demande-details">
+  <h2 class="demande-titre">Produit commandées associé:</h2>
+  <dx-data-grid
+  #dataGridDemande
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="produitsCommandes"
+  [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  keyExpr="id"
+  (onRowDblClick)="EditdemandePC($event)">
+  
+  <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+  
+  <!-- Colonnes existantes -->
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
+  <dxi-column dataField="quantite" dataType="number"></dxi-column>
+  <dxo-pager
+      [allowedPageSizes]="allowedPageSizes"
+      [showInfo]="true"
+      [showPageSizeSelector]="true"
+      [visible]="true"
+      displayMode="full"
+      [showNavigationButtons]="true">
+  </dxo-pager>
+</dx-data-grid>
+</div>
+
+<div class="demande-details">
+  <h2 class="demande-titre">Produits demandées associé:</h2>
+<dx-data-grid
+#dataGridDemande
+[showBorders]="true"
+[allowColumnResizing]="true"
+[columnAutoWidth]="true"
+[dataSource]="produitsDemandes"
+[remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
+[rowAlternationEnabled]="true"
+[showColumnLines]="true"
+keyExpr="id"
+(onRowDblClick)="EditdemandePD($event)">
+
+<dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
+<dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
+
+<!-- Colonnes existantes -->
+<dxi-column dataField="nom" dataType="string"></dxi-column>
+<dxi-column dataField="description" dataType="string"></dxi-column>
+<dxi-column dataField="quantite" dataType="number"></dxi-column>
+<dxo-pager
+    [allowedPageSizes]="allowedPageSizes"
+    [showInfo]="true"
+    [showPageSizeSelector]="true"
+    [visible]="true"
+    displayMode="full"
+    [showNavigationButtons]="true">
+</dxo-pager>
+</dx-data-grid>
+</div>

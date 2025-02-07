@@ -1,46 +1,116 @@
-<div  *ngIf="offre">
-  <div class="demande-details"  >
-      <h2 class="demande-titre ">Détails de l'Offre</h2>
-    <div class="details-info">
-      <div class="detail-item">
-        <div class="detail-label">Description de l'offre:</div>
-        <div class="detail-value">{{ offre.description }}</div>
-      </div>
-      <div class="detail-item">
-        <div class="detail-label">Prix de l'offre:</div>
-        <div class="detail-value">{{ offre.prix | currency }}</div>
-      </div>
-      <div class="detail-item">
-        <div class="detail-label">Date de l'offre:</div>
-        <div class="detail-value">{{ offre.dateoffre  }}</div>
-      </div>
-      <div class="detail-item">
-        <div class="detail-label">Référence de l'offre:</div>
-        <div class="detail-value">{{ offre.referenceoffre }}</div>
+<div class="demande-details mt-3">
+  <h2 class="demande-titre">Fournisseur:</h2>
+<div class="detail-item">
+  <div class="detail-label ">Nom:</div>
+  <div class="detail-value">{{ fournisseur.nom }} </div>
+</div>
+<div class="detail-item">
+<div class="detail-label ">Adresse email:</div>
+<div class="detail-value">{{ fournisseur.email }} </div>
+</div><div class="detail-item">
+<div class="detail-label ">Téléphone:</div>
+<div class="detail-value">+216 {{ fournisseur.tel }} </div>
+</div>
+<div class="detail-item">
+<div class="detail-label ">Adresse:</div>
+<div class="detail-value">{{ fournisseur.adresse }} <a 
+  href="https://www.google.com/maps/search/?api=1&query={{ fournisseur.adresse }}" 
+  target="_blank" 
+  rel="noopener noreferrer"
+> Voir dans la map</a></div>
+</div>
+</div>
+<div *ngIf="offre" class="demande-details mt-5">
+  <h2 class="demande-titre" style="color: #1b5e0c;">Offre: </h2>
+  <h5>{{ offre.description }}</h5>
+  <div class="detail-item">
+    <div class="detail-label ">Nom de la demande:</div>
+    <div class="detail-value">{{ offre.nom }} </div>
+</div>
+
+<div class="detail-item">
+    <div class="detail-label ">Date de l'offre:</div>
+    <div class="detail-value">{{ offre.dateoffre }} </div>
+</div>
+<div class="detail-item">
+  <div class="detail-label ">Réference de l'offre:</div>
+  <div class="detail-value">{{ offre.referenceoffre }} </div>
+</div>
+<div class="detail-item">
+<div class="detail-label ">Prix de l'offre:</div>
+<div class="detail-value">{{ offre.prix }} DT</div>
+</div>
+<dx-data-grid
+        id="gridContainer"
+        [dataSource]="produitsOfferts"
+        keyExpr="id"
+        [showBorders]="true"
+        class="custom-grid mt-3"
+        (onToolbarPreparing)="onToolbarPreparing($event)"
+        class="custom-grid"
+        >
+        <dxi-column dataField="nom" caption="Nom du produit"></dxi-column>
+        <dxi-column dataField="description" caption="Description"></dxi-column>
+        <dxi-column dataField="quantite" caption="Quantité" dataType="number"></dxi-column>
+        <dxi-column dataField="prix" caption="Prix" dataType="number"></dxi-column>
+
+        <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+        <!-- Template pour afficher l'image -->
+        <div *dxTemplate="let data of 'imageTemplate'">
+          <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+        </div>
+        <dxi-column [allowResizing]="false"
+        [fixed]="false" caption="{{'' | translate}}"
+        cellTemplate="cellTemplateActions"
+    >
+    </dxi-column>
+    <div *dxTemplate="let data of 'cellTemplateActions'"
+    style="display: flex; justify-content: center; align-items: center;">
+    <button *ngIf="displayname !== 'youssefo'"
+    class="btn btn-success btn-rounded mb-1 mr-1"
+    mdbRipple
+    style="font-weight: bold; color: white;"
+    type="button"
+    (click)="POBC(data.data.id)">
+    bon de commande
+    </button>
+    </div>
+    
+      </dx-data-grid>
+    
+</div>
+
+<div  *ngIf="produitOffertSelectionne.length > 0" class="demande-details mt-5">
+  <h3 class="demande-titre">Produits offerts sélectionnés</h3>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let produit of produitOffertSelectionne">
+      <div class="card mb-4">
+      
+        <div class="d-flex justify-content-center"> <!-- Centrer l'image -->
+          <img class="card-img-top" src="assets/img/{{produit.img}}" style="width: 290px; height: 200px;" alt="Card image cap">
+        </div>        
+        <div class="card-body">
+          <h5 class="card-title">{{ produit.nom }} de l'offre {{produit.offre.nom}}</h5>
+          <p class="card-text">{{ produit.description }}</p>
+          <p>Prix: {{ produit.prix }} dt</p>
+          <div class="d-flex justify-content-between align-items-center"> <!-- Flex pour la quantité et la poubelle -->
+            <span>Quantité: {{ produit.quantite }}</span>
+            <a title="Supprimer" (click)="removeProduitOffert(produit)">
+              <i class="fa fa-trash" style="color:#a63a3a;"></i>
+            </a>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
-    <div class="demande-details"  *ngIf="produitsOfferts.length">
-      <h3  class="demande-titre ">Produits Offerts</h3>
-      <ul class="produit-list">
-        <li *ngFor="let produit of produitsOfferts" class="produit-item">
-          <div class="produit-info">
-            <div class="produit-nom">{{ produit.nom }}</div>
-            <div class="produit-description">{{ produit.description }}</div>
-            <div class="produit-quantite">Quantité: {{ produit.quantite }}</div>
-          </div>
-        </li>
-      </ul>
-      <button (click)="goBC()" 
-                        class="btn btn-primary btn-rounded mb-1 mr-1 butttons-style"
-                        mdbRipple
-                        style="background-color: green; font-weight: bold; color: white;"
-                        type="button">
-Envoyer un bon de commande                </button>    
-    </div>
-  
-    
-
-  
-  
+  <button
+  (click)="goBC()"
+  class="btn btn-success btn-rounded mb-1 mr-1"
+    mdbRipple
+    style="font-weight: bold; color: white; margin-left: 980px;"
+    type="button">
+   Créer un bon de commande
+    </button>
 </div>

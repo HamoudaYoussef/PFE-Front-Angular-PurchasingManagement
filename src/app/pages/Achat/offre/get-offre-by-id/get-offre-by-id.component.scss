@@ -78,25 +78,6 @@
   text-align: center;
   margin-top: 20px;
 }
-
-.btn {
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-.btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-.btn-rounded {
-  border-radius: 50px;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
-}
 .demande-details {
   background-color: #f5f5f5;
   border: 1px solid #e0e0e0;
@@ -125,4 +106,46 @@
   background-color: green;
   font-weight: bold;
   color: white;
+}
+.detail-item {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px; /* Ajoutez un petit espace si nécessaire */
+}
+
+.detail-value {
+  color: #555;
+  flex-grow: 1; /* Pour que la valeur occupe l'espace restant */
+}
+
+.details-info .detail-value {
+    color: #333;
+}
+.detail-value-adresse {
+  display: inline-flex;
+  align-items: center;
+}
+
+.detail-value-adresse p {
+  margin: 0;
+}
+
+.detail-value-adresse a {
+  margin-left: 5px;
+  text-decoration: none;
+  color: #007bff; /* Couleur pour le lien */
+}
+
+:host ::ng-deep .custom-grid .dx-datagrid-headers.dx-datagrid-nowrap {
+  color: #1b5e0c; /* Couleur souhaitée */
 }

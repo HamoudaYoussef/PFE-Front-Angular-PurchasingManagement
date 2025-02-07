@@ -1,56 +1,235 @@
 <dx-data-grid
-    #dataGridDemande
-        [showBorders]="true"
-        [allowColumnResizing]="true"
-        id="gridContainer"
-    (onToolbarPreparing)="onToolbarPreparing($event)"
-        [columnAutoWidth]="true"
-        [dataSource]="dataSourceElement"
-        [remoteOperations]="{filtering: false, grouping: false, sorting: false, paging: true}"
-    [rowAlternationEnabled]="true"
-    [showColumnLines]="true"
-    (onRowDblClick)="Editdemande($event)"
-        keyExpr="id"
-    id="dataGridDemande"
-    class="dataGridDemande"
->
-    <dxo-scrolling rowRenderingMode="virtual"></dxo-scrolling>
-    <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
-    <dxi-column dataField="id" dataType="number"></dxi-column>
-    <dxi-column dataField="nom" dataType=" nom"></dxi-column>
-    <dxi-column dataField="description" dataType="string"></dxi-column>
-    <dxi-column dataField="quantite" dataType="number"></dxi-column>
-    <dxi-column dataField="fournisseurName" dataType="string" caption="Fournisseur"></dxi-column>
+  #dataGridDemande
+  id="dataGridDemande"
+  class="dataGridDemande"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [columnAutoWidth]="true"
+  [dataSource]="dataSourceElement"
+  [remoteOperations]="{ filtering: false, grouping: false, sorting: true, paging: true }"
+  [rowAlternationEnabled]="true"
+  [showColumnLines]="true"
+  (onToolbarPreparing)="onToolbarPreparing($event)"
+  (onRowDblClick)="Editdemande($event)"
+  keyExpr="id">
 
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-header-filter [visible]="true"></dxo-header-filter>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-scrolling mode="virtual"></dxo-scrolling>
+  <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
 
-    <dxi-column [allowResizing]="false"
-                [fixed]="false" caption="{{'' | translate}}"
-                cellTemplate="cellTemplateActions"
-    >
-    </dxi-column>
-    <div *dxTemplate="let data of 'cellTemplateActions'"
-         style="display: flex; justify-content: center; align-items: center;">
-        <a (click)="showbordereaux(data.data.id)" target="_blank"
-           title="Consulter demande"><i
-                class="fa fa-edit eyeIconStyle"></i></a>&nbsp;
+  <dxi-column dataField="nom" dataType="string"></dxi-column>
+  <dxi-column dataField="description" dataType="string"></dxi-column>
 
-        <a (click)="popupDelete(data.data.id)" target="_blank"   title="" >
-            <i class="fa fa-trash" style="color:#a63a3a;">
-            </i></a>
-    </div>
+  <dxi-column caption="Fournisseur" dataField="fournisseur.email"></dxi-column>
 
-    <dxo-pager
-            [allowedPageSizes]="allowedPageSizes"
-            [showInfo]="true"
-            [showPageSizeSelector]="true"
-            [visible]="true"
-            displayMode="full"
-            [showNavigationButtons]="true"
-    ></dxo-pager>
+  <dxo-master-detail [enabled]="true" template="detail"></dxo-master-detail>
+  <div *dxTemplate="let demandeDevis of 'detail'">
+    <app-hover-demande-devis [demandeDevisId]="demandeDevis.data.id"></app-hover-demande-devis>
+  </div>
 
+  <dxi-column [allowResizing]="false" [fixed]="false" caption="{{'' | translate}}" cellTemplate="cellTemplateActions"></dxi-column>
 
+  <div *dxTemplate="let data of 'cellTemplateActions'" style="display: flex; justify-content: center; align-items: center;">
+    <a (click)="popupDelete(data.data.id)" target="_blank" title="">
+      <i class="fa fa-trash" style="color:#a63a3a;"></i>
+    </a>
+  </div>
+
+  <dxo-pager
+    [allowedPageSizes]="allowedPageSizes"
+    [showInfo]="true"
+    [showPageSizeSelector]="true"
+    [visible]="true"
+    displayMode="full"
+    [showNavigationButtons]="true">
+  </dxo-pager>
 
 </dx-data-grid>
+
+<dx-popup
+  [(visible)]="popupAdd"
+  [width]="'60%'"
+  [height]="'auto'"
+  [dragEnabled]="true"
+  [closeOnOutsideClick]="true"
+  [showCloseButton]="true">
+  
+  <div class="popup-header">
+    <h4>Créer une Demande de Devis</h4>
+  </div>
+
+  <dx-form [formGroup]="demandeDevisForm">
+    <dxi-item itemType="group">
+      <div class="row mb-4">
+        <!-- Colonne pour Nom de la demande -->
+        <div class="col-md-6 mb-3">
+          <div class="form-group">
+            <label for="nomDemandeDevis">Nom de la demande :</label>
+            <input type="text" id="nomDemandeDevis" formControlName="nom" class="form-control">
+            <div *ngIf="demandeDevisForm.get('nom').invalid && (demandeDevisForm.get('nom').dirty || demandeDevisForm.get('nom').touched)" class="text-danger">
+              <div *ngIf="demandeDevisForm.get('nom').errors.required">Nom est requis.</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Colonne pour Fournisseur -->
+        <div class="col-md-6 mb-3">
+          <label for="fournisseur">Fournisseur :</label>
+          <dx-select-box id="fournisseur" formControlName="fournisseurId" 
+            [dataSource]="fournisseurs" displayExpr="nom" valueExpr="id">
+          </dx-select-box>
+        </div>
+      </div>
+      
+      <!-- Deuxième ligne avec Description -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="descriptionDemandeDevis">Description :</label>
+            <textarea id="descriptionDemandeDevis" formControlName="description" class="form-control"></textarea>
+            <div *ngIf="demandeDevisForm.get('description').invalid && (demandeDevisForm.get('description').dirty || demandeDevisForm.get('description').touched)" class="text-danger">
+              <div *ngIf="demandeDevisForm.get('description').errors.required">Description est requise.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dxi-item>
+  </dx-form>
+
+  <!--div class="d-flex justify-content-end mt-3">
+    <button (click)="saveDemandeDevis()" type="button" class="btn btn-primary">Enregistrer</button>
+    <button (click)="isPopupVisible = false" type="button" class="btn btn-secondary ms-2">Annuler</button>
+  </div-->
+
+  <div id="form-container" class="container mt-5">
+    <dx-data-grid
+      id="gridContainer"
+      [dataSource]="produitCommandeeList"
+      keyExpr="id"
+      (onToolbarPreparing)="onToolbarPreparingProduit($event)"
+      [showBorders]="true"
+      #dataGrid>
+      <dxo-editing
+      mode="row"
+      [allowUpdating]="true"
+      [allowDeleting]="true"
+    ></dxo-editing>
+      <dxi-column dataField="nom"></dxi-column>
+      <dxi-column dataField="description"></dxi-column>
+      <dxi-column dataField="quantite" dataType="number"></dxi-column>
+    </dx-data-grid>
+  </div>
+  <div class="row mt-5">
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+        <button type="button" class="btn btn-outline-secondary me-md-2" style="width: 400px;"  (click)="closePopUp()" >Annuler</button>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+        <button type="submit" class="btn btn-success me-md-2" style="width: 400px;" (click)="addDemandeDevis()">Ajouter</button>
+    </div>
+</div>
+</dx-popup>
+<dx-popup
+    [maxWidth]="940"
+    [width]="'60%'"
+    [height]="'auto'"
+    [showTitle]="true"
+    title="Ajouter un nouvel article"
+    [dragEnabled]="false"
+    [closeOnOutsideClick]="true"
+    [(visible)]="popupAddVisible">
+    <div>
+        <dx-form #form [formData]="formDataP">
+            <dxi-item 
+            dataField="categorie" 
+            [editorType]="'dxSelectBox'" 
+            [editorOptions]="categoryOptions">
+            <dxi-validation-rule type="required" message="La catégorie est obligatoire"></dxi-validation-rule>
+          </dxi-item>
+          
+ 
+          <dxi-item 
+          dataField="produit" 
+          [editorType]="'dxSelectBox'" 
+          [editorOptions]="{
+            items: filteredProducts,
+            displayExpr: 'nom',      
+            valueExpr: getSelectedItem,
+            placeholder: 'Sélectionner un produit',
+            fieldTemplate: 'fieldTemplate',  
+            itemTemplate: 'itemTemplate',
+            onValueChanged: 'onProduitChange($event)'  
+          }">
+          <dxi-validation-rule type="required" message="Le produit est requis"></dxi-validation-rule>
+        </dxi-item>
+        <!-- Template personnalisé pour le champ produit -->
+        <div *dxTemplate="let data of 'fieldTemplate'">
+          <div class="custom-item" style="display: flex; align-items: center;">
+            <img alt="Product image" src="{{ data?.img }}" class="product-image" />
+            <dx-text-box
+              class="product-name"
+              [value]="data?.nom"
+              [inputAttr]="{ 'aria-label': 'Nom du produit' }"
+              [readOnly]="true"
+              style="margin-left: 10px;">
+            </dx-text-box>
+          </div>
+        </div>
+      
+        <!-- Template personnalisé pour les items de la liste déroulante -->
+        <div *dxTemplate="let data of 'itemTemplate'">
+          <div class="custom-item" style="display: flex; align-items: center; padding: 10px;">
+            <img alt="Product image" src="{{ data?.img }}" class="product-image" />
+            <div class="product-info" style="margin-left: 10px; flex-grow: 1;">
+              <div class="product-name" style="font-weight: bold; color: #333;">
+                {{ data?.nom }}
+              </div>
+              <div class="product-description" style="font-size: 12px; color: #666; margin-top: 2px;">
+                {{ data?.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+            <dxi-item 
+                dataField="quantite" 
+                [editorType]="'dxNumberBox'" 
+                [editorOptions]="{placeholder: 'Quantité',
+                validationRules: [{ type: 'required', message: 'La quantité est requise.' }]
+
+                }">
+                    <dxi-validation-rule type="required" message="La description est obligatoire"></dxi-validation-rule>
+
+            </dxi-item>
+        
+            <dxi-item 
+                dataField="description" 
+                [editorType]="'dxTextArea'" 
+                [editorOptions]="{height: 100, placeholder: 'Description',
+                validationRules: [{ type: 'required', message: 'La description est requise.' }]
+                }">
+              <dxi-validation-rule type="required" message="La description est obligatoire"></dxi-validation-rule>
+
+            </dxi-item>
+
+        </dx-form>
+        
+        <div class="row">
+    </div>
+    <div class="row mt-5">
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <button type="button" class="btn btn-outline-secondary me-md-2" style="width: 400px;" (click)="closeAddPopup()">Annuler</button>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 alignRight">
+            <button type="submit" class="btn btn-success me-md-2" style="width: 400px;" (click)="saveProduitCommandeeInDataGrid()">
+                {{  'Ajouter' }} <!-- Changer le texte du bouton ici -->
+            </button>
+        </div>
+    </div>
+    </div>
+</dx-popup>
 <dx-popup
         [maxWidth]="940"
         [width]="500"
@@ -76,3 +255,12 @@
         </div>
     </div>
 </dx-popup>
+<dx-load-panel
+  #loadPanel
+  shadingColor="rgba(0,0,0,0.4)"
+  [(visible)]="showloader"
+  [showIndicator]="true"
+  [showPane]="true"
+  [shading]="true"
+  [hideOnOutsideClick]="false"
+></dx-load-panel>

@@ -200,3 +200,32 @@ margin: 10px 10px 30px;
 ::ng-deep .textarea-wrapper {
   padding: 0 20px;
 }
+.custom-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0; /* Ligne séparatrice */
+  padding: 8px;
+}
+
+.product-image {
+  width: 50px; /* Ajuster la taille de l'image */
+  height: 50px;
+  border-radius: 5px; /* Bords arrondis */
+  object-fit: cover; /* Couvrir l'espace sans déformation */
+}
+
+.product-info {
+  margin-left: 10px; /* Espacement entre l'image et le texte */
+  flex-grow: 1; /* Permet au texte de prendre l'espace restant */
+}
+
+.product-name {
+  font-weight: bold; /* Nom en gras */
+  font-size: 14px; /* Taille de la police pour le nom */
+}
+
+.product-description {
+  font-size: 12px; /* Taille de la police pour la description */
+  color: #666; /* Couleur plus claire pour la description */
+  margin-top: 2px; /* Espacement au-dessus de la description */
+}

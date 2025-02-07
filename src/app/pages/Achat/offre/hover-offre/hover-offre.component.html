@@ -20,12 +20,36 @@
     <dxi-column dataField="nom" dataType="string"></dxi-column>
     <dxi-column dataField="description" dataType="string"></dxi-column>
     <dxi-column dataField="quantite" dataType="number"></dxi-column>
-    <dxi-column dataField="prix" dataType="number" [format]="{ type: 'fixedPoint', precision: 2 }" displayFormat="{{ '0,0.00 ' }} + DT"></dxi-column>
+    <dxi-column dataField="prix" dataType="number"  [customizeText]="customizeTotalText"></dxi-column>
+    <dxi-column caption="Image" [width]="80" [cellTemplate]="'imageTemplate'"></dxi-column>
+              
+    <!-- Template to display the product image -->
+    <div *dxTemplate="let data of 'imageTemplate'">
+      <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+    </div>
     <dxi-column
-    caption="Completed"
-    dataType="boolean"
-    [calculateCellValue]="completedValue"
-  ></dxi-column>
+      caption="Total"
+      [width]="150"
+      [calculateCellValue]="calculateTotalPrice"
+      [customizeText]="customizeTotalText">
+    </dxi-column>
+    <dxi-column [allowResizing]="false"
+    [fixed]="false" caption="{{'' | translate}}"
+    cellTemplate="cellTemplateActions"
+>
+</dxi-column>
+<div *dxTemplate="let data of 'cellTemplateActions'"
+style="display: flex; justify-content: center; align-items: center;">
+<button *ngIf="displayname !== 'youssefo'"
+class="btn btn-success btn-rounded mb-1 mr-1"
+mdbRipple
+style="font-weight: bold; color: white;"
+type="button"
+(click)="POBC($event,data.data.id)">
+bon de commande
+</button>
+
+</div>
 
    
     <!--div *dxTemplate="let data of 'ExportPDF'">
@@ -44,6 +68,7 @@
 
 
 </dx-data-grid>
+
   </div>
   <div *ngIf="produits.length === 0">
     <p>Aucun produit trouvé pour cette demande d'achat.</p>

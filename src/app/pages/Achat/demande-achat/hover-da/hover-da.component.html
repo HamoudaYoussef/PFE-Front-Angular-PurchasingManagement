@@ -1,6 +1,5 @@
 
 <div *ngIf="produits.length > 0" class="hovered-product-details">
-    <p>Détails des produits pour la demande d'achat ID: {{ demandeAchatId }}</p>
     <dx-data-grid
     #dataGridDemande
         [showBorders]="true"
@@ -19,12 +18,13 @@
     <dxo-paging [pageSize]="pageSize" [pageIndex]="0"></dxo-paging>
     <dxi-column dataField="nom" dataType="string"></dxi-column>
     <dxi-column dataField="description" dataType="string"></dxi-column>
-    <dxi-column dataField="quantite" dataType="number"></dxi-column>
-    <dxi-column
-    caption="Completed"
-    dataType="boolean"
-    [calculateCellValue]="completedValue"
-  ></dxi-column>
+    <dxi-column dataField="quantite"[width]="80" dataType="number"></dxi-column>
+    <dxi-column caption="Image" [width]="100" [cellTemplate]="'imageTemplate'"></dxi-column>
+
+    <!-- Template pour afficher l'image -->
+    <div *dxTemplate="let data of 'imageTemplate'">
+      <img src="assets/img/{{data.data.img}}" alt="Image Preview" style="max-width: 50px; height: auto;">
+    </div>
 
    
     <!--div *dxTemplate="let data of 'ExportPDF'">
